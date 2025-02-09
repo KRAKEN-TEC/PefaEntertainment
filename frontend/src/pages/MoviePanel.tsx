@@ -17,6 +17,7 @@ import {
 
 import { useMovie, useMovieActions, FormMovie, FetchMovie, schemaMovie, MovieQuery } from "@/hooks/useMovie"
 import { useGenre, useGenreActions, FormGenre, schemaGenre } from "@/hooks/useGenre";
+import { useUserStore } from "@/context/useUserStore";
 import GenreSelector from "@/components/GenreSelector";
 import SortSelector from "@/components/SortSelector";
 import NavBar from "@/components/NavBar";
@@ -437,6 +438,7 @@ const AddGenre = ({ children }: { children: React.ReactNode }) => {
 
 function MoviePanel() {
   const [movieQuery, setMovieQuery] = useState<MovieQuery>({} as MovieQuery)
+  const { accessToken } = useUserStore();
 
   return (
     <Grid
@@ -471,14 +473,24 @@ function MoviePanel() {
           <MovieList />
         </Box>
 
-        <Stack direction={{ base: "column", md: "row" }}>
-          <Box flex={1}>
-            <AddMovie>Add Movie</AddMovie>
-          </Box>
-          <Box flex={1}>
-            <AddGenre>Add Genre</AddGenre>
-          </Box>
-        </Stack>
+        {accessToken ?
+          <Stack direction={{ base: "column", md: "row" }}>
+            <Box flex={1}>
+              <AddMovie>Add Movie</AddMovie>
+            </Box>
+            <Box flex={1}>
+              <AddGenre>Add Genre</AddGenre>
+            </Box>
+          </Stack>
+          :
+          <Stack direction={{ base: "column", md: "row" }}>
+            <Box flex={1}>
+              <Button w={"100%"} onClick={() => window.alert("Please login to perform this action")}>Add Movie</Button>
+            </Box>
+            <Box flex={1}>
+              <Button w={"100%"} onClick={() => window.alert("Please login to perform this action")}>Add Genre</Button>
+            </Box>
+          </Stack>}
       </GridItem>
     </Grid>
   )
