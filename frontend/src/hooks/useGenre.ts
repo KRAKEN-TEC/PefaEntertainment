@@ -1,0 +1,55 @@
+import { useState } from "react";
+import z from "zod";
+
+import { logGenreError } from "@/services/log-error";
+import { useMovieStore } from "@/context/useMovieStore";
+import { useUserStore } from "@/context/useUserStore";
+import useData from "./useData"
+import apiPefa from "@/services/api-pefa";
+
+// TYPE AND INTERFACE
+export interface FetchGenre {
+    "_id": string,
+    "name": string,
+}
+
+export const schemaGenre = z.object({
+    name: z.string()
+        .min(3, "Genre name must be at least 3 characters long.")
+        .max(10, "Genre name must not exceed 10 characters.")
+        .regex(/^[a-z]+$/, "Genre name must be only small letters.") // Restricts to lowercase letters only
+});
+
+export type FormGenre = z.infer<typeof schemaGenre>;
+
+// FUNCTIONS
+export const useGenre = () => useData<FetchGenre>("/genres")
+
+export const useGenreActions = () => {
+    const { updateActions } = useMovieStore();
+    const { accessToken } = useUserStore();
+    const [loading, setLoading] = useState(false);
+    const [alert, setAlert] = useState<string>("");
+
+    const handleCreate = async (payload: FormGenre) => {
+        setAlert("");
+        setLoading(true);
+        try {
+            await apiPefa.post("/genres", payload, {
+                headers: {
+                    Authorization: `${accessToken}`,
+                    "Content-Type": "application/json"
+                }
+            });
+            updateActions(["create-genre"]);
+            setLoading(false);
+            setAlert("Genre created successfully.");
+        }
+        catch (error: any) {
+            logGenreError(error, setAlert);
+            setLoading(false);
+        }
+    }
+    return { handleCreate, loading, alert };
+}
+

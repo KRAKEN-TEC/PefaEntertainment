@@ -1,0 +1,12 @@
+import axios, { CanceledError } from "axios";
+
+const backend_api = import.meta.env.MODE === 'production'
+    ? 'https://api.pefa.com/api'
+    : 'http://103.253.147.175:3001/api';
+
+export default axios.create({
+    baseURL: backend_api,
+    timeout: 10000,
+});
+
+export { CanceledError }
