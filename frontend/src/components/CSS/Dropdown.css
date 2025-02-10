@@ -1,28 +1,29 @@
-
 .hamburgerContainer {
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-    width: 30px;
-  }
-  
-  .line1, .line2, .line3 {
-    width: 30px;
-    height: 3px;
-    background-color: rgb(221, 26, 26);
-    transition: all 0.3s ease;
-  }
-  
-  /* Animation for open state */
-  .degreeLine1 {
-    transform: rotate(45deg) translate(5px, 5px);
-  }
-  
-  .hideLine2 {
-    opacity: 0;
-  }
-  
-  .degreeLine3 {
-    transform: rotate(-45deg) translate(5px, -5px);
-  }
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  width: 30px;
+}
+
+.line1,
+.line2,
+.line3 {
+  width: 30px;
+  height: 3px;
+  background-color: rgb(232, 84, 72);
+  transition: all 0.3s ease;
+}
+
+/* Animation for open state */
+.degreeLine1 {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.hideLine2 {
+  opacity: 0;
+}
+
+.degreeLine3 {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
