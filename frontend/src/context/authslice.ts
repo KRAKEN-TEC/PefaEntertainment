@@ -26,7 +26,7 @@ export const createAuthSlice: StateCreator<AuthSlice> = (set) => ({
     },
     fetchAccessToken: async () => {
         try {
-            const response = await apiPefa.post('users/refresh-token', null, { withCredentials: true });
+            const response = await apiPefa.post('/users/refresh-token', null, { withCredentials: true });
             set({ accessToken: response.data.accessToken });
         }
         catch (error: any) {
