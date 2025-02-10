@@ -317,6 +317,7 @@ const UserLogin = ({ children }: { children: React.ReactNode }) => {
 
 function TeamPanel() {
   const { accessToken } = useUserStore();
+
   return (
     <Grid
       templateAreas={{
