@@ -1,5 +1,5 @@
-import { Input } from "@chakra-ui/react"
-import { FieldValues, useForm } from "react-hook-form"
+import { Input } from "@chakra-ui/react";
+import { FieldValues, useForm } from "react-hook-form";
 import { InputGroup } from "./ui/input-group";
 import { LuSearch } from "react-icons/lu";
 
@@ -12,11 +12,15 @@ function SearchInput({ submitHandler }: Props) {
 
   return (
     <form onSubmit={handleSubmit(submitHandler)}>
-      <InputGroup startElement={<LuSearch />} width='full'>
-        <Input {...register('searchName')} placeholder="Search movies ... " borderRadius='full' />
+      <InputGroup startElement={<LuSearch />} width="300px">
+        <Input
+          {...register("searchName")}
+          placeholder="Search movies ... "
+          borderRadius="15px"
+        />
       </InputGroup>
     </form>
-  )
+  );
 }
 
-export default SearchInput
+export default SearchInput;
