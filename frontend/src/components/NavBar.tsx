@@ -1,12 +1,9 @@
 import logo from '../assets/PEFA(black).svg'
 import { HStack, Image, Spacer } from '@chakra-ui/react'
 import { NavLink } from 'react-router-dom';
-import { Button } from '@chakra-ui/react';
-import { Box } from '@chakra-ui/react';
 
 import SearchInput from './SearchInput';
 import DarkMode from './DarkMode';
-import { useUserStore } from '@/context/useUserStore';
 import Dropdown from './Dropdown';
 
 interface Props {
@@ -14,27 +11,24 @@ interface Props {
 }
 
 export default function NavBar({ onSearch }: Props) {
-  const { accessToken } = useUserStore();
 
   return (
-    <HStack padding='10px'>
-
+    <HStack padding="10px" width="100%">
+      {/* Left Side: Dropdown */}
       <Dropdown></Dropdown>
 
-
+      {/* Center: Logo */}
+      <Spacer />
       <NavLink to="/" end>
         <Image src={logo} boxSize="50px" minWidth="50px" />
       </NavLink>
+      <Spacer />
 
-      <Box>
-        <Spacer/>
-        
-        <Box width="20%">
-          <SearchInput submitHandler={(event) => onSearch(event.searchName)} />
-        </Box>
-        
-        <DarkMode/>
-      </Box>
-    </HStack >
+      {/* Right Side: SearchInput and DarkMode */}
+      <HStack>
+        <SearchInput submitHandler={(event) => onSearch(event.searchName)} />
+        <DarkMode />
+      </HStack>
+    </HStack>
   )
 }
