@@ -61,7 +61,7 @@ const MovieUpdateForm = ({ movie }: { movie: FetchMovie }) => {
           <HStack>
             {genres.map((genre) => (
               <div key={genre._id}>
-                <input {...register("genre")} type="checkbox" id={`${genre._id}`} value={genre._id} defaultChecked={movie.genre.some((g) => g._id === genre._id)} />
+                <input {...register("genre")} type="checkbox" id={`${genre._id}`} value={genre._id} defaultChecked={movie.genres.some((g) => g._id === genre._id)} />
                 <label htmlFor={`${genre._id}`} style={{ paddingLeft: "5px" }} >{genre.name}</label>
               </div>
             ))}
@@ -203,7 +203,7 @@ const MovieList = () => {
           {movies.map(movie =>
             <TableRow key={movie._id}>
               <TableCell>{movie.title}</TableCell>
-              <TableCell>{movie.genre.map(genre => genre.name).join(", ")}</TableCell>
+              <TableCell>{movie.genres.map(genre => genre.name).join(", ")}</TableCell>
               <TableCell>{movie.rating}</TableCell>
               <TableCell>{movie.releasedDate.split('T')[0]}</TableCell>
               <TableCell>{movie.translator}</TableCell>
