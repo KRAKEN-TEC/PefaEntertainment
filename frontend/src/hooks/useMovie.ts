@@ -25,6 +25,7 @@ export interface FetchMovie {
     poster_url: string;
     video_url: string;
     isSerie: boolean;
+    uploadDate: string;
 }
 
 export const schemaMovie = z.object({
