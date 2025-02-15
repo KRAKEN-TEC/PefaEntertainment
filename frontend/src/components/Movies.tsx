@@ -1,11 +1,21 @@
-import { useMovie } from '@/hooks/useMovie'
+import { FetchMovie,useMovie } from '@/hooks/useMovie'
 import './CSS/Movies.css'
 
 export default function Movies(){
    const {data: movies } = useMovie();
+
    const navigate = () =>{
     console.log("Hello")
    }
+
+     const getRandomMovies = (movies: FetchMovie[], count = 3) =>{
+           return movies.filter(m => !m.isSerie)
+           .sort(() => Math.random() - 0.5)
+           .slice(0,count)
+      };
+   
+      const randomMovies = getRandomMovies(movies);
+
     return(
         <div  className="movie-section">
             <h2>Movies</h2>
@@ -14,7 +24,7 @@ export default function Movies(){
 
             <div className="movie-grid">
 
-            { movies && movies.filter(m => !m.isSerie).map((movie) =>
+            { movies && randomMovies.map((movie) =>
                      <div className="movie-box"  key={movie._id} > 
                         <img src={movie.poster_url} />
                         <div>

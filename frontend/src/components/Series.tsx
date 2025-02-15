@@ -1,4 +1,4 @@
-import { useMovie } from '@/hooks/useMovie'
+import { FetchMovie, useMovie } from '@/hooks/useMovie'
 import './CSS/Series.css'
 
 export default function Series(){
@@ -8,6 +8,15 @@ export default function Series(){
     console.log("Hello")
    }
 
+   const getRandomSeries = (series: FetchMovie[], count = 3) =>{
+        
+        return series.filter((s)=> s.isSerie)
+        .sort(() => Math.random() - 0.5)
+        .slice(0,count)
+   };
+
+   const randomSeries = getRandomSeries(series);
+
     return(
         <div  className="series-section">
             <h2>Series</h2>
@@ -16,7 +25,7 @@ export default function Series(){
 
             <div className="series-grid">
 
-            { series && series.filter(s => s.isSerie).slice(0,3).map((s) =>
+            { series && randomSeries.map((s) =>
                      <div className="series-box"  key={s._id} > 
                         <img src={s.poster_url} />
                         <div>
