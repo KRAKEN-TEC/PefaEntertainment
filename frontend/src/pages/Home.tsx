@@ -1,15 +1,14 @@
-
-import NavBar from '@/components/NavBar'
-import { useUser } from '@/hooks/useUser'
+import NewRealeses from "@/components/NewRealeses"
 
 function Home() {
-  
+ 
   return (
     <>
-      <NavBar onSearch={(search) => console.log(search)} />
-      <div>Home</div>
+      <div>
+        HEllo
+      </div>
     </>
   )
 }
 
-export default Home
+export default Home;

@@ -1,0 +1,36 @@
+/* Movie Scroll Section */
+.movie-section {
+    padding: 20px;
+  }
+  
+  .scroll-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 20px;
+    padding-bottom: 10px;
+    scrollbar-width: none;
+  }
+  
+  .scroll-container::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .movie-box {
+    flex: 0 0 auto;
+    width: 150px;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .movie-box img {
+    width: 100%;
+    border-bottom: 2px solid #ddd;
+  }
+  
+  .movie-box p {
+    padding: 10px;
+    font-weight: bold;
+  }
