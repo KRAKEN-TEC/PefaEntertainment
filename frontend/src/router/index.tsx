@@ -8,6 +8,8 @@ import HowToDownload from "@/pages/HowToDownload";
 import Aboutus from "@/pages/AboutUs";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
+import MoviePanel from "@/pages/MoviePanel";
+import TeamPanel from "@/pages/TeamPanel";
 
 const router = createBrowserRouter([
     {
@@ -46,7 +48,14 @@ const router = createBrowserRouter([
                 path:"register",
                 element: <Register/>
             },
-
+            {
+                path:"movie-panel",
+                element: <MoviePanel/>
+            },
+            {
+                path:"team-panel",
+                element: <TeamPanel/>
+            },
         ]
     }
 ]);

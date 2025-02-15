@@ -12,7 +12,7 @@ import apiPefa from "@/services/api-pefa";
 export interface FetchMovie {
     _id: string;
     title: string;
-    genre: FetchGenre[];
+    genres: FetchGenre[];
     rating: number;
     description: string;
     releasedDate: string;
@@ -24,6 +24,7 @@ export interface FetchMovie {
     studio: string;
     poster_url: string;
     video_url: string;
+    isSerie: boolean;
 }
 
 export const schemaMovie = z.object({
@@ -90,7 +91,7 @@ export const useMovieActions = () => {
         setAlert("");
         setLoading(true);
         const data = {
-            genre: payload.genre || [...movie.genre.map((genre) => genre._id)],
+            genre: payload.genre || [...movie.genres.map((genre) => genre._id)],
             rating: payload.rating || movie.rating,
             episode: payload.episode || movie.episode,
             season: payload.season || movie.season,
