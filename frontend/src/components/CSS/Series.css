@@ -1,0 +1,49 @@
+.series-section {
+    padding: 20px;
+    position: relative;
+  }
+  
+  /* Scroll Container */
+  .series-scroll-container {
+    overflow-x: auto;
+    padding: 10px;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+    white-space: nowrap;
+  }
+  
+  
+  /* Movie Grid Layout */
+  .series-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-auto-flow: column;
+    gap: 20px;
+    width: max-content;
+  }
+  
+  /* Movie Box with 3D Effect */
+  .series-box {
+    width: 200px;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    padding-bottom: 10px;
+    transition: transform 0.3s;
+    perspective: 1000px;
+  }
+  
+  .series-box:hover {
+    transform: rotateY(10deg) scale(1.05);
+  }
+  
+  .series-box img {
+    width: 100%;
+    border-radius: 10px 10px 0 0;
+  }
+  
+  .series-box p {
+    font-weight: bold;
+    margin: 5px 0;
+  }
