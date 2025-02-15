@@ -27,3 +27,33 @@
 .degreeLine3 {
   transform: rotate(-45deg) translate(5px, -5px);
 }
+
+/* Side Bar*/
+
+.sidebar {
+  position: fixed;
+  bottom: 0;
+  left: -360px; /* Initially hidden */
+  width: 360px;
+  height: 86vh;
+  background-color: #4d4848;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+  transition: left 0.3s ease-in-out;
+  padding: 20px;
+}
+
+.sidebar-open {
+  left: 0;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  padding: 12px;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s;
+}
