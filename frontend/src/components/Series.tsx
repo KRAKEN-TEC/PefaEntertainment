@@ -1,9 +1,11 @@
 import { FetchMovie, useMovie } from '@/hooks/useMovie'
 import './CSS/Series.css'
 import { useNavigate } from 'react-router';
+import useNavDetail from '@/hooks/useNavDetail';
 
 export default function Series(){
    const {data: series } = useMovie();
+   const {callNav} = useNavDetail();
 
    const nav = useNavigate()   
 
@@ -26,7 +28,7 @@ export default function Series(){
             <div className="series-grid">
 
             { series && randomSeries.map((s) =>
-                     <div className="series-box"  key={s._id} > 
+                     <div className="series-box"  key={s._id} onClick={()=>callNav(s._id)}> 
                         <img src={s.poster_url} />
                         <div>
                             <h3>{s.title}</h3>

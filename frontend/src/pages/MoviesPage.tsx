@@ -1,13 +1,14 @@
-import { FetchMovie,useMovie } from '@/hooks/useMovie'
+import { useMovie } from '@/hooks/useMovie'
 import './CSS/MoviesPage.css'
+import useNavDetail from '@/hooks/useNavDetail';
 
 export default function MoviesPage(){
    const {data: movies } = useMovie();
+   const {callNavForMoviesPage} = useNavDetail();
 
    const navigate = () =>{
     console.log("Hello")
    }
-
   
     return(
         <div  className="MP-section">
@@ -17,7 +18,7 @@ export default function MoviesPage(){
             <div className="MP-grid">
 
             { movies && movies.filter((m)=>!m.isSerie).map((movie) =>
-                     <div className="MP-box"  key={movie._id} > 
+                     <div className="MP-box"  key={movie._id} onClick={()=>callNavForMoviesPage(movie._id)} > 
                         <img src={movie.poster_url} />
                         <div>
                             <h3>{movie.title}</h3>
