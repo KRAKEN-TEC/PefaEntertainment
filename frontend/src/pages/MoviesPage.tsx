@@ -1,30 +1,23 @@
 import { FetchMovie,useMovie } from '@/hooks/useMovie'
-import './CSS/Movies.css'
-import { useNavigate } from 'react-router';
+import './CSS/MoviesPage.css'
 
-export default function Movies(){
+export default function MoviesPage(){
    const {data: movies } = useMovie();
 
-    const nav = useNavigate()   
+   const navigate = () =>{
+    console.log("Hello")
+   }
 
-     const getRandomMovies = (movies: FetchMovie[], count = 3) =>{
-           return movies.filter(m => !m.isSerie)
-           .sort(() => Math.random() - 0.5)
-           .slice(0,count)
-      };
-   
-      const randomMovies = getRandomMovies(movies);
-
+  
     return(
-        <div  className="movie-section">
+        <div  className="MP-section">
             <h2>Movies</h2>
-            <span onClick={()=>nav("movies-page")}>See more</span>
-            <div className="scroll-container" >
+            <div className="MP-scroll-container" >
 
-            <div className="movie-grid">
+            <div className="MP-grid">
 
-            { movies && randomMovies.map((movie) =>
-                     <div className="movie-box"  key={movie._id} > 
+            { movies && movies.filter((m)=>!m.isSerie).map((movie) =>
+                     <div className="MP-box"  key={movie._id} > 
                         <img src={movie.poster_url} />
                         <div>
                             <h3>{movie.title}</h3>
