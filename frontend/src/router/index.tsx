@@ -10,6 +10,9 @@ import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import MoviePanel from "@/pages/MoviePanel";
 import TeamPanel from "@/pages/TeamPanel";
+import MoviesPage from "@/pages/MoviesPage";
+import SeriesPage from "@/pages/SeriesPage";
+import DetailPage from "@/pages/DetailPage";
 
 const router = createBrowserRouter([
     {
@@ -56,6 +59,19 @@ const router = createBrowserRouter([
                 path:"team-panel",
                 element: <TeamPanel/>
             },
+            {
+                path:"movies-page",
+                element: <MoviesPage/>
+            },
+            {
+                path:"series-page",
+                element: <SeriesPage/>
+            },
+            {
+                path:"detail-page/:id",
+                element: <DetailPage/>
+            },
+        
         ]
     }
 ]);
