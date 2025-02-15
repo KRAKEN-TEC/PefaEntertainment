@@ -124,13 +124,15 @@ export const useMovieActions = () => {
             const video_key = movie.video_url.split('com/')[1]
             const presigned_video = await apiPefa.post('/presigned-url/delete-url', { KEY: video_key });
 
+
             await apiPefa.delete(`/movies/${movie._id}`, {
                 headers: {
                     Authorization: `${accessToken}`,
                     "Content-Type": "multipart/form-data"
                 }
             })
-
+            
+            // await fetch (url, {method: 'DELETE'})
             // Delete the file from S3 using the pre-signed URL after the movie is successfully deleted
             await fetch(presigned_poster.data.url, {
                 method: 'DELETE',
@@ -162,7 +164,7 @@ export const useMovieActions = () => {
 
             // send the payload to the backend
             const { poster, video, ...rest } = payload; // Separate the poster file from the payload
-            await apiPefa.post(`/movies`, { ...rest, poster_url: payload.poster?.name, video_url: payload.video.name }, {
+            await apiPefa.post(`/movies`, { ...rest, poster_url: payload.poster.name, video_url: payload.video.name }, {
                 headers: {
                     Authorization: `${accessToken}`,
                     "Content-Type": "application/json"
