@@ -24,6 +24,7 @@ export interface FetchMovie {
     studio: string;
     poster_url: string;
     video_url: string;
+    isSerie: boolean;
 }
 
 export const schemaMovie = z.object({
