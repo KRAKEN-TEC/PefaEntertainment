@@ -1,10 +1,10 @@
-.movie-section {
+.NR-movie-section {
   padding: 20px;
   position: relative;
 }
 
 /* Scroll Container */
-.scroll-container {
+.NR-scroll-container {
   overflow-x: auto;
   padding: 10px;
   scrollbar-width: none;
@@ -14,7 +14,7 @@
 
 
 /* Movie Grid Layout */
-.movie-grid {
+.NR-movie-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   grid-auto-flow: column;
@@ -23,7 +23,7 @@
 }
 
 /* Movie Box with 3D Effect */
-.movie-box {
+.NR-movie-box {
   width: 200px;
   border-radius: 10px;
   overflow: hidden;
@@ -34,16 +34,16 @@
   perspective: 1000px;
 }
 
-.movie-box:hover {
+.NR-movie-box:hover {
   transform: rotateY(10deg) scale(1.05);
 }
 
-.movie-box img {
+.NR-movie-box img {
   width: 100%;
   border-radius: 10px 10px 0 0;
 }
 
-.movie-box p {
+.NR-movie-box p {
   font-weight: bold;
   margin: 5px 0;
 }
