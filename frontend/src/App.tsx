@@ -13,6 +13,8 @@ function App() {
     if (!accessToken) {
       fetchAccessToken();
     }
+    // if accessToken expires true or not 
+    // fetchAccessToken(); // that will call refresh token api(which return new access token)
   }, [accessToken, fetchAccessToken]);
 
   return (

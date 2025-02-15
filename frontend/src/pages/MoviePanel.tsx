@@ -152,7 +152,7 @@ const MovieAction = ({ movie }: { movie: FetchMovie }) => {
 
   return (
     <>
-      {accessToken ?
+      {true ?
         <HStack>
           <MovieUpdate movie={movie}>Edit</MovieUpdate>
           <Button variant="plain" _hover={{ color: "cyan" }} color="red" onClick={onClick}>
@@ -473,7 +473,7 @@ function MoviePanel() {
           <MovieList />
         </Box>
 
-        {accessToken ?
+        {true ?
           <Stack direction={{ base: "column", md: "row" }}>
             <Box flex={1}>
               <AddMovie>Add Movie</AddMovie>
