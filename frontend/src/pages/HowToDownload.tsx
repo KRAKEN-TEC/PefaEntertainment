@@ -1,5 +1,3 @@
-export default function HowToDownload(){
-    return(
-        <div>HowToDownload</div>
-    )
+export default function HowToDownload() {
+  return <div>HowToDownload</div>;
 }
