@@ -12,11 +12,10 @@
   white-space: nowrap;
 }
 
-
 /* Movie Grid Layout */
 .NR-movie-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   grid-auto-flow: column;
   gap: 20px;
   width: max-content;
@@ -24,7 +23,7 @@
 
 /* Movie Box with 3D Effect */
 .NR-movie-box {
-  width: 200px;
+  width: 300px;
   border-radius: 10px;
   overflow: hidden;
   text-align: center;
@@ -46,4 +45,7 @@
 .NR-movie-box p {
   font-weight: bold;
   margin: 5px 0;
+}
+.NR-movie-box span {
+  display: none;
 }

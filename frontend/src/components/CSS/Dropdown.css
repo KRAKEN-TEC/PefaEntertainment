@@ -36,11 +36,12 @@
   left: -360px; /* Initially hidden */
   width: 360px;
   height: 86vh;
-  background-color: #c9c8c8;
-  border-radius: 5px;
+  background-color: #fffdfdb8;
   transition: left 0.3s ease-in-out;
   padding: 20px;
   z-index: 1;
+  backdrop-filter: blur(10px);
+  border-radius: 10px;
 }
 
 .sidebar-open {
@@ -64,4 +65,19 @@ ul li {
 li svg {
   margin-right: 10px;
   margin-top: 5px;
+}
+
+li {
+  display: flex;
+  flex-direction: row;
+}
+
+svg {
+  margin-top: 5px;
+  margin-right: 10px;
+}
+
+.logout {
+  color: red;
+  font-style: bold;
 }

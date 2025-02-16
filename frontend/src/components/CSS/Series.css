@@ -1,49 +1,76 @@
 .series-section {
-    padding: 20px;
-    position: relative;
-  }
-  
-  /* Scroll Container */
-  .series-scroll-container {
-    overflow-x: auto;
-    padding: 10px;
-    scrollbar-width: none;
-    scroll-behavior: smooth;
-    white-space: nowrap;
-  }
-  
-  
-  /* Movie Grid Layout */
-  .series-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    grid-auto-flow: column;
-    gap: 20px;
-    width: max-content;
-  }
-  
-  /* Movie Box with 3D Effect */
-  .series-box {
-    width: 200px;
-    border-radius: 10px;
-    overflow: hidden;
-    text-align: center;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    padding-bottom: 10px;
-    transition: transform 0.3s;
-    perspective: 1000px;
-  }
-  
-  .series-box:hover {
-    transform: rotateY(10deg) scale(1.05);
-  }
-  
-  .series-box img {
-    width: 100%;
-    border-radius: 10px 10px 0 0;
-  }
-  
-  .series-box p {
-    font-weight: bold;
-    margin: 5px 0;
-  }
+  padding: 20px;
+  position: relative;
+}
+
+/* Movie Grid Layout */
+.series-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(490px, 1fr));
+  grid-auto-flow: column;
+  gap: 20px;
+  width: max-content;
+}
+
+/* Movie Box with 3D Effect */
+.series-box {
+  width: 490px;
+  border-radius: 10px;
+  overflow: hidden;
+  text-align: center;
+  /*box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);*/
+  padding-bottom: 10px;
+  transition: transform 0.3s;
+  perspective: 1000px;
+  color: black;
+}
+
+.series-box:hover {
+  transform: rotateY(10deg) scale(1.05);
+}
+
+.series-box img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.series-text p {
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.series-text h2 {
+  font-size: large;
+  font-weight: 500;
+}
+
+.series-text {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  align-items: center;
+}
+
+.series-text h3 {
+  display: flex;
+  text-align: left;
+  margin-left: 10px;
+  padding-top: 10px;
+  border: 2px;
+}
+.series-text span {
+  display: none;
+}
+.series-text ul {
+  display: flex;
+  flex-direction: row;
+}
+.series-text li {
+  border: 1px solid #e85448;
+  border-radius: 5px;
+  font-size: small;
+  margin: 10px 0 0 20px;
+  color: #e85448;
+  display: inline-block;
+  padding: 4px 10px;
+}
