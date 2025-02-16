@@ -31,20 +31,18 @@ export default function Series(){
                      <div className="series-box"  key={s._id} onClick={()=>callNav(s._id)}> 
                         <img src={s.poster_url} />
                         <div>
+                          <div className="series-text">
                             <h3>{s.title}</h3>
                             <span>{s.description}</span>
                             <ul>
-                                    {s.genres.map((g)=>(
-                                        <li key={g._id}>{g.name}</li>
-                                    ))}
-                            </ul> 
+                              {s.genres.map((g) => (
+                                <li key={g._id}>{g.name}</li>
+                              ))}
+                            </ul>
+                          </div>
                         </div>
-
-                   </div>
+                    </div>
            )}
            </div>
-                 </div> 
-            
-        </div>
-    )
-}
+        </div> 
+)}
