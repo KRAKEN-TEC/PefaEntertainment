@@ -1,6 +1,6 @@
 
 import { useRef, useState } from "react";
-import { Box, Grid, GridItem, Input, Button, Fieldset, HStack, Table, TableBody, TableCell, TableColumnHeader, TableHeader, TableRoot, TableRow, Spinner, Stack } from "@chakra-ui/react";
+import { Text, Box, Grid, GridItem, Input, Button, Fieldset, HStack, Table, TableBody, TableCell, TableColumnHeader, TableHeader, TableRoot, TableRow, Spinner, Stack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Field } from "@/components/ui/field";
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -129,38 +129,47 @@ const UserAction = ({ user }: { user: FetchUser }) => {
 }
 
 const UserList = ({ userQuery }: { userQuery: userQuery }) => {
-  const { data: users, loading } = useUser(userQuery)
+  const { data: users, error, loading } = useUser(userQuery)
 
   return (
-    <Table.ScrollArea height="560px">
-      <TableRoot stickyHeader>
-        <TableHeader>
-          <TableRow>
-            <TableColumnHeader>Name</TableColumnHeader>
-            <TableColumnHeader>Email</TableColumnHeader>
-            <TableColumnHeader>Phone</TableColumnHeader>
-            <TableColumnHeader>Role</TableColumnHeader>
-          </TableRow>
-        </TableHeader>
-
-        <TableBody>
-          {loading &&
+    <>
+      <Table.ScrollArea height={users?.length ? "560px" : "auto"}>
+        <TableRoot stickyHeader>
+          <TableHeader>
             <TableRow>
-              <TableCell><Spinner /></TableCell>
-            </TableRow>}
-
-          {users.map(user =>
-            <TableRow key={user._id}>
-              <TableCell>{user.name}</TableCell>
-              <TableCell>{user.email}</TableCell>
-              <TableCell>{user.phone}</TableCell>
-              <TableCell>{user.role}</TableCell>
-              <TableCell><UserAction user={user} /></TableCell>
+              <TableColumnHeader>Name</TableColumnHeader>
+              <TableColumnHeader>Email</TableColumnHeader>
+              <TableColumnHeader>Phone</TableColumnHeader>
+              <TableColumnHeader>Role</TableColumnHeader>
             </TableRow>
-          )}
-        </TableBody>
-      </TableRoot>
-    </Table.ScrollArea>
+          </TableHeader>
+
+          <TableBody>
+            {users.map(user =>
+              <TableRow key={user._id}>
+                <TableCell>{user.name}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.phone}</TableCell>
+                <TableCell>{user.role}</TableCell>
+                <TableCell><UserAction user={user} /></TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </TableRoot>
+      </Table.ScrollArea>
+
+      {error &&
+        <Text fontSize="6xl" textAlign="center" mt="20vh">
+          {error}
+        </Text>
+      }
+
+      {loading &&
+        <Box display={"flex"} justifyContent={"center"} alignItems="center" height="50vh">
+          <Spinner size="xl" />
+        </Box>
+      }
+    </>
   )
 }
 

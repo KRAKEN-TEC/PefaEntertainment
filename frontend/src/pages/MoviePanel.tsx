@@ -1,6 +1,6 @@
 
 import { useState, useRef } from "react";
-import { Box, Grid, GridItem, Input, Button, Fieldset, HStack, Table, TableBody, TableCell, TableColumnHeader, TableHeader, TableRoot, TableRow, Spinner, Stack } from "@chakra-ui/react";
+import { Text, Box, Grid, GridItem, Input, Button, Fieldset, HStack, Table, TableBody, TableCell, TableColumnHeader, TableHeader, TableRoot, TableRow, Spinner, Stack } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field"
 import { useForm, UseFormSetValue, FieldErrors, UseFormRegister } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -46,7 +46,7 @@ interface OtherFieldsProps {
 const MovieUpdateForm = ({ movie }: { movie: FetchMovie }) => {
   const { register, handleSubmit, formState: { errors } } = useForm<FormMovie>();
   const { data: genres } = useGenre()
-  const { handleUpdate } = useMovieActions()
+  const { alert, handleUpdate } = useMovieActions()
 
   const onSubmit = (payload: FormMovie) => {
     handleUpdate(payload, movie)
@@ -64,12 +64,12 @@ const MovieUpdateForm = ({ movie }: { movie: FetchMovie }) => {
           <HStack>
             {genres.map((genre) => (
               <div key={genre._id}>
-                <input {...register("genre")} type="checkbox" id={`${genre._id}`} value={genre._id} defaultChecked={movie.genres.some((g) => g._id === genre._id)} />
+                <input {...register("genres")} type="checkbox" id={`${genre._id}`} value={genre._id} defaultChecked={movie.genres.some((g) => g._id === genre._id)} />
                 <label htmlFor={`${genre._id}`} style={{ paddingLeft: "5px" }} >{genre.name}</label>
               </div>
             ))}
           </HStack>
-          {errors.genre?.message && <p className="text-danger">{errors.genre?.message}</p>}
+          {errors.genres?.message && <p className="text-danger">{errors.genres?.message}</p>}
         </Field>
 
         <Field label="Rating">
@@ -97,6 +97,10 @@ const MovieUpdateForm = ({ movie }: { movie: FetchMovie }) => {
           {errors.encoder?.message && <p className="text-danger">{errors.encoder?.message}</p>}
         </Field>
 
+        <Field label="Is Serie">
+          <input {...register("isSerie")} type="checkbox" id="signal1" defaultChecked={movie.isSerie} />
+        </Field>
+
         <Field label="Is On Going">
           <input {...register("isOnGoing")} type="checkbox" id="signal1" defaultChecked={movie.isOnGoing} />
         </Field>
@@ -115,6 +119,8 @@ const MovieUpdateForm = ({ movie }: { movie: FetchMovie }) => {
           <Input {...register('studio')} type="text" placeholder={`${movie.studio}`} />
           {errors.studio?.message && <p className="text-danger">{errors.studio?.message}</p>}
         </Field>
+
+        {alert && <AlertMessage message={alert} />}
 
         <DialogFooter>
           <Button type="submit">Update</Button>
@@ -177,52 +183,60 @@ const MovieAction = ({ movie }: { movie: FetchMovie }) => {
 }
 
 const MovieList = ({ movieQuery }: { movieQuery: MovieQuery }) => {
-  const { data: movies, loading } = useMovie(movieQuery)
+  const { data: movies, error, loading } = useMovie(movieQuery)
 
   return (
-    <Table.ScrollArea height="560px">
-      <TableRoot stickyHeader>
-        <TableHeader>
-          <TableRow>
-            <TableColumnHeader>Title</TableColumnHeader>
-            <TableColumnHeader>Genre</TableColumnHeader>
-            <TableColumnHeader>Rating</TableColumnHeader>
-            <TableColumnHeader>Released Date</TableColumnHeader>
-            <TableColumnHeader>Translator</TableColumnHeader>
-            <TableColumnHeader>Encoder</TableColumnHeader>
-            <TableColumnHeader>Is On Going</TableColumnHeader>
-            <TableColumnHeader>Episode</TableColumnHeader>
-            <TableColumnHeader>Season</TableColumnHeader>
-            <TableColumnHeader>Studio</TableColumnHeader>
-            <TableColumnHeader paddingLeft={7}>Actions</TableColumnHeader>
-          </TableRow>
-        </TableHeader>
-
-
-        <TableBody>
-          {loading &&
+    <>
+      <Table.ScrollArea height={movies?.length ? "560px" : "auto"}>
+        <TableRoot stickyHeader>
+          <TableHeader>
             <TableRow>
-              <TableCell><Spinner /></TableCell>
-            </TableRow>}
-
-          {movies.map(movie =>
-            <TableRow key={movie._id}>
-              <TableCell>{movie.title}</TableCell>
-              <TableCell>{movie.genres.map(genre => genre.name).join(", ")}</TableCell>
-              <TableCell>{movie.rating}</TableCell>
-              <TableCell>{movie.releasedDate.split('T')[0]}</TableCell>
-              <TableCell>{movie.translator}</TableCell>
-              <TableCell>{movie.encoder}</TableCell>
-              <TableCell>{movie.isOnGoing == true ? "yes" : "no"}</TableCell>
-              <TableCell>{movie.episode == null ? "-" : movie.episode}</TableCell>
-              <TableCell>{movie.season == null ? "-" : movie.season}</TableCell>
-              <TableCell>{movie.studio}</TableCell>
-              <TableCell><MovieAction movie={movie} /></TableCell>
+              <TableColumnHeader>Title</TableColumnHeader>
+              <TableColumnHeader>Genre</TableColumnHeader>
+              <TableColumnHeader>Rating</TableColumnHeader>
+              <TableColumnHeader>Released Date</TableColumnHeader>
+              <TableColumnHeader>Translator</TableColumnHeader>
+              <TableColumnHeader>Encoder</TableColumnHeader>
+              <TableColumnHeader>Is On Going</TableColumnHeader>
+              <TableColumnHeader>Episode</TableColumnHeader>
+              <TableColumnHeader>Season</TableColumnHeader>
+              <TableColumnHeader>Studio</TableColumnHeader>
+              <TableColumnHeader paddingLeft={7}>Actions</TableColumnHeader>
             </TableRow>
-          )}
-        </TableBody>
-      </TableRoot>
-    </Table.ScrollArea>
+          </TableHeader>
+
+          <TableBody>
+            {movies.map(movie =>
+              <TableRow key={movie._id}>
+                <TableCell>{movie.title}</TableCell>
+                <TableCell>{movie.genres.map(genre => genre.name).join(", ")}</TableCell>
+                <TableCell>{movie.rating}</TableCell>
+                <TableCell>{movie.releasedDate.split('T')[0]}</TableCell>
+                <TableCell>{movie.translator}</TableCell>
+                <TableCell>{movie.encoder}</TableCell>
+                <TableCell>{movie.isOnGoing == true ? "yes" : "no"}</TableCell>
+                <TableCell>{movie.episode == null ? "-" : movie.episode}</TableCell>
+                <TableCell>{movie.season == null ? "-" : movie.season}</TableCell>
+                <TableCell>{movie.studio}</TableCell>
+                <TableCell><MovieAction movie={movie} /></TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </TableRoot>
+      </Table.ScrollArea>
+
+      {error &&
+        <Text fontSize="6xl" textAlign="center" mt="20vh">
+          {error}
+        </Text>
+      }
+
+      {loading &&
+        <Box display={"flex"} justifyContent={"center"} alignItems="center" height="50vh">
+          <Spinner size="xl" />
+        </Box>
+      }
+    </>
   )
 }
 
@@ -235,12 +249,12 @@ const GenreField = ({ register, errors }: OtherFieldsProps) => {
       <HStack>
         {genres.map((genre) => (
           <div key={genre._id}>
-            <input {...register("genre")} type="checkbox" id={`${genre._id}`} value={genre._id} />
+            <input {...register("genres")} type="checkbox" id={`${genre._id}`} value={genre._id} />
             <label htmlFor={`${genre._id}`} style={{ paddingLeft: "5px" }} >{genre.name}</label>
           </div>
         ))}
       </HStack>
-      {errors.genre?.message && <p className="text-danger">{errors.genre?.message}</p>}
+      {errors.genres?.message && <p className="text-danger">{errors.genres?.message}</p>}
     </Field>
   )
 }
@@ -310,6 +324,10 @@ const OtherFields = ({ register, errors }: OtherFieldsProps) => {
       <Field label="Encoder">
         <Input {...register('encoder', { required: true })} type="text" placeholder="name..." />
         {errors.encoder?.message && <p className="text-danger">{errors.encoder?.message}</p>}
+      </Field>
+
+      <Field label="Is Serie">
+        <input {...register("isSerie")} type="checkbox" id="signal2" />
       </Field>
 
       <Field label="Is On Going">

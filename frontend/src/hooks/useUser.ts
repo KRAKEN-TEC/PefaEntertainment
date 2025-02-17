@@ -2,7 +2,7 @@ import { useState } from "react";
 import z from "zod";
 import useData from "./useData"
 
-import { logUserError, logActionError } from "@/services/log-error";
+import { logError, logActionError } from "@/services/log-error";
 import { useUserStore } from "@/context/useUserStore";
 import apiPefa from "@/services/api-pefa";
 
@@ -82,7 +82,7 @@ export const useUserActions = () => {
             setAlert("Login successful!");
         }
         catch (error: any) {
-            logUserError(error, setAlert);
+            logError(error, setAlert);
             setLoading(false);
         }
     }
@@ -104,13 +104,18 @@ export const useUserActions = () => {
         setAlert("");
         setLoading(true);
         try {
-            await apiPefa.post("/users", payload);
+            await apiPefa.post("/users", payload, {
+                headers: {
+                    Authorization: `${accessToken}`,
+                    "Content-Type": "application/json"
+                }
+            });
             updateActions(["user-register"]);
             setLoading(false);
             setAlert("Registered successfully!");
         }
         catch (error: any) {
-            logUserError(error, setAlert);
+            logError(error, setAlert);
             setLoading(false);
         }
     }
