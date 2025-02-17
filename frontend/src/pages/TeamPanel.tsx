@@ -58,6 +58,11 @@ const UserUpdateForm = ({ user }: { user: FetchUser }) => {
               {errors.email?.message && <p className="text-danger">{errors.email?.message}</p>}
             </Field>
 
+            <Field label="Phone Number">
+              <Input id="phone" {...register('phone')} type="phone" placeholder={`${user.phone}`} />
+              {errors.phone?.message && <p className="text-danger">{errors.phone?.message}</p>}
+            </Field>
+
             <Field label="Password">
               <Input id="password" {...register('password')} type="password" placeholder="(leave blank if not change)" />
               {errors.password?.message && <p className="text-danger">{errors.password?.message}</p>}
@@ -248,7 +253,7 @@ const UserLogout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Box>
-        <Button onClick={handleLogout}>{children}</Button>
+        <Button onClick={handleLogout} colorPalette={"red"} variant={"subtle"}>{children}</Button>
       </Box>
     </>
   )
