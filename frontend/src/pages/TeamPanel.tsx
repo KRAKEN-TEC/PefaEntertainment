@@ -14,6 +14,9 @@ import {
   DialogTrigger,
   DialogFooter,
 } from "@/components/ui/dialog"
+import { GoHomeFill } from "react-icons/go";
+import { MdMovieEdit } from "react-icons/md";
+import { NavLink } from "react-router";
 
 import { useUser, useUserActions, FormUser, FetchUser, schemaUser, userQuery } from '@/hooks/useUser'
 import { useUserStore } from '@/context/useUserStore'
@@ -342,10 +345,18 @@ function TeamPanel() {
         md: '1fr',
         sm: '1fr'
       }}
+
+      padding={3}
     >
       {/* BUTTONS */}
-      <GridItem area="buttons">
+      <GridItem area="buttons" >
         <Stack direction={{ base: "row", md: "row", sm: "row" }} justifyContent={"flex-start"} paddingBottom={3}>
+          <NavLink to="/">
+            <GoHomeFill size={"30px"} />
+          </NavLink>
+          <NavLink to="/admin/movie-panel">
+            <MdMovieEdit size={"31px"} />
+          </NavLink>
           {accessToken ? <UserLogout>Log Out</UserLogout> : <UserLogin>Log In</UserLogin>}
           <AddUser>Add Team Member</AddUser>
           <MultipleSelector labelName="role" placeholderName="Roles" data={users} onValueChange={(selected: any) => setUserQuery({ ...userQuery, roles: selected })} />

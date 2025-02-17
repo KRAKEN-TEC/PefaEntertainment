@@ -132,6 +132,12 @@ const Dropdown: React.FC = () => {
           <li className="logout">
             <NavLink to="/">Logout</NavLink>
           </li>
+          <li>
+            <NavLink to="admin/movie-panel">Movie Panel</NavLink>
+          </li>
+          <li>
+            <NavLink to="admin/team-panel">Team Panel</NavLink>
+          </li>
         </ul>
       </div>
     </>

@@ -14,6 +14,9 @@ import {
   DialogTrigger,
   DialogFooter,
 } from "@/components/ui/dialog"
+import { GoHomeFill } from "react-icons/go";
+import { ImProfile } from "react-icons/im";
+import { NavLink } from "react-router";
 
 import { useMovie, useMovieActions, FormMovie, FetchMovie, schemaMovie, MovieQuery } from "@/hooks/useMovie"
 import { useGenre, useGenreActions, FormGenre, schemaGenre } from "@/hooks/useGenre";
@@ -457,11 +460,19 @@ function MoviePanel() {
         md: '1fr',
         sm: '1fr'
       }}
+
+      padding={3}
     >
 
       {/* BUTTONS */}
       <GridItem area="buttons">
         <Stack direction={{ base: "row", md: "row", sm: "row" }} justifyContent={"flex-start"} paddingBottom={3}>
+          <NavLink to="/">
+            <GoHomeFill size={"30px"} />
+          </NavLink>
+          <NavLink to="/admin/team-panel">
+            <ImProfile size={"27px"} />
+          </NavLink>
           {accessToken ?
             <>
               <AddMovie>Add Movie</AddMovie>
