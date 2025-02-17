@@ -6,7 +6,7 @@ export default function Layout()
     return (
         <div>
           <NavBar onSearch={(search) => console.log(search)} />
-        <Outlet/>
+          <Outlet/>
         </div>
     )
 }

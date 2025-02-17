@@ -1,32 +1,59 @@
 
-import { MenuContent, MenuItem, MenuRoot, MenuTrigger } from "@/components/ui/menu"
-import { Button } from "@chakra-ui/react";
-import { BsChevronDown } from "react-icons/bs";
+import { MenuContent, MenuItem, MenuRoot, MenuTrigger, MenuTriggerItem } from "@/components/ui/menu"
+import { Button, Icon } from "@chakra-ui/react";
+import { TbChevronDown } from "react-icons/tb";
 
 interface Props {
-  onSelectedSortOrder: (order: string) => void;
-  selectedSortOrder: string;
+  onClick: (order: string) => void;
+  selectedSort: string;
 }
 
-function SortSelector({ onSelectedSortOrder, selectedSortOrder }: Props) {
+function SortSelector({ onClick, selectedSort }: Props) {
   const sortOrder = [
-    { value: '', label: 'Relevance' },
-    { value: 'title', label: 'Title' },
-    { value: '-rating', label: 'Rating' },
-    { value: '-releasedDate', label: 'Released Date' },
-    { value: '-episode', label: 'Episode' },
-    { value: '-season', label: 'Season' },
+    { value: 'rating', label: 'Rating' },
+    { value: 'releasedDate', label: 'Released Date' },
+    { value: 'episode', label: 'Episode' },
+    { value: 'season', label: 'Season' },
+    { value: 'uploadDate', label: 'Upload Date' }
   ]
 
-  const currentSortOrder = sortOrder.find(s => s.value === selectedSortOrder)?.label || 'Relevance';
+  // currentSort for "Order by: <currentSort>"
+  let currentSort = sortOrder.find(s => s.value === selectedSort || "-" + s.value === selectedSort)?.label || "Relevance"
+
+  if (["title", "-title"].includes(selectedSort)) {
+    currentSort = "Title";
+  }
 
   return (
     <MenuRoot>
       <MenuTrigger asChild>
-        <Button>Order by: {currentSortOrder} <BsChevronDown /> </Button>
+        <Button variant="outline">
+          Order by: {currentSort}
+          <Icon size={"sm"}>
+            <TbChevronDown />
+          </Icon>
+        </Button>
       </MenuTrigger>
       <MenuContent>
-        {sortOrder.map(s => <MenuItem onClick={() => onSelectedSortOrder(s.value)} key={s.value} value={s.value}>{s.label}</MenuItem>)}
+        {/* TITLE */}
+        <MenuRoot positioning={{ placement: "right-start", gutter: 2 }} key={"title"}>
+          <MenuTriggerItem value="title">Title</MenuTriggerItem>
+          <MenuContent>
+            <MenuItem onClick={() => onClick("title")} value="title">Ascending</MenuItem>
+            <MenuItem onClick={() => onClick("-title")} value="-title">Descending</MenuItem>
+          </MenuContent>
+        </MenuRoot>
+
+        {/* OTHERS */}
+        {sortOrder.map(s =>
+          <MenuRoot positioning={{ placement: "right-start", gutter: 2 }} key={s.value}>
+            <MenuTriggerItem value="s.value">{s.label}</MenuTriggerItem>
+            <MenuContent>
+              <MenuItem onClick={() => onClick("-" + s.value)} key={"-" + s.value} value={"-" + s.value}>Ascending</MenuItem>
+              <MenuItem onClick={() => onClick(s.value)} key={s.value} value={s.value}>Descending</MenuItem>
+            </MenuContent>
+          </MenuRoot>
+        )}
       </MenuContent>
     </MenuRoot>
   )

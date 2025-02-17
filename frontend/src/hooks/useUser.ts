@@ -49,8 +49,21 @@ export const schemaUser = z.object({
 
 export type FormUser = z.infer<typeof schemaUser>;
 
+export interface userQuery {
+    roles: string[],
+    search: string,
+}
+
 // FUNCTIONS
-export const useUser = () => useData<FetchUser>("/users")
+export const useUser = (userQuery?: userQuery) => useData<FetchUser>("/users",
+    {
+        params: {
+            roles: userQuery?.roles,
+            search: userQuery?.search
+        }
+    },
+    [userQuery]
+)
 
 export const useUserActions = () => {
     const { accessToken, updateAccessToken, updateEmail, logout, updateActions } = useUserStore();

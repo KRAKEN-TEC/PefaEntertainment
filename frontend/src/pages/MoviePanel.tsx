@@ -18,10 +18,10 @@ import {
 import { useMovie, useMovieActions, FormMovie, FetchMovie, schemaMovie, MovieQuery } from "@/hooks/useMovie"
 import { useGenre, useGenreActions, FormGenre, schemaGenre } from "@/hooks/useGenre";
 import { useUserStore } from "@/context/useUserStore";
-import GenreSelector from "@/components/GenreSelector";
 import SortSelector from "@/components/SortSelector";
-import NavBar from "@/components/NavBar";
 import AlertMessage from "@/components/AlertMessage";
+import SearchInput from "@/components/SearchInput";
+import MultipleSelector from "@/components/MultipleSelector";
 
 interface MovieUpdateProps {
   children: React.ReactNode
@@ -152,7 +152,7 @@ const MovieAction = ({ movie }: { movie: FetchMovie }) => {
 
   return (
     <>
-      {true ?
+      {accessToken ?
         <HStack>
           <MovieUpdate movie={movie}>Edit</MovieUpdate>
           <Button variant="plain" _hover={{ color: "cyan" }} color="red" onClick={onClick}>
@@ -173,10 +173,11 @@ const MovieAction = ({ movie }: { movie: FetchMovie }) => {
   )
 }
 
-const MovieList = () => {
-  const { data: movies, loading } = useMovie()
+const MovieList = ({ movieQuery }: { movieQuery: MovieQuery }) => {
+  const { data: movies, loading } = useMovie(movieQuery)
+
   return (
-    <Table.ScrollArea borderWidth="1px" rounded="md">
+    <Table.ScrollArea height="560px">
       <TableRoot stickyHeader>
         <TableHeader>
           <TableRow>
@@ -190,6 +191,7 @@ const MovieList = () => {
             <TableColumnHeader>Episode</TableColumnHeader>
             <TableColumnHeader>Season</TableColumnHeader>
             <TableColumnHeader>Studio</TableColumnHeader>
+            <TableColumnHeader paddingLeft={7}>Actions</TableColumnHeader>
           </TableRow>
         </TableHeader>
 
@@ -359,7 +361,7 @@ const AddMovie = ({ children }: { children: React.ReactNode }) => {
   return (
     <DialogRoot initialFocusEl={() => ref.current} scrollBehavior="inside" placement={"top"}>
       <DialogTrigger asChild>
-        <Button w={"100%"}>
+        <Button>
           {children}
         </Button>
       </DialogTrigger>
@@ -418,7 +420,7 @@ const AddGenre = ({ children }: { children: React.ReactNode }) => {
   return (
     <DialogRoot initialFocusEl={() => ref.current} placement={"top"}>
       <DialogTrigger asChild>
-        <Button w={"100%"}>
+        <Button>
           {children}
         </Button>
       </DialogTrigger>
@@ -439,58 +441,49 @@ const AddGenre = ({ children }: { children: React.ReactNode }) => {
 function MoviePanel() {
   const [movieQuery, setMovieQuery] = useState<MovieQuery>({} as MovieQuery)
   const { accessToken } = useUserStore();
+  const { data: genres } = useGenre();
 
   return (
     <Grid
       templateAreas={{
-        base: `"nav" "list"`,  // Stack nav, form, and list in one column for small screens
-        lg: `"nav nav" "list list"`,  // In large screens, side by side
-        md: `"nav nav nav" "list list list"`,
-        sm: `"nav nav nav nav" "list list list list"`,
+        base: `"buttons" "list"`,  // Stack nav, form, and list in one column for small screens
+        lg: `"buttons buttons" "list list"`,  // In large screens, side by side
+        md: `"buttons buttons buttons" "list list list"`,
+        sm: `"buttons buttons buttons buttons" "list list list list"`,
       }}
 
       templateColumns={{
-        base: '1fr', // 1 fraction for all elements in small screens (stacked)
+        base: '1fr',
+        md: '1fr',
+        sm: '1fr'
       }}
     >
-      {/* NAV BAR */}
-      <GridItem area="nav">
-        <NavBar onSearch={(search) => console.log(search)} />
+
+      {/* BUTTONS */}
+      <GridItem area="buttons">
+        <Stack direction={{ base: "row", md: "row", sm: "row" }} justifyContent={"flex-start"} paddingBottom={3}>
+          {accessToken ?
+            <>
+              <AddMovie>Add Movie</AddMovie>
+              <AddGenre>Add Genre</AddGenre>
+            </>
+            :
+            <>
+              <Button onClick={() => window.alert("Please login to perform this action")}>Add Movie</Button>
+              <Button onClick={() => window.alert("Please login to perform this action")}>Add Genre</Button>
+            </>
+          }
+          <SortSelector selectedSort={movieQuery.ordering} onClick={(ordering) => setMovieQuery({ ...movieQuery, ordering })} />
+          <MultipleSelector labelName="name" placeholderName="Genre" data={genres} onValueChange={(selected: any) => setMovieQuery({ ...movieQuery, genres: selected })} />
+          <SearchInput placeholderName="movies" onSubmit={(payload) => setMovieQuery({ ...movieQuery, search: payload.searchName })} />
+        </Stack>
       </GridItem>
 
       {/* MOVIE LIST */}
       <GridItem area="list">
-        <Stack direction={{ base: "column", md: "row" }}>
-          <Box flex={1}>
-            <GenreSelector onSelectedGenre={(genre) => setMovieQuery({ ...movieQuery, genre })} />
-          </Box>
-          <Box flex={1}>
-            <SortSelector selectedSortOrder={movieQuery.ordering} onSelectedSortOrder={(ordering) => setMovieQuery({ ...movieQuery, ordering })} />
-          </Box>
-        </Stack>
-
         <Box>
-          <MovieList />
+          <MovieList movieQuery={movieQuery} />
         </Box>
-
-        {true ?
-          <Stack direction={{ base: "column", md: "row" }}>
-            <Box flex={1}>
-              <AddMovie>Add Movie</AddMovie>
-            </Box>
-            <Box flex={1}>
-              <AddGenre>Add Genre</AddGenre>
-            </Box>
-          </Stack>
-          :
-          <Stack direction={{ base: "column", md: "row" }}>
-            <Box flex={1}>
-              <Button w={"100%"} onClick={() => window.alert("Please login to perform this action")}>Add Movie</Button>
-            </Box>
-            <Box flex={1}>
-              <Button w={"100%"} onClick={() => window.alert("Please login to perform this action")}>Add Genre</Button>
-            </Box>
-          </Stack>}
       </GridItem>
     </Grid>
   )

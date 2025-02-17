@@ -63,7 +63,7 @@ export const schemaMovie = z.object({
 
 export interface MovieQuery {
     page: number,
-    genre: FetchGenre,
+    genres: FetchGenre,
     search: string,
     ordering: string,
 }
@@ -74,7 +74,7 @@ export const useMovie = (movieQuery?: MovieQuery) => useData<FetchMovie>('/movie
     {
         params: {
             page: movieQuery?.page,
-            genre: movieQuery?.genre?._id,
+            genres: movieQuery?.genres,
             search: movieQuery?.search,
             ordering: movieQuery?.ordering
         }
