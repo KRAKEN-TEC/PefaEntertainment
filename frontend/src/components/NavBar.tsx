@@ -2,6 +2,7 @@ import logo from "../assets/PEFA(black).svg";
 import { NavLink } from "react-router-dom";
 import SearchInput from "./SearchInput";
 import Dropdown from "./Dropdown";
+import "./CSS/NavBar.css";
 
 interface Props {
   onSearch: (searchValue: string) => void;
@@ -9,7 +10,7 @@ interface Props {
 
 export default function NavBar({ onSearch }: Props) {
   return (
-    <div>
+    <div className="mainbar">
       {/* Left Side: Dropdown */}
       <Dropdown />
 
@@ -19,10 +20,15 @@ export default function NavBar({ onSearch }: Props) {
       </NavLink>
 
       {/* Right Side: SearchInput and DarkMode */}
-      <SearchInput
-        placeholderName="movies"
-        onSubmit={(event) => onSearch(event.searchName)}
-      />
+      <div className="searchCon">
+        <div>
+          <SearchInput
+            placeholderName="movies"
+            onSubmit={(event) => onSearch(event.searchName)}
+          />
+        </div>
+        <div className="modeButton"></div>
+      </div>
     </div>
   );
 }

@@ -51,6 +51,8 @@
   z-index: 2;
   backdrop-filter: blur(1px);
   margin: 10px;
+  background-color: transparent;
+  border: none;
 }
 
 .scroll-btn.left {
@@ -84,11 +86,17 @@
   align-items: left;
 }
 
+.overlay ul{
+  display: flex;
+  align-items: left;
+  justify-content: flex-start;
+}
+
 .overlay li {
   border: 1px solid #e85448;
   border-radius: 5px;
   font-size: small;
-  margin: 10px 0 0 20px;
+  margin: 10px 0 0 7px;
   color: #e85448;
   display: inline-block;
   padding: 4px 10px;
@@ -96,4 +104,5 @@
 
 .overlay h3 {
   margin-top: 355px;
+  font-size: 15px;
 }

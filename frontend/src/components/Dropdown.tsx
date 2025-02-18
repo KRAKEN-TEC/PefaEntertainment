@@ -1,6 +1,6 @@
 import "./CSS/Dropdown.css";
 import { useState } from "react";
-import { NavLink } from "react-router";
+import { Link } from "react-router";
 
 const Dropdown: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -35,7 +35,7 @@ const Dropdown: React.FC = () => {
                 fill="#E85448"
               />
             </svg>
-            <NavLink to="/">Home</NavLink>{" "}
+            <Link to="/">Home</Link>{" "}
           </li>
           <li>
             <svg
@@ -50,7 +50,7 @@ const Dropdown: React.FC = () => {
                 fill="#E85448"
               />
             </svg>{" "}
-            <NavLink to="search">Search</NavLink>{" "}
+            <Link to="search">Search</Link>{" "}
           </li>
           <li>
             <svg
@@ -81,7 +81,7 @@ const Dropdown: React.FC = () => {
                 fill="#E85448"
               />
             </svg>{" "}
-            <NavLink to="aboutus"> About us</NavLink>
+            <Link to="aboutus"> About us</Link>
           </li>
           <li>
             <svg
@@ -100,7 +100,7 @@ const Dropdown: React.FC = () => {
                 fill="#E85448"
               />
             </svg>{" "}
-            <NavLink to="howtodownload">How to download?</NavLink>
+            <Link to="howtodownload">How to download?</Link>
           </li>
           <li>
             <svg
@@ -117,26 +117,26 @@ const Dropdown: React.FC = () => {
                 fill="#E85448"
               />
             </svg>{" "}
-            <NavLink to="profile">Profile</NavLink>
+            <Link to="profile">Profile</Link>
           </li>
 
           <hr />
           <li>
             {" "}
-            <NavLink to="login">Login</NavLink>{" "}
+            <Link to="login">Login</Link>{" "}
           </li>
           <li>
             {" "}
-            <NavLink to="register">Register</NavLink>
+            <Link to="register">Register</Link>
           </li>
           <li className="logout">
-            <NavLink to="/">Logout</NavLink>
+            <Link to="/">Logout</Link>
           </li>
           <li>
-            <NavLink to="admin/movie-panel">Movie Panel</NavLink>
+            <Link to="admin/movie-panel">Movie Panel</Link>
           </li>
           <li>
-            <NavLink to="admin/team-panel">Team Panel</NavLink>
+            <Link to="admin/team-panel">Team Panel</Link>
           </li>
         </ul>
       </div>

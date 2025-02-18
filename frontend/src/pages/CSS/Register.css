@@ -1,64 +1,64 @@
 .register-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
 }
 
 .register-box {
-    background: #e0e0e0;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    text-align: center;
-    width: 300px;
+  background: #e0e0e0;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  width: 300px;
 }
 
 .logo {
-    width: 100px;
-    margin-bottom: 10px;
+  width: 100px;
+  margin-bottom: 10px;
 }
 
-h2 {
-    font-size: 20px;
-    margin-bottom: 15px;
+.register-box h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
 }
 
-input {
-    width: 100%;
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.registerbox input {
+  width: 100%;
+  padding: 10px;
+  margin: 5px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 .dob-fields {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 
 .dob-fields input {
-    width: 32%;
+  width: 32%;
 }
 
 .terms {
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    margin-top: 5px;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
 }
 
 .terms input {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 
 .login-btn {
-    width: 100%;
-    padding: 10px;
-    background: red;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
+  width: 100%;
+  padding: 10px;
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-top: 10px;
 }

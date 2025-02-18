@@ -4,6 +4,8 @@
   flex-direction: column;
   gap: 5px;
   width: 30px;
+  border: none;
+  background-color: transparent;
 }
 
 .line1,
@@ -33,15 +35,17 @@
 .sidebar {
   position: fixed;
   bottom: 0;
-  left: -360px; /* Initially hidden */
+  left: -400px;
   width: 360px;
-  height: 86vh;
-  transition: left 0.3s ease-in-out;
+  height: 82vh;
+  transition: left 0.3s;
   padding: 20px;
-  z-index: 3;
+  z-index: 1;
   backdrop-filter: blur(50px);
   border-radius: 10px;
+  background: rgba(255, 255, 255, 0.95);
 }
+
 
 .sidebar-open {
   left: 0;

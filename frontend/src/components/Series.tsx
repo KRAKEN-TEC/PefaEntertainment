@@ -20,8 +20,9 @@ export default function Series() {
 
   return (
     <div className="series-section">
-      <h2>Series</h2>
-      <span onClick={() => nav("series-page")}>See more</span>
+      <div className="series-title">
+        <h2>Series</h2>
+        <span onClick={() => nav("series-page")}>See more</span></div>
       <div className="series-scroll-container">
         <div className="series-grid">
           {series &&
