@@ -6,7 +6,6 @@ import Home from "@/pages/Home";
 import Search from "@/pages/Search";
 import Profile from "@/pages/Profile";
 import HowToDownload from "@/pages/HowToDownload";
-import Aboutus from "@/pages/AboutUs";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import MoviePanel from "@/pages/MoviePanel";
@@ -14,6 +13,8 @@ import TeamPanel from "@/pages/TeamPanel";
 import MoviesPage from "@/pages/MoviesPage";
 import SeriesPage from "@/pages/SeriesPage";
 import DetailPage from "@/pages/DetailPage";
+import AboutUs from "@/pages/AboutUs";
+import { Provider } from "../components/ui/provider";
 
 const router = createBrowserRouter([
   {
@@ -42,7 +43,7 @@ const router = createBrowserRouter([
       },
       {
         path: "aboutus",
-        element: <Aboutus />,
+        element: <AboutUs />,
       },
       {
         path: "login",

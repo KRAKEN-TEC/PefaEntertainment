@@ -7,8 +7,8 @@ export default function SeriesPage() {
   const { callNavForSeriesPage } = useNavDetail();
 
   const navigate = () => {
-    console.log("Hello");
-  };
+    console.log("Hello")
+  }
 
   return (
     <div className="SP-section">
