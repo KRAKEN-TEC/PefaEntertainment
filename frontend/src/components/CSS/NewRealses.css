@@ -47,3 +47,22 @@
   font-weight: bold;
   margin: 5px 0;
 }
+.scroll-btn {
+  background: black;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+.scroll-btn.left {
+  left: 0;
+}
+
+.scroll-btn.right {
+  right: 0;
+}

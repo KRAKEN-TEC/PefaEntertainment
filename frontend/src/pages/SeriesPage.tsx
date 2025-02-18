@@ -19,7 +19,7 @@ export default function SeriesPage(){
 
             { series && series.filter((s)=>s.isSerie).map((s) =>
                      <div className="SP-box"  key={s._id} onClick={()=>callNavForSeriesPage(s._id)}> 
-                        <img src={s.poster_url} />
+                          <img src={s.poster_url} />
                         <div>
                             <h3>{s.title}</h3>
                             <span>{s.description}</span>
@@ -32,9 +32,8 @@ export default function SeriesPage(){
 
                    </div>
            )}
-           </div>
-                 </div> 
-            
-        </div>
+             </div>
+       </div> 
+    </div>
     )
 }
