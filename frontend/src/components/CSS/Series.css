@@ -74,3 +74,13 @@
   display: inline-block;
   padding: 4px 10px;
 }
+
+.series-title{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.series-title span{
+  margin-top: 25px;
+}

@@ -1,54 +1,58 @@
+* {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
 .link {
-    color: blue;
-    text-decoration: none;
+  color: blue;
+  text-decoration: none;
 }
 
 .link:hover {
-    text-decoration: underline;
+  text-decoration: underline;
 }
 
 .custom-form-select {
-    padding: 8px 12px;
-    /* Corrected value without quotes */
-    font-size: 1rem;
-    /* Corrected property name */
-    border-radius: 4px;
-    /* Corrected property name */
-    border: 1px solid #E2E8F0;
-    /* Corrected property name */
-    outline: none;
-    box-sizing: border-box;
+  padding: 8px 12px;
+  /* Corrected value without quotes */
+  font-size: 1rem;
+  /* Corrected property name */
+  border-radius: 4px;
+  /* Corrected property name */
+  border: 1px solid #e2e8f0;
+  /* Corrected property name */
+  outline: none;
+  box-sizing: border-box;
 }
 
 .custom-form-control {
-    padding: 8px 12px;
-    /* Corrected value without quotes */
-    font-size: 1rem;
-    /* Corrected property name */
-    border-radius: 4px;
-    /* Corrected property name */
-    border: 1px solid #E2E8F0;
-    background-color: #F7FAFC;
-    /* Corrected property name */
-    outline: none;
-    width: 100%;
-    box-sizing: border-box;
+  padding: 8px 12px;
+  /* Corrected value without quotes */
+  font-size: 1rem;
+  /* Corrected property name */
+  border-radius: 4px;
+  /* Corrected property name */
+  border: 1px solid #e2e8f0;
+  background-color: #f7fafc;
+  /* Corrected property name */
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .text-danger {
-    color: red;
+  color: red;
 }
 
 .file-upload {
-    padding: 2px 12px 2px 0px;
-    /* Corrected value without quotes */
-    font-size: 1rem;
-    /* Corrected property name */
-    border-radius: 4px;
-    /* Corrected property name */
-    border: 1px solid #E2E8F0;
-    /* Corrected property name */
-    outline: none;
-    width: 100%;
-    box-sizing: border-box;
+  padding: 2px 12px 2px 0px;
+  /* Corrected value without quotes */
+  font-size: 1rem;
+  /* Corrected property name */
+  border-radius: 4px;
+  /* Corrected property name */
+  border: 1px solid #e2e8f0;
+  /* Corrected property name */
+  outline: none;
+  width: 100%;
+  box-sizing: border-box;
 }
