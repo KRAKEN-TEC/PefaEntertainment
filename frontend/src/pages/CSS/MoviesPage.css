@@ -1,49 +1,73 @@
 .MP-section {
-    padding: 20px;
-    position: relative;
-  }
-  
-  /* Scroll Container */
-  .MP-scroll-container {
-    overflow-x: auto;
-    padding: 10px;
-    scrollbar-width: none;
-    scroll-behavior: smooth;
-    white-space: nowrap;
-  }
-  
-  
-  /* Movie Grid Layout */
-  .MP-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    grid-auto-flow: column;
-    gap: 20px;
-    width: max-content;
-  }
-  
-  /* Movie Box with 3D Effect */
-  .MP-box {
-    width: 200px;
-    border-radius: 10px;
-    overflow: hidden;
-    text-align: center;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    padding-bottom: 10px;
-    transition: transform 0.3s;
-    perspective: 1000px;
-  }
-  
-  .MP-box:hover {
-    transform: rotateY(10deg) scale(1.05);
-  }
-  
-  .MP-box img {
-    width: 100%;
-    border-radius: 10px 10px 0 0;
-  }
-  
-  .MP-box p {
-    font-weight: bold;
-    margin: 5px 0;
-  }
+  padding: 20px;
+  position: relative;
+}
+
+/* Movie Grid Layout */
+.MP-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-flow: row;
+  gap: 20px;
+  width: max-content;
+}
+
+/* Movie Box with 3D Effect */
+.MP-box {
+  width: 490px;
+  border-radius: 10px;
+  overflow: hidden;
+  text-align: center;
+  /*box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);*/
+  padding-bottom: 10px;
+  transition: transform 0.3s;
+  perspective: 1000px;
+}
+
+.MP-box:hover {
+  transform: rotateY(10deg) scale(1.03);
+}
+
+.MP-box img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+.MP-box p {
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.mp-text {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mp-text h3 {
+  display: flex;
+  text-align: left;
+  margin-left: 10px;
+  padding-top: 10px;
+  border: 2px;
+}
+
+.mp-text span {
+  display: none;
+}
+
+.mp-text ul {
+  display: flex;
+  flex-direction: row;
+}
+.mp-text li {
+  border: 1px solid #e85448;
+  border-radius: 5px;
+  font-size: small;
+  margin: 10px 0 0 20px;
+  color: #e85448;
+  display: inline-block;
+  padding: 4px 10px;
+}
