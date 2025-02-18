@@ -26,7 +26,7 @@ export default function NewRealeses() {
                 onClick={() => callNav(newRealse._id)}
               >
                 {/* <img src={newRealse.poster_url} /> */}
-                <div>
+                <div className="overlay">
                   <h3>{newRealse.title}</h3>
                   <span>{newRealse.description}</span>
                   <ul>

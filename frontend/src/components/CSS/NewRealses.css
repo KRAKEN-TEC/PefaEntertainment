@@ -49,3 +49,36 @@
 .NR-movie-box span {
   display: none;
 }
+
+.overlay {
+  height: 500px;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.1),
+    rgba(0, 0, 0, 0.9)
+  );
+  position: relative;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.overlay li,
+.overlay h3 {
+  color: white;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: left;
+}
+
+.overlay li {
+  border: 1px solid #e85448;
+  border-radius: 5px;
+  font-size: small;
+  margin: 10px 0 0 20px;
+  color: #e85448;
+  display: inline-block;
+  padding: 4px 10px;
+}
