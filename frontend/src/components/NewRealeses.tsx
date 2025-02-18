@@ -8,8 +8,8 @@ export default function NewRealeses() {
   const { callNav } = useNavDetail();
 
   const [scrollPosition, setScrollPosition] = useState(0);
-  const scrollAmount = 500; // Adjust scroll speed
-  const maxScroll = newRealses.length * 210 - 1050; // Prevent infinite scrolling
+  const scrollAmount = 300; // Adjust scroll speed
+  const maxScroll = newRealses.length * 300 - 1050; // Prevent infinite scrolling
 
   const handleScroll = (direction: "left" | "right") => {
     setScrollPosition((prev) => {

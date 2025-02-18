@@ -20,8 +20,8 @@ export default function Movies() {
 
   return (
     <div className="movie-section">
-      <h2>Movies</h2>
-      <span onClick={() => nav("movies-page")}>See more</span>
+      <div className="movie-title"><h2>Movies</h2>
+        <span onClick={() => nav("movies-page")}>See more</span></div>
       <div className="scroll-container">
         <div className="movie-grid">
           {movies &&
