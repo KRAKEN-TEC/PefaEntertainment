@@ -5,7 +5,7 @@ import { LuSearch } from "react-icons/lu";
 
 interface Props {
   onSubmit: (payload: FieldValues) => void;
-  placeholderName: string
+  placeholderName: string;
 }
 
 function SearchInput({ onSubmit, placeholderName }: Props) {

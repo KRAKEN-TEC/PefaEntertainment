@@ -53,6 +53,7 @@ export default function NewRealeses() {
                 <div>
                   <h3>{newRealse.title}</h3>
                   <span>{newRealse.description}</span>
+                  command:formatter/configure/dfl/19774184-6f13-4006-a47c-b894a2f08a1d
                   <ul>
                     {newRealse.genres.map((genre) => (
                       <li key={genre._id}>{genre.name}</li>
