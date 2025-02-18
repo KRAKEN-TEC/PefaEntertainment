@@ -100,3 +100,11 @@
   display: inline-block;
   padding: 4px 10px;
 }
+
+.scroll-btn.left {
+  left: 0;
+}
+
+.scroll-btn.right {
+  right: 0;
+}
