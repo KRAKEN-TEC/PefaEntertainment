@@ -1,4 +1,4 @@
-import { FetchMovie, useMovie } from "@/hooks/useMovie";
+import { useMovie } from "@/hooks/useMovie";
 import "./CSS/SeriesPage.css";
 import useNavDetail from "@/hooks/useNavDetail";
 
@@ -7,8 +7,8 @@ export default function SeriesPage() {
   const { callNavForSeriesPage } = useNavDetail();
 
   const navigate = () => {
-    console.log("Hello")
-  }
+    console.log("Hello");
+  };
 
   return (
     <div className="SP-section">
