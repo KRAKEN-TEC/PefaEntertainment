@@ -4,7 +4,7 @@ import { Outlet } from "react-router";
 export default function Layout() {
   return (
     <div>
-      <NavBar className="navbar" onSearch={(search) => console.log(search)} />
+      <NavBar onSearch={(search) => console.log(search)} />
       <Outlet />
     </div>
   );
