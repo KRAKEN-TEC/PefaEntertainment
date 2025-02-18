@@ -36,11 +36,10 @@
   left: -360px; /* Initially hidden */
   width: 360px;
   height: 86vh;
-  background-color: #fffdfdb8;
   transition: left 0.3s ease-in-out;
   padding: 20px;
   z-index: 1;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(50px);
   border-radius: 10px;
 }
 
