@@ -1,7 +1,7 @@
 import { useState } from "react";
 import z from "zod";
 
-import { logGenreError } from "@/services/log-error";
+import { logError } from "@/services/log-error";
 import { useMovieStore } from "@/context/useMovieStore";
 import { useUserStore } from "@/context/useUserStore";
 import useData from "./useData"
@@ -46,7 +46,7 @@ export const useGenreActions = () => {
             setAlert("Genre created successfully.");
         }
         catch (error: any) {
-            logGenreError(error, setAlert);
+            logError(error, setAlert);
             setLoading(false);
         }
     }

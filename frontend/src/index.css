@@ -17,7 +17,6 @@
     border: 1px solid #E2E8F0;
     /* Corrected property name */
     outline: none;
-    width: 100%;
     box-sizing: border-box;
 }
 

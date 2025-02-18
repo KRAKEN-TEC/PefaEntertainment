@@ -1,6 +1,6 @@
 
 import { useState, useRef } from "react";
-import { Box, Grid, GridItem, Input, Button, Fieldset, HStack, Table, TableBody, TableCell, TableColumnHeader, TableHeader, TableRoot, TableRow, Spinner, Stack } from "@chakra-ui/react";
+import { Text, Box, Grid, GridItem, Input, Button, Fieldset, HStack, Table, TableBody, TableCell, TableColumnHeader, TableHeader, TableRoot, TableRow, Spinner, Stack } from "@chakra-ui/react";
 import { Field } from "@/components/ui/field"
 import { useForm, UseFormSetValue, FieldErrors, UseFormRegister } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -14,14 +14,17 @@ import {
   DialogTrigger,
   DialogFooter,
 } from "@/components/ui/dialog"
+import { GoHomeFill } from "react-icons/go";
+import { ImProfile } from "react-icons/im";
+import { NavLink } from "react-router";
 
 import { useMovie, useMovieActions, FormMovie, FetchMovie, schemaMovie, MovieQuery } from "@/hooks/useMovie"
 import { useGenre, useGenreActions, FormGenre, schemaGenre } from "@/hooks/useGenre";
 import { useUserStore } from "@/context/useUserStore";
-import GenreSelector from "@/components/GenreSelector";
 import SortSelector from "@/components/SortSelector";
-import NavBar from "@/components/NavBar";
 import AlertMessage from "@/components/AlertMessage";
+import SearchInput from "@/components/SearchInput";
+import MultipleSelector from "@/components/MultipleSelector";
 
 interface MovieUpdateProps {
   children: React.ReactNode
@@ -43,7 +46,7 @@ interface OtherFieldsProps {
 const MovieUpdateForm = ({ movie }: { movie: FetchMovie }) => {
   const { register, handleSubmit, formState: { errors } } = useForm<FormMovie>();
   const { data: genres } = useGenre()
-  const { handleUpdate } = useMovieActions()
+  const { alert, handleUpdate } = useMovieActions()
 
   const onSubmit = (payload: FormMovie) => {
     handleUpdate(payload, movie)
@@ -61,12 +64,12 @@ const MovieUpdateForm = ({ movie }: { movie: FetchMovie }) => {
           <HStack>
             {genres.map((genre) => (
               <div key={genre._id}>
-                <input {...register("genre")} type="checkbox" id={`${genre._id}`} value={genre._id} defaultChecked={movie.genres.some((g) => g._id === genre._id)} />
+                <input {...register("genres")} type="checkbox" id={`${genre._id}`} value={genre._id} defaultChecked={movie.genres.some((g) => g._id === genre._id)} />
                 <label htmlFor={`${genre._id}`} style={{ paddingLeft: "5px" }} >{genre.name}</label>
               </div>
             ))}
           </HStack>
-          {errors.genre?.message && <p className="text-danger">{errors.genre?.message}</p>}
+          {errors.genres?.message && <p className="text-danger">{errors.genres?.message}</p>}
         </Field>
 
         <Field label="Rating">
@@ -94,6 +97,10 @@ const MovieUpdateForm = ({ movie }: { movie: FetchMovie }) => {
           {errors.encoder?.message && <p className="text-danger">{errors.encoder?.message}</p>}
         </Field>
 
+        <Field label="Is Serie">
+          <input {...register("isSerie")} type="checkbox" id="signal1" defaultChecked={movie.isSerie} />
+        </Field>
+
         <Field label="Is On Going">
           <input {...register("isOnGoing")} type="checkbox" id="signal1" defaultChecked={movie.isOnGoing} />
         </Field>
@@ -112,6 +119,8 @@ const MovieUpdateForm = ({ movie }: { movie: FetchMovie }) => {
           <Input {...register('studio')} type="text" placeholder={`${movie.studio}`} />
           {errors.studio?.message && <p className="text-danger">{errors.studio?.message}</p>}
         </Field>
+
+        {alert && <AlertMessage message={alert} />}
 
         <DialogFooter>
           <Button type="submit">Update</Button>
@@ -152,7 +161,7 @@ const MovieAction = ({ movie }: { movie: FetchMovie }) => {
 
   return (
     <>
-      {true ?
+      {accessToken ?
         <HStack>
           <MovieUpdate movie={movie}>Edit</MovieUpdate>
           <Button variant="plain" _hover={{ color: "cyan" }} color="red" onClick={onClick}>
@@ -173,51 +182,61 @@ const MovieAction = ({ movie }: { movie: FetchMovie }) => {
   )
 }
 
-const MovieList = () => {
-  const { data: movies, loading } = useMovie()
+const MovieList = ({ movieQuery }: { movieQuery: MovieQuery }) => {
+  const { data: movies, error, loading } = useMovie(movieQuery)
+
   return (
-    <Table.ScrollArea borderWidth="1px" rounded="md">
-      <TableRoot stickyHeader>
-        <TableHeader>
-          <TableRow>
-            <TableColumnHeader>Title</TableColumnHeader>
-            <TableColumnHeader>Genre</TableColumnHeader>
-            <TableColumnHeader>Rating</TableColumnHeader>
-            <TableColumnHeader>Released Date</TableColumnHeader>
-            <TableColumnHeader>Translator</TableColumnHeader>
-            <TableColumnHeader>Encoder</TableColumnHeader>
-            <TableColumnHeader>Is On Going</TableColumnHeader>
-            <TableColumnHeader>Episode</TableColumnHeader>
-            <TableColumnHeader>Season</TableColumnHeader>
-            <TableColumnHeader>Studio</TableColumnHeader>
-          </TableRow>
-        </TableHeader>
-
-
-        <TableBody>
-          {loading &&
+    <>
+      <Table.ScrollArea height={movies?.length ? "560px" : "auto"}>
+        <TableRoot stickyHeader>
+          <TableHeader>
             <TableRow>
-              <TableCell><Spinner /></TableCell>
-            </TableRow>}
-
-          {movies.map(movie =>
-            <TableRow key={movie._id}>
-              <TableCell>{movie.title}</TableCell>
-              <TableCell>{movie.genres.map(genre => genre.name).join(", ")}</TableCell>
-              <TableCell>{movie.rating}</TableCell>
-              <TableCell>{movie.releasedDate.split('T')[0]}</TableCell>
-              <TableCell>{movie.translator}</TableCell>
-              <TableCell>{movie.encoder}</TableCell>
-              <TableCell>{movie.isOnGoing == true ? "yes" : "no"}</TableCell>
-              <TableCell>{movie.episode == null ? "-" : movie.episode}</TableCell>
-              <TableCell>{movie.season == null ? "-" : movie.season}</TableCell>
-              <TableCell>{movie.studio}</TableCell>
-              <TableCell><MovieAction movie={movie} /></TableCell>
+              <TableColumnHeader>Title</TableColumnHeader>
+              <TableColumnHeader>Genre</TableColumnHeader>
+              <TableColumnHeader>Rating</TableColumnHeader>
+              <TableColumnHeader>Released Date</TableColumnHeader>
+              <TableColumnHeader>Translator</TableColumnHeader>
+              <TableColumnHeader>Encoder</TableColumnHeader>
+              <TableColumnHeader>Is On Going</TableColumnHeader>
+              <TableColumnHeader>Episode</TableColumnHeader>
+              <TableColumnHeader>Season</TableColumnHeader>
+              <TableColumnHeader>Studio</TableColumnHeader>
+              <TableColumnHeader paddingLeft={7}>Actions</TableColumnHeader>
             </TableRow>
-          )}
-        </TableBody>
-      </TableRoot>
-    </Table.ScrollArea>
+          </TableHeader>
+
+          <TableBody>
+            {movies.map(movie =>
+              <TableRow key={movie._id}>
+                <TableCell>{movie.title}</TableCell>
+                <TableCell>{movie.genres.map(genre => genre.name).join(", ")}</TableCell>
+                <TableCell>{movie.rating}</TableCell>
+                <TableCell>{movie.releasedDate.split('T')[0]}</TableCell>
+                <TableCell>{movie.translator}</TableCell>
+                <TableCell>{movie.encoder}</TableCell>
+                <TableCell>{movie.isOnGoing == true ? "yes" : "no"}</TableCell>
+                <TableCell>{movie.episode == null ? "-" : movie.episode}</TableCell>
+                <TableCell>{movie.season == null ? "-" : movie.season}</TableCell>
+                <TableCell>{movie.studio}</TableCell>
+                <TableCell><MovieAction movie={movie} /></TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </TableRoot>
+      </Table.ScrollArea>
+
+      {error &&
+        <Text fontSize="6xl" textAlign="center" mt="20vh">
+          {error}
+        </Text>
+      }
+
+      {loading &&
+        <Box display={"flex"} justifyContent={"center"} alignItems="center" height="50vh">
+          <Spinner size="xl" />
+        </Box>
+      }
+    </>
   )
 }
 
@@ -230,12 +249,12 @@ const GenreField = ({ register, errors }: OtherFieldsProps) => {
       <HStack>
         {genres.map((genre) => (
           <div key={genre._id}>
-            <input {...register("genre")} type="checkbox" id={`${genre._id}`} value={genre._id} />
+            <input {...register("genres")} type="checkbox" id={`${genre._id}`} value={genre._id} />
             <label htmlFor={`${genre._id}`} style={{ paddingLeft: "5px" }} >{genre.name}</label>
           </div>
         ))}
       </HStack>
-      {errors.genre?.message && <p className="text-danger">{errors.genre?.message}</p>}
+      {errors.genres?.message && <p className="text-danger">{errors.genres?.message}</p>}
     </Field>
   )
 }
@@ -307,6 +326,10 @@ const OtherFields = ({ register, errors }: OtherFieldsProps) => {
         {errors.encoder?.message && <p className="text-danger">{errors.encoder?.message}</p>}
       </Field>
 
+      <Field label="Is Serie">
+        <input {...register("isSerie")} type="checkbox" id="signal2" />
+      </Field>
+
       <Field label="Is On Going">
         <input {...register("isOnGoing")} type="checkbox" id="signal1" />
       </Field>
@@ -359,7 +382,7 @@ const AddMovie = ({ children }: { children: React.ReactNode }) => {
   return (
     <DialogRoot initialFocusEl={() => ref.current} scrollBehavior="inside" placement={"top"}>
       <DialogTrigger asChild>
-        <Button w={"100%"}>
+        <Button>
           {children}
         </Button>
       </DialogTrigger>
@@ -418,7 +441,7 @@ const AddGenre = ({ children }: { children: React.ReactNode }) => {
   return (
     <DialogRoot initialFocusEl={() => ref.current} placement={"top"}>
       <DialogTrigger asChild>
-        <Button w={"100%"}>
+        <Button>
           {children}
         </Button>
       </DialogTrigger>
@@ -439,58 +462,57 @@ const AddGenre = ({ children }: { children: React.ReactNode }) => {
 function MoviePanel() {
   const [movieQuery, setMovieQuery] = useState<MovieQuery>({} as MovieQuery)
   const { accessToken } = useUserStore();
+  const { data: genres } = useGenre();
 
   return (
     <Grid
       templateAreas={{
-        base: `"nav" "list"`,  // Stack nav, form, and list in one column for small screens
-        lg: `"nav nav" "list list"`,  // In large screens, side by side
-        md: `"nav nav nav" "list list list"`,
-        sm: `"nav nav nav nav" "list list list list"`,
+        base: `"buttons" "list"`,  // Stack nav, form, and list in one column for small screens
+        lg: `"buttons buttons" "list list"`,  // In large screens, side by side
+        md: `"buttons buttons buttons" "list list list"`,
+        sm: `"buttons buttons buttons buttons" "list list list list"`,
       }}
 
       templateColumns={{
-        base: '1fr', // 1 fraction for all elements in small screens (stacked)
+        base: '1fr',
+        md: '1fr',
+        sm: '1fr'
       }}
+
+      padding={3}
     >
-      {/* NAV BAR */}
-      <GridItem area="nav">
-        <NavBar onSearch={(search) => console.log(search)} />
+
+      {/* BUTTONS */}
+      <GridItem area="buttons">
+        <Stack direction={{ base: "row", md: "row", sm: "row" }} justifyContent={"flex-start"} paddingBottom={3}>
+          <NavLink to="/">
+            <GoHomeFill size={"30px"} />
+          </NavLink>
+          <NavLink to="/admin/team-panel">
+            <ImProfile size={"27px"} />
+          </NavLink>
+          {accessToken ?
+            <>
+              <AddMovie>Add Movie</AddMovie>
+              <AddGenre>Add Genre</AddGenre>
+            </>
+            :
+            <>
+              <Button onClick={() => window.alert("Please login to perform this action")}>Add Movie</Button>
+              <Button onClick={() => window.alert("Please login to perform this action")}>Add Genre</Button>
+            </>
+          }
+          <SortSelector selectedSort={movieQuery.ordering} onClick={(ordering) => setMovieQuery({ ...movieQuery, ordering })} />
+          <MultipleSelector labelName="name" placeholderName="Genre" data={genres} onValueChange={(selected: any) => setMovieQuery({ ...movieQuery, genres: selected })} />
+          <SearchInput placeholderName="movies" onSubmit={(payload) => setMovieQuery({ ...movieQuery, search: payload.searchName })} />
+        </Stack>
       </GridItem>
 
       {/* MOVIE LIST */}
       <GridItem area="list">
-        <Stack direction={{ base: "column", md: "row" }}>
-          <Box flex={1}>
-            <GenreSelector onSelectedGenre={(genre) => setMovieQuery({ ...movieQuery, genre })} />
-          </Box>
-          <Box flex={1}>
-            <SortSelector selectedSortOrder={movieQuery.ordering} onSelectedSortOrder={(ordering) => setMovieQuery({ ...movieQuery, ordering })} />
-          </Box>
-        </Stack>
-
         <Box>
-          <MovieList />
+          <MovieList movieQuery={movieQuery} />
         </Box>
-
-        {true ?
-          <Stack direction={{ base: "column", md: "row" }}>
-            <Box flex={1}>
-              <AddMovie>Add Movie</AddMovie>
-            </Box>
-            <Box flex={1}>
-              <AddGenre>Add Genre</AddGenre>
-            </Box>
-          </Stack>
-          :
-          <Stack direction={{ base: "column", md: "row" }}>
-            <Box flex={1}>
-              <Button w={"100%"} onClick={() => window.alert("Please login to perform this action")}>Add Movie</Button>
-            </Box>
-            <Box flex={1}>
-              <Button w={"100%"} onClick={() => window.alert("Please login to perform this action")}>Add Genre</Button>
-            </Box>
-          </Stack>}
       </GridItem>
     </Grid>
   )

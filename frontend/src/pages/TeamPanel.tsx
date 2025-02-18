@@ -1,6 +1,6 @@
 
-import { useRef } from "react";
-import { Box, Grid, GridItem, Input, Button, Fieldset, HStack, Table, TableBody, TableCell, TableColumnHeader, TableHeader, TableRoot, TableRow, Spinner, Stack } from "@chakra-ui/react";
+import { useRef, useState } from "react";
+import { Text, Box, Grid, GridItem, Input, Button, Fieldset, HStack, Table, TableBody, TableCell, TableColumnHeader, TableHeader, TableRoot, TableRow, Spinner, Stack } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Field } from "@/components/ui/field";
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -14,11 +14,15 @@ import {
   DialogTrigger,
   DialogFooter,
 } from "@/components/ui/dialog"
+import { GoHomeFill } from "react-icons/go";
+import { MdMovieEdit } from "react-icons/md";
+import { NavLink } from "react-router";
 
-import { useUser, useUserActions, FormUser, FetchUser, schemaUser } from '@/hooks/useUser'
+import { useUser, useUserActions, FormUser, FetchUser, schemaUser, userQuery } from '@/hooks/useUser'
 import { useUserStore } from '@/context/useUserStore'
 import AlertMessage from "@/components/AlertMessage";
-import NavBar from '@/components/NavBar'
+import MultipleSelector from "@/components/MultipleSelector";
+import SearchInput from "@/components/SearchInput";
 
 // USER ACTION AND LIST
 
@@ -52,6 +56,11 @@ const UserUpdateForm = ({ user }: { user: FetchUser }) => {
             <Field label="Email">
               <Input id="email" {...register('email')} type="email" placeholder={`${user.email}`} />
               {errors.email?.message && <p className="text-danger">{errors.email?.message}</p>}
+            </Field>
+
+            <Field label="Phone Number">
+              <Input id="phone" {...register('phone')} type="phone" placeholder={`${user.phone}`} />
+              {errors.phone?.message && <p className="text-danger">{errors.phone?.message}</p>}
             </Field>
 
             <Field label="Password">
@@ -119,38 +128,48 @@ const UserAction = ({ user }: { user: FetchUser }) => {
   )
 }
 
-const UserList = () => {
-  const { data: users, loading } = useUser()
+const UserList = ({ userQuery }: { userQuery: userQuery }) => {
+  const { data: users, error, loading } = useUser(userQuery)
+
   return (
-    <Table.ScrollArea borderWidth="1px" rounded="md" height="560px">
-      <TableRoot stickyHeader>
-        <TableHeader>
-          <TableRow>
-            <TableColumnHeader>Name</TableColumnHeader>
-            <TableColumnHeader>Email</TableColumnHeader>
-            <TableColumnHeader>Phone</TableColumnHeader>
-            <TableColumnHeader>Role</TableColumnHeader>
-          </TableRow>
-        </TableHeader>
-
-        <TableBody>
-          {loading &&
+    <>
+      <Table.ScrollArea height={users?.length ? "560px" : "auto"}>
+        <TableRoot stickyHeader>
+          <TableHeader>
             <TableRow>
-              <TableCell><Spinner /></TableCell>
-            </TableRow>}
-
-          {users.map(user =>
-            <TableRow key={user._id}>
-              <TableCell>{user.name}</TableCell>
-              <TableCell>{user.email}</TableCell>
-              <TableCell>{user.phone}</TableCell>
-              <TableCell>{user.role}</TableCell>
-              <TableCell><UserAction user={user} /></TableCell>
+              <TableColumnHeader>Name</TableColumnHeader>
+              <TableColumnHeader>Email</TableColumnHeader>
+              <TableColumnHeader>Phone</TableColumnHeader>
+              <TableColumnHeader>Role</TableColumnHeader>
             </TableRow>
-          )}
-        </TableBody>
-      </TableRoot>
-    </Table.ScrollArea>
+          </TableHeader>
+
+          <TableBody>
+            {users.map(user =>
+              <TableRow key={user._id}>
+                <TableCell>{user.name}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.phone}</TableCell>
+                <TableCell>{user.role}</TableCell>
+                <TableCell><UserAction user={user} /></TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </TableRoot>
+      </Table.ScrollArea>
+
+      {error &&
+        <Text fontSize="6xl" textAlign="center" mt="20vh">
+          {error}
+        </Text>
+      }
+
+      {loading &&
+        <Box display={"flex"} justifyContent={"center"} alignItems="center" height="50vh">
+          <Spinner size="xl" />
+        </Box>
+      }
+    </>
   )
 }
 
@@ -218,7 +237,7 @@ const AddUser = ({ children }: { children: React.ReactNode }) => {
   return (
     <DialogRoot initialFocusEl={() => ref.current} scrollBehavior="inside" placement={"top"}>
       <DialogTrigger asChild>
-        <Button w={"100%"}>
+        <Button>
           {children}
         </Button>
       </DialogTrigger>
@@ -243,7 +262,7 @@ const UserLogout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
       <Box>
-        <Button onClick={handleLogout} w={"100%"}>{children}</Button>
+        <Button onClick={handleLogout} colorPalette={"red"} variant={"subtle"}>{children}</Button>
       </Box>
     </>
   )
@@ -297,7 +316,7 @@ const UserLogin = ({ children }: { children: React.ReactNode }) => {
   return (
     <DialogRoot initialFocusEl={() => ref.current} scrollBehavior="inside" placement={"top"}>
       <DialogTrigger asChild>
-        <Button w={"100%"}>
+        <Button>
           {children}
         </Button>
       </DialogTrigger>
@@ -317,34 +336,53 @@ const UserLogin = ({ children }: { children: React.ReactNode }) => {
 
 function TeamPanel() {
   const { accessToken } = useUserStore();
+  const [userQuery, setUserQuery] = useState<userQuery>({} as userQuery)
+
+  const users = [
+    { _id: "admin", role: "Admin" },
+    { _id: "user", role: "User" },
+    { _id: "editor", role: "Editor" },
+    { _id: "moderator", role: "Moderator" }
+  ]
 
   return (
     <Grid
       templateAreas={{
-        base: `"nav" "list"`,  // Stack nav, form, and list in one column for small screens
-        lg: `"nav nav" "list list"`,  // In large screens, side by side
-        md: `"nav nav nav" "list list list"`,
-        sm: `"nav nav nav nav" "list list list list"`,
+        base: `"buttons" "list"`,  // Stack nav, form, and list in one column for small screens
+        lg: `"buttons buttons" "list list"`,  // In large screens, side by side
+        md: `"buttons buttons buttons" "list list list"`,
+        sm: `"buttons buttons buttons buttons" "list list list list"`,
       }}
 
       templateColumns={{
-        base: '1fr', // 1 fraction for all elements in small screens (stacked)
+        base: '1fr',
+        md: '1fr',
+        sm: '1fr'
       }}
+
+      padding={3}
     >
-      <GridItem area="nav">
-        <NavBar onSearch={(search) => console.log(search)} />
-      </GridItem>
-      <GridItem area="list">
-        <UserList />
-      </GridItem>
-      <Stack direction={{ base: "column", md: "row" }}>
-        <Box flex={1}>
+      {/* BUTTONS */}
+      <GridItem area="buttons" >
+        <Stack direction={{ base: "row", md: "row", sm: "row" }} justifyContent={"flex-start"} paddingBottom={3}>
+          <NavLink to="/">
+            <GoHomeFill size={"30px"} />
+          </NavLink>
+          <NavLink to="/admin/movie-panel">
+            <MdMovieEdit size={"31px"} />
+          </NavLink>
           {accessToken ? <UserLogout>Log Out</UserLogout> : <UserLogin>Log In</UserLogin>}
-        </Box>
-        <Box flex={1}>
           <AddUser>Add Team Member</AddUser>
-        </Box>
-      </Stack>
+          <MultipleSelector labelName="role" placeholderName="Roles" data={users} onValueChange={(selected: any) => setUserQuery({ ...userQuery, roles: selected })} />
+          <SearchInput placeholderName="users by email" onSubmit={(payload) => setUserQuery({ ...userQuery, search: payload.searchName })} />
+        </Stack>
+      </GridItem>
+
+      {/* USER LIST */}
+      <GridItem area="list">
+        <UserList userQuery={userQuery} />
+      </GridItem>
+
     </Grid>
   )
 }

@@ -1,11 +1,14 @@
+
 import { useMovie } from '@/hooks/useMovie'
 import './CSS/NewRealses.css'
 import useNavDetail from '@/hooks/useNavDetail';
 import { useState } from "react";
 
-export default function NewRealeses(){
-   const {data: newRealses } = useMovie();
-   const {callNav} = useNavDetail();
+
+export default function NewRealeses() {
+  const { data: newRealses } = useMovie();
+  const { callNav } = useNavDetail();
+
 
    const [scrollPosition, setScrollPosition] = useState(0);
    const scrollAmount = 600; // Adjust scroll speed
@@ -29,8 +32,15 @@ export default function NewRealeses(){
             <div className="NR-movie-grid" style={{ transform: `translateX(-${scrollPosition}px)` }}>
 
             { newRealses && newRealses.map((newRealse) =>
-                     <div className="NR-movie-box"  key={newRealse._id} onClick={()=>callNav(newRealse._id)} > 
-                        <img src={newRealse.poster_url} />
+                     <div className="NR-movie-box"  key={newRealse._id} onClick={()=>callNav(newRealse._id)}                style={{
+                  backgroundImage: `url(${newRealse.poster_url})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  width: "100%",
+                  height: "500px",
+                }}> 
+                {/* <img src={newRealse.poster_url} /> */}
+
                         <div>
                             <h3>{newRealse.title}</h3>
                             <span>{newRealse.description}</span>
@@ -49,5 +59,7 @@ export default function NewRealeses(){
                  </div> 
             
         </div>
-    )
+      </div>
+    </div>
+  );
 }
