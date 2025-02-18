@@ -16,65 +16,64 @@ import SeriesPage from "@/pages/SeriesPage";
 import DetailPage from "@/pages/DetailPage";
 
 const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Layout />,
-        children: [
-            {
-                path: "",
-                element: <App />
-            },
-            {
-                path: "",
-                element: <Home />
-            },
-            {
-                path: "search",
-                element: <Search />
-            },
-            {
-                path: "profile",
-                element: <Profile />
-            },
-            {
-                path: "howtodownload",
-                element: <HowToDownload />
-            },
-            {
-                path: "aboutus",
-                element: <Aboutus />
-            },
-            {
-                path: "login",
-                element: <Login />
-            },
-            {
-                path: "register",
-                element: <Register />
-            },
-            {
-                path: "movies-page",
-                element: <MoviesPage />
-            },
-            {
-                path: "series-page",
-                element: <SeriesPage />
-            },
-            {
-                path: "detail-page/:id",
-                element: <DetailPage />
-            },
-
-        ]
-    },
-    {
-        path: "/admin",
-        element: <AdminLayout />, // Separate layout without Navbar
-        children: [
-            { path: "movie-panel", element: <MoviePanel /> },
-            { path: "team-panel", element: <TeamPanel /> },
-        ],
-    },
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "",
+        element: <App />,
+      },
+      {
+        path: "",
+        element: <Home />,
+      },
+      {
+        path: "search",
+        element: <Search />,
+      },
+      {
+        path: "profile",
+        element: <Profile />,
+      },
+      {
+        path: "howtodownload",
+        element: <HowToDownload />,
+      },
+      {
+        path: "aboutus",
+        element: <Aboutus />,
+      },
+      {
+        path: "login",
+        element: <Login />,
+      },
+      {
+        path: "register",
+        element: <Register />,
+      },
+      {
+        path: "movies-page",
+        element: <MoviesPage />,
+      },
+      {
+        path: "series-page",
+        element: <SeriesPage />,
+      },
+      {
+        path: "detail-page/:id",
+        element: <DetailPage />,
+      },
+    ],
+  },
+  {
+    path: "/admin",
+    element: <AdminLayout />, // Separate layout without Navbar
+    children: [
+      { path: "movie-panel", element: <MoviePanel /> },
+      { path: "team-panel", element: <TeamPanel /> },
+    ],
+  },
 ]);
 
 export default router;
