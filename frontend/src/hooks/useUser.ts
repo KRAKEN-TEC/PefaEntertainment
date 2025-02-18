@@ -17,6 +17,11 @@ export interface FetchUser {
     "role": string,
 }
 
+export interface UserLogin {
+    email: string,
+    password: string,
+}
+
 export const schemaUser = z.object({
     name: z.string().min(2).max(100),
     email: z.string().email(),
@@ -71,7 +76,7 @@ export const useUserActions = () => {
     const [alert, setAlert] = useState<string>("");
 
     // LOGIN
-    const handleLogin = async (payload: FetchUser) => {
+    const handleLogin = async (payload: UserLogin) => {
         setAlert("")
         setLoading(true);
         try {

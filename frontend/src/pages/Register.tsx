@@ -1,15 +1,17 @@
 import { useState } from "react";
 import "./CSS/Register.css";
+import { useUserActions } from "@/hooks/useUser";
 
 export default function Register() {
   const [form, setForm] = useState({
+    name: "",
     email: "",
-    dob: { year: "", month: "", day: "" },
     phone: "+66",
     password: "",
     repeatPassword: "",
     agreeTerms: false,
   });
+  const { alert, loading, handleRegister } = useUserActions();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -19,31 +21,22 @@ export default function Register() {
     }));
   };
 
-  const handleDobChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    field: "year" | "month" | "day"
-  ) => {
-    setForm((prev) => ({
-      ...prev,
-      dob: { ...prev.dob, [field]: e.target.value },
-    }));
-  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const passwordRegex =
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    // const passwordRegex =
+    //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-    if (!passwordRegex.test(form.password)) {
-      return;
-    }
+    // if (!passwordRegex.test(form.password)) {
+    //   return;
+    // }
 
-    if (form.password !== form.repeatPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
+    // if (form.password !== form.repeatPassword) {
+    //   alert("Passwords do not match!");
+    //   return;
+    // }
     console.log("Registering:", form);
-    console.log("hii james");
+    // handleRegister(form);
   };
 
   return (
@@ -51,42 +44,28 @@ export default function Register() {
       <div className="register-box">
         <img src="/logo.png" alt="PEFA Logo" className="logo" />
         <h2>Register</h2>
+
+        {/* COMMENTING ERROR */}
+        {alert && <h1>{alert}</h1>}
+
         <form onSubmit={handleSubmit}>
           <input
-            type="email"
-            name="email"
-            placeholder="Email or Username"
-            value={form.email}
+            type="name"
+            name="name"
+            placeholder="UserName"
+            value={form.name}
             onChange={handleChange}
             required
           />
 
-          <div className="dob-fields">
-            <input
-              type="text"
-              placeholder="YYYY"
-              maxLength={4}
-              value={form.dob.year}
-              onChange={(e) => handleDobChange(e, "year")}
-              required
-            />
-            <input
-              type="text"
-              placeholder="MM"
-              maxLength={2}
-              value={form.dob.month}
-              onChange={(e) => handleDobChange(e, "month")}
-              required
-            />
-            <input
-              type="text"
-              placeholder="DD"
-              maxLength={2}
-              value={form.dob.day}
-              onChange={(e) => handleDobChange(e, "day")}
-              required
-            />
-          </div>
+          <input
+            type="email"
+            name="email"
+            placeholder="Emai"
+            value={form.email}
+            onChange={handleChange}
+            required
+          />
 
           <input
             type="text"
