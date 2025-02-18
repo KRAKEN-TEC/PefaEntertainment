@@ -37,26 +37,20 @@
   transform: rotateY(10deg) scale(1.03);
 }
 
-.NR-movie-box img {
-  width: 100%;
-  border-radius: 10px 10px 0 0;
-}
-
 .NR-movie-box p {
   font-weight: bold;
   margin: 5px 0;
 }
 
 .scroll-btn {
-  background: black;
-  color: white;
-  border: none;
   padding: 10px;
   cursor: pointer;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   z-index: 2;
+  backdrop-filter: blur(1px);
+  margin: 10px;
 }
 
 .scroll-btn.left {
@@ -98,4 +92,8 @@
   color: #e85448;
   display: inline-block;
   padding: 4px 10px;
+}
+
+.overlay h3 {
+  margin-top: 355px;
 }
