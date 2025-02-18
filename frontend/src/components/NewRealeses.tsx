@@ -18,36 +18,57 @@ export default function NewRealeses() {
     });
   };
 
-
-
   return (
     <div className="NR-movie-section">
       <h2>New Realsese</h2>
-      <div className="NR-scroll-container" >
-        <button className="scroll-btn left" onClick={() => handleScroll("left")}>⬅</button>
+      <div className="NR-scroll-container">
+        <button
+          className="scroll-btn left"
+          onClick={() => handleScroll("left")}
+        >
+          ⬅
+        </button>
 
-        <div className="NR-movie-grid" style={{ transform: `translateX(-${scrollPosition}px)` }}>
+        <div
+          className="NR-movie-grid"
+          style={{ transform: `translateX(-${scrollPosition}px)` }}
+        >
+          {newRealses &&
+            newRealses.map((newRealse) => (
+              <div
+                className="NR-movie-box"
+                key={newRealse._id}
+                onClick={() => callNav(newRealse._id)}
+                style={{
+                  backgroundImage: `url(${newRealse.poster_url})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  width: "100%",
+                  height: "500px",
+                }}
+              >
+                {/* <img src={newRealse.poster_url} /> */}
 
-          {newRealses && newRealses.map((newRealse) =>
-            <div className="NR-movie-box" key={newRealse._id} onClick={() => callNav(newRealse._id)} >
-              <img src={newRealse.poster_url} />
-              <div>
-                <h3>{newRealse.title}</h3>
-                <span>{newRealse.description}</span>
-                <ul>
-                  {newRealse.genres.map((genre) => (
-                    <li key={genre._id}>{genre.name}</li>
-                  ))}
-                </ul>
+                <div>
+                  <h3>{newRealse.title}</h3>
+                  <span>{newRealse.description}</span>
+                  command:formatter/configure/dfl/19774184-6f13-4006-a47c-b894a2f08a1d
+                  <ul>
+                    {newRealse.genres.map((genre) => (
+                      <li key={genre._id}>{genre.name}</li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-
-            </div>
-          )}
+            ))}
         </div>
-        <button className="scroll-btn right" onClick={() => handleScroll("right")}>➡</button>
-
+        <button
+          className="scroll-btn right"
+          onClick={() => handleScroll("right")}
+        >
+          ➡
+        </button>
       </div>
-
     </div>
-  )
+  );
 }

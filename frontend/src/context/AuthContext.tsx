@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode } from "react";
 
 interface AuthContextType {
   token: string | null;
@@ -15,12 +15,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const updateToken = (newToken: string) => {
     setToken(newToken);
-    localStorage.setItem('token', newToken);
+    localStorage.setItem("token", newToken);
   };
 
   const updateEmail = (newEmail: string) => {
     setEmail(newEmail);
-    localStorage.setItem('email', newEmail);
+    localStorage.setItem("email", newEmail);
   };
 
   return (
@@ -34,7 +34,7 @@ export const useAuth = () => {
   const context = useContext(AuthContext);
   // This check ensures that useAuth is being used within the correct context provider (AuthProvider)
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
-}
+};

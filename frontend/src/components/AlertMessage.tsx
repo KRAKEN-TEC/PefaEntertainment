@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
-import { Alert } from "@chakra-ui/react"
+import { useEffect, useState } from "react";
+import { Alert } from "@chakra-ui/react";
 
 interface Props {
-  message: string
+  message: string;
 }
 
 function AlertMessage({ message }: Props) {
@@ -25,7 +25,7 @@ function AlertMessage({ message }: Props) {
         <Alert.Title>{message}</Alert.Title>
       </Alert.Root>
     </div>
-  )
+  );
 }
 
-export default AlertMessage
+export default AlertMessage;
