@@ -1,6 +1,6 @@
-import { useMovie } from '@/hooks/useMovie'
-import './CSS/NewRealses.css'
-import useNavDetail from '@/hooks/useNavDetail';
+import { useMovie } from "@/hooks/useMovie";
+import "./CSS/NewRealses.css";
+import useNavDetail from "@/hooks/useNavDetail";
 import { useState } from "react";
 
 export default function NewRealeses() {
@@ -13,7 +13,8 @@ export default function NewRealeses() {
 
   const handleScroll = (direction: "left" | "right") => {
     setScrollPosition((prev) => {
-      let newScroll = direction === "left" ? prev - scrollAmount : prev + scrollAmount;
+      let newScroll =
+        direction === "left" ? prev - scrollAmount : prev + scrollAmount;
       return Math.max(0, Math.min(newScroll, maxScroll)); // Prevent over-scrolling
     });
   };
