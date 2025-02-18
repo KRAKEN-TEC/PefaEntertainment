@@ -10,7 +10,7 @@ export default function AdminLayout() {
     if (!accessToken) {
       fetchAccessToken();
     }
-    // if accessToken expires true or not 
+    // if accessToken expires true or not
     // fetchAccessToken(); // that will call refresh token api(which return new access token)
   }, [accessToken, fetchAccessToken]);
 

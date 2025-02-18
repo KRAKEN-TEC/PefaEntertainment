@@ -1,5 +1,3 @@
-export default function DetailPage(){
-    return (
-        <div>Hi</div>
-    )
+export default function DetailPage() {
+  return <div>Hi</div>;
 }
