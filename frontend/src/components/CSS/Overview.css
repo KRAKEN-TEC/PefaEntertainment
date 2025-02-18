@@ -1,0 +1,52 @@
+/* Main Container */
+.detail-container {
+    background: #222;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+    color: #fff;
+    max-width: 600px;
+    margin: 20px auto;
+  }
+  
+  /* Description Section */
+  .detail-container h2 {
+    font-size: 22px;
+    color: #ff4500;
+    border-bottom: 2px solid #ff4500;
+    padding-bottom: 8px;
+    margin-bottom: 12px;
+  }
+  
+  .detail-container p {
+    font-size: 14px;
+    color: #ddd;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  
+  /* Details Section */
+  .detail-info {
+    background: #333;
+    padding: 15px;
+    border-radius: 8px;
+  }
+  
+  .detail-info h3 {
+    font-size: 16px;
+    color: #ffdd57;
+    margin-bottom: 8px;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .detail-container {
+      padding: 15px;
+      max-width: 100%;
+    }
+  
+    .detail-info h3 {
+      font-size: 14px;
+    }
+  }
+  
