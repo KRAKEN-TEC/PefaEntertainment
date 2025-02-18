@@ -13,7 +13,7 @@ const useNavDetail = () =>{
     }
 
     const callNavForSeriesPage = (id:string)=>{
-        navigate(`/ewdetail-page/${id}`)
+        navigate(`/detail-page/${id}`)
     }
 
     return{callNav,callNavForMoviesPage,callNavForSeriesPage}
