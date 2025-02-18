@@ -1,0 +1,58 @@
+/* Episode Box Container */
+.episode-box {
+    display: flex;
+    align-items: center;
+    background: #222;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 8px rgba(255, 69, 0, 0.3);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .episode-box:hover {
+    transform: scale(1.02);
+  }
+  
+  /* Episode Thumbnail */
+  .episode-thumbnail {
+    width: 120px;
+    height: 70px;
+    border-radius: 8px;
+    object-fit: cover;
+    margin-right: 15px;
+  }
+  
+  /* Episode Info */
+  .episode-info {
+    flex: 1;
+  }
+  
+  .episode-info h3 {
+    color: #ff4500;
+    font-size: 18px;
+    margin-bottom: 5px;
+  }
+  
+  .episode-description {
+    color: #ddd;
+    font-size: 14px;
+    margin-bottom: 10px;
+  }
+  
+  /* Watch Button */
+  .watch-button {
+    background: #ff4500;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.2s ease-in-out;
+  }
+  
+  .watch-button:hover {
+    background: #ff6347;
+  }
+  

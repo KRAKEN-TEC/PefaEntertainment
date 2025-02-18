@@ -14,7 +14,7 @@ import MoviesPage from "@/pages/MoviesPage";
 import SeriesPage from "@/pages/SeriesPage";
 import DetailPage from "@/pages/DetailPage";
 import AboutUs from "@/pages/AboutUs";
-import { Provider } from "../components/ui/provider";
+import DetailPageLayout from "@/pages/layout/DetailPageLayout";
 
 const router = createBrowserRouter([
   {
@@ -61,12 +61,20 @@ const router = createBrowserRouter([
         path: "series-page",
         element: <SeriesPage />,
       },
+    ],
+  },
+
+  {
+    path: "detail-page/:id",
+    element: <DetailPageLayout />,
+    children: [
       {
-        path: "detail-page/:id",
+        path: "/detail-page/:id",
         element: <DetailPage />,
       },
     ],
   },
+
   {
     path: "/admin",
     element: <AdminLayout />, // Separate layout without Navbar
