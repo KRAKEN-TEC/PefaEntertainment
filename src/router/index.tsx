@@ -15,6 +15,7 @@ import SeriesPage from "@/pages/SeriesPage";
 import DetailPage from "@/pages/DetailPage";
 import AboutUs from "@/pages/AboutUs";
 import DetailPageLayout from "@/pages/layout/DetailPageLayout";
+import WatchingVideo from "@/components/WatchingVideo";
 
 const router = createBrowserRouter([
   {
@@ -69,8 +70,12 @@ const router = createBrowserRouter([
     element: <DetailPageLayout />,
     children: [
       {
-        path: "/detail-page/:id",
+        path: "",
         element: <DetailPage />,
+      },
+      {
+        path: "watch",
+        element: <WatchingVideo />,
       },
     ],
   },

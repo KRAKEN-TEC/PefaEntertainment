@@ -2,6 +2,7 @@ import "../CSS/WatchingBox.css";
 import { FetchMovie } from "@/hooks/useMovie";
 import { useUserStore } from "@/context/useUserStore";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function WatchingBox({
   detailData,
@@ -10,6 +11,7 @@ export default function WatchingBox({
 }) {
   const [showPopup, setShowPopup] = useState(false);
   const { accessToken } = useUserStore();
+  const navigate = useNavigate();
 
   const handleDownloadClick = () => {
     if (!accessToken) {
@@ -18,6 +20,11 @@ export default function WatchingBox({
       console.log("Download"); // Proceed with download if logged in
     }
   };
+
+  const handleVideoNav = () => {
+    navigate("watch");
+  };
+
   return (
     <div className="episode-box" key={detailData?._id}>
       <img
@@ -28,7 +35,9 @@ export default function WatchingBox({
       <div className="episode-info">
         <h3>{detailData?.title}</h3>
         <p className="episode-description">{detailData?.description}</p>
-        <button className="watch-button">Watch Now</button>
+        <button className="watch-button" onClick={handleVideoNav}>
+          Watch Now
+        </button>
         <button className="download-btn" onClick={handleDownloadClick}>
           Download
         </button>
