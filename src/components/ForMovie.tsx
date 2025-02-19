@@ -1,3 +1,4 @@
+
 import { FetchMovies } from "@/hooks/useMovie";
 import { useState } from "react";
 import "./CSS/ForMovie.css";
