@@ -17,23 +17,30 @@ export default function DetailPage() {
   return (
     <div>
       {/* Header Section */}
-      <div className="series-header">
-        <img src={deatilData?.poster_url} alt="PEFA Logo" />
-        <h1>{deatilData?.title}</h1>
-        <p>{deatilData?.description}</p>
-        <ul>
-          {deatilData?.genres.map((genre) => (
-            <li>{genre.name}</li>
-          ))}
-        </ul>
-        <span>{deatilData?.rating}</span>
-        {deatilData?.isOnGoing ? <span>Ongoing</span> : null}
-      </div>
+      <div className="series-header" style={{
+        backgroundImage: `url(${deatilData?.poster_url})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        width: "97%",
+        height: "500px",
+      }}>
+        <div className="details-overlay">
+          <h1>{deatilData?.title}</h1>
+          <p>{deatilData?.description}</p>
+          <div className="genres-box"><ul>
+            {deatilData?.genres.map((genre) => (
+              <li>{genre.name}</li>
+            ))}
+          </ul>
+            <span>{deatilData?.rating}</span>
+            {deatilData?.isOnGoing ? <span>Ongoing</span> : null}</div>
 
-      {/* Tab Navigation (State-Based) */}
-      <div className="tabs">
-        <button onClick={() => setActiveTab("overview")}>Overview</button>
-        <button onClick={() => setActiveTab("watch")}>Watch</button>
+          {/* Tab Navigation (State-Based) */}
+          <div className="tabs">
+            <button onClick={() => setActiveTab("overview")}>OVERVIEW</button>
+            <button onClick={() => setActiveTab("watch")}>WATCH</button>
+          </div>
+        </div>
       </div>
 
       {/* Tab Content (Conditional Rendering) */}

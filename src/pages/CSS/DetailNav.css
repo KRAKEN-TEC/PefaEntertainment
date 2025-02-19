@@ -1,0 +1,8 @@
+.details-nav{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+.details-nav button{
+    padding: 20px;
+}

@@ -74,7 +74,7 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
 }
 
 .overlay li,
@@ -87,22 +87,24 @@
 }
 
 .overlay ul{
-  display: flex;
-  align-items: left;
-  justify-content: flex-start;
+display: flex;
+flex-direction: row;
+justify-content: flex-start;
 }
 
 .overlay li {
-  border: 1px solid #e85448;
-  border-radius: 5px;
-  font-size: small;
-  margin: 10px 0 0 7px;
+  border: none;
+  background-color: white;
+  border-radius: 10px;
+  font-size: small; 
+  margin: 0 7px 0 0px;
   color: #e85448;
   display: inline-block;
   padding: 4px 10px;
+  width: 50px;
 }
 
 .overlay h3 {
-  margin-top: 355px;
+  margin-top: 250px;
   font-size: 15px;
 }
