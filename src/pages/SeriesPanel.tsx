@@ -78,7 +78,11 @@ interface OtherFieldsProps {
 // MOVIE ACTIONS AND LIST
 
 const MovieUpdateForm = ({ movie }: { movie: FetchMovie }) => {
-  const { register, handleSubmit, formState: { errors }, } = useForm<FormMovie>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormMovie>();
   const { data: genres } = useGenre();
   const { alert, handleUpdate } = useMovieActions();
 
@@ -90,52 +94,142 @@ const MovieUpdateForm = ({ movie }: { movie: FetchMovie }) => {
     <>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Field label="Title">
-          <Input {...register("title")} type="text" placeholder={`${movie.title}`} />
-          {errors.title?.message && (<p className="text-danger">{errors.title?.message}</p>)}
+          <Input
+            {...register("title")}
+            type="text"
+            placeholder={`${movie.title}`}
+          />
+          {errors.title?.message && (
+            <p className="text-danger">{errors.title?.message}</p>
+          )}
         </Field>
 
         <Field label="Select Genres">
           <HStack>
             {genres.map((genre) => (
               <div key={genre._id}>
-                <input {...register("genreIds")} type="checkbox" id={`${genre._id}`} value={genre._id} defaultChecked={movie.genres.some((g) => g._id === genre._id)} />
+                <input
+                  {...register("genres")}
+                  type="checkbox"
+                  id={`${genre._id}`}
+                  value={genre._id}
+                  defaultChecked={movie.genres.some((g) => g._id === genre._id)}
+                />
                 <label htmlFor={`${genre._id}`} style={{ paddingLeft: "5px" }}>
                   {genre.name}
                 </label>
               </div>
             ))}
           </HStack>
-          {errors.genreIds?.message && (<p className="text-danger">{errors.genreIds?.message}</p>)}
+          {errors.genres?.message && (
+            <p className="text-danger">{errors.genres?.message}</p>
+          )}
         </Field>
 
         <Field label="Rating">
-          <Input {...register("rating", { valueAsNumber: true })} type="text" placeholder={`${movie.rating}`} />
-          {errors.rating?.message && (<p className="text-danger">{errors.rating?.message}</p>)}
+          <Input
+            {...register("rating", { valueAsNumber: true })}
+            type="text"
+            placeholder={`${movie.rating}`}
+          />
+          {errors.rating?.message && (
+            <p className="text-danger">{errors.rating?.message}</p>
+          )}
         </Field>
 
         <Field label="Description">
-          <Input {...register("description")} type="text" placeholder={`${movie.description}`} />
-          {errors.description?.message && (<p className="text-danger">{errors.description?.message}</p>)}
+          <Input
+            {...register("description")}
+            type="text"
+            placeholder={`${movie.description}`}
+          />
+          {errors.description?.message && (
+            <p className="text-danger">{errors.description?.message}</p>
+          )}
         </Field>
 
         <Field label="Released Date">
-          <Input {...register("releasedDate")} type="text" placeholder={`${movie.releasedDate.split("T")[0]}`} />
-          {errors.releasedDate?.message && (<p className="text-danger">{errors.releasedDate?.message}</p>)}
+          <Input
+            {...register("releasedDate")}
+            type="text"
+            placeholder={`${movie.releasedDate.split("T")[0]}`}
+          />
+          {errors.releasedDate?.message && (
+            <p className="text-danger">{errors.releasedDate?.message}</p>
+          )}
         </Field>
 
         <Field label="Translator">
-          <Input {...register("translator")} type="text" placeholder={`${movie.translator}`} />
-          {errors.translator?.message && (<p className="text-danger">{errors.translator?.message}</p>)}
+          <Input
+            {...register("translator")}
+            type="text"
+            placeholder={`${movie.translator}`}
+          />
+          {errors.translator?.message && (
+            <p className="text-danger">{errors.translator?.message}</p>
+          )}
         </Field>
 
         <Field label="Encoder">
-          <Input {...register("encoder")} type="text" placeholder={`${movie.encoder}`} />
-          {errors.encoder?.message && (<p className="text-danger">{errors.encoder?.message}</p>)}
+          <Input
+            {...register("encoder")}
+            type="text"
+            placeholder={`${movie.encoder}`}
+          />
+          {errors.encoder?.message && (
+            <p className="text-danger">{errors.encoder?.message}</p>
+          )}
+        </Field>
+
+        <Field label="Is Serie">
+          <input
+            {...register("isSerie")}
+            type="checkbox"
+            id="signal1"
+            defaultChecked={movie.isSerie}
+          />
+        </Field>
+
+        <Field label="Is On Going">
+          <input
+            {...register("isOnGoing")}
+            type="checkbox"
+            id="signal1"
+            defaultChecked={movie.isOnGoing}
+          />
+        </Field>
+
+        <Field label="Episode">
+          <Input
+            {...register("episode", { valueAsNumber: true })}
+            type="text"
+            placeholder={`${movie.episode}`}
+          />
+          {errors.episode?.message && (
+            <p className="text-danger">{errors.episode?.message}</p>
+          )}
+        </Field>
+
+        <Field label="Season">
+          <Input
+            {...register("season", { valueAsNumber: true })}
+            type="text"
+            placeholder={`${movie.season}`}
+          />
+          {errors.season?.message && (
+            <p className="text-danger">{errors.season?.message}</p>
+          )}
         </Field>
 
         <Field label="Studio">
-          <Input {...register("studio")} type="text" placeholder={`${movie.studio}`} />
-          {errors.studio?.message && (<p className="text-danger">{errors.studio?.message}</p>)}
+          <Input
+            {...register("studio")}
+            type="text"
+            placeholder={`${movie.studio}`}
+          />
+          {errors.studio?.message && (
+            <p className="text-danger">{errors.studio?.message}</p>
+          )}
         </Field>
 
         {alert && <AlertMessage message={alert} />}
@@ -234,6 +328,9 @@ const MovieList = ({ movieQuery }: { movieQuery: MovieQuery }) => {
               <TableColumnHeader>Released Date</TableColumnHeader>
               <TableColumnHeader>Translator</TableColumnHeader>
               <TableColumnHeader>Encoder</TableColumnHeader>
+              <TableColumnHeader>Is On Going</TableColumnHeader>
+              <TableColumnHeader>Episode</TableColumnHeader>
+              <TableColumnHeader>Season</TableColumnHeader>
               <TableColumnHeader>Studio</TableColumnHeader>
               <TableColumnHeader paddingLeft={7}>Actions</TableColumnHeader>
             </TableRow>
@@ -250,6 +347,13 @@ const MovieList = ({ movieQuery }: { movieQuery: MovieQuery }) => {
                 <TableCell>{movie.releasedDate.split("T")[0]}</TableCell>
                 <TableCell>{movie.translator}</TableCell>
                 <TableCell>{movie.encoder}</TableCell>
+                <TableCell>{movie.isOnGoing == true ? "yes" : "no"}</TableCell>
+                <TableCell>
+                  {movie.episode == null ? "-" : movie.episode}
+                </TableCell>
+                <TableCell>
+                  {movie.season == null ? "-" : movie.season}
+                </TableCell>
                 <TableCell>{movie.studio}</TableCell>
                 <TableCell>
                   <MovieAction movie={movie} />
@@ -290,7 +394,7 @@ const GenreField = ({ register, errors }: OtherFieldsProps) => {
         {genres.map((genre) => (
           <div key={genre._id}>
             <input
-              {...register("genreIds")}
+              {...register("genres")}
               type="checkbox"
               id={`${genre._id}`}
               value={genre._id}
@@ -301,8 +405,8 @@ const GenreField = ({ register, errors }: OtherFieldsProps) => {
           </div>
         ))}
       </HStack>
-      {errors.genreIds?.message && (
-        <p className="text-danger">{errors.genreIds?.message}</p>
+      {errors.genres?.message && (
+        <p className="text-danger">{errors.genres?.message}</p>
       )}
     </Field>
   );
@@ -412,6 +516,40 @@ const OtherFields = ({ register, errors }: OtherFieldsProps) => {
         />
         {errors.encoder?.message && (
           <p className="text-danger">{errors.encoder?.message}</p>
+        )}
+      </Field>
+
+      <Field label="Is Serie">
+        <input {...register("isSerie")} type="checkbox" id="signal2" />
+      </Field>
+
+      <Field label="Is On Going">
+        <input {...register("isOnGoing")} type="checkbox" id="signal1" />
+      </Field>
+
+      <Field label="Episode">
+        <Input
+          {...register("episode", {
+            setValueAs: (value) => (value === "" ? undefined : parseInt(value)),
+          })}
+          type="text"
+          placeholder="Episode number"
+        />
+        {errors.episode?.message && (
+          <p className="text-danger">{errors.episode?.message}</p>
+        )}
+      </Field>
+
+      <Field label="Season">
+        <Input
+          {...register("season", {
+            setValueAs: (value) => (value === "" ? undefined : parseInt(value)),
+          })}
+          type="text"
+          placeholder="Season number"
+        />
+        {errors.season?.message && (
+          <p className="text-danger">{errors.season?.message}</p>
         )}
       </Field>
 

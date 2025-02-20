@@ -1,4 +1,6 @@
 import { createBrowserRouter } from "react-router";
+import { Provider } from "@/components/ui/provider";
+
 import App from "../App";
 import Layout from "@/pages/layout/Layout";
 import AdminLayout from "@/pages/layout/AdminLayout";
@@ -82,7 +84,10 @@ const router = createBrowserRouter([
 
   {
     path: "/admin",
-    element: <AdminLayout />, // Separate layout without Navbar
+    element:
+      <Provider>
+        <AdminLayout />
+      </Provider>, // Separate layout without Navbar
     children: [
       { path: "movie-panel", element: <MoviePanel /> },
       { path: "team-panel", element: <TeamPanel /> },

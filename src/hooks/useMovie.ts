@@ -13,33 +13,25 @@ export interface FetchMovie {
     _id: string;
     title: string;
     genres: FetchGenre[];
+    poster_url: string;
+    video_url: string;
+    uploadDate: string;
     rating: number;
     description: string;
     releasedDate: string;
     translator: string;
     encoder: string;
-    isSerie: boolean;
-    isOnGoing: boolean;
-    episode: number;
-    season: number;
     studio: string;
-    poster_url: string;
-    video_url: string;
-    uploadDate: string;
 }
 
 export const schemaMovie = z.object({
     title: z.string().min(1).max(255),
-    genres: z.array(z.string().min(1)).min(1, { message: "You have to choose at least one genre" }),
+    genreIds: z.array(z.string().min(1)).min(1, { message: "You have to choose at least one genre" }),
     rating: z.number({ invalid_type_error: "Rating must be a number" }).min(0).max(10),
     description: z.string().min(0).max(255).or(z.literal('')).optional(),
     releasedDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid. Fomat example: YYYY-MM-DD"),
     translator: z.string().min(1),
     encoder: z.string().min(1),
-    isSerie: z.boolean(),
-    isOnGoing: z.boolean(),
-    episode: z.number({ invalid_type_error: "Episode must be a number" }).optional(), // number | undefined
-    season: z.number({ invalid_type_error: "Season must be a number" }).optional(), // https://www.chrisjarling.com/posts/zod-rhf-optional-number
     studio: z.string().min(1),
     poster: z
         .instanceof(File)
@@ -62,14 +54,14 @@ export const schemaMovie = z.object({
         ),
 });
 
+export type FormMovie = z.infer<typeof schemaMovie>;
+
 export interface MovieQuery {
     page: number,
     genres: FetchGenre,
     search: string,
     ordering: string,
 }
-
-export type FormMovie = z.infer<typeof schemaMovie>;
 
 export const useMovie = (movieQuery?: MovieQuery) => useData<FetchMovie>('/movies',
     {
@@ -92,13 +84,13 @@ export const useMovieActions = () => {
     const handleUpdate = async (payload: FormMovie, movie: FetchMovie) => {
         setAlert("");
         setLoading(true);
+
         const data = {
-            genres: payload.genres || [...movie.genres.map((genre) => genre._id)],
-            rating: payload.rating || movie.rating,
-            episode: payload.episode || movie.episode,
-            season: payload.season || movie.season,
+            genreIds: payload.genreIds || [...movie.genres.map((genre) => genre._id)],
         }
 
+        console.log(data)
+        console.log(payload)
         try {
             await apiPefa.put(`/movies/${movie._id}`, { ...payload, ...data }, {
                 headers: {
@@ -111,6 +103,7 @@ export const useMovieActions = () => {
             setAlert("Movie updated successfully");
         }
         catch (error: any) {
+            console.log(error)
             setLoading(false);
             logActionError(error);
         }
@@ -166,7 +159,7 @@ export const useMovieActions = () => {
 
             // send the payload to the backend
             const { poster, video, ...rest } = payload; // Separate the poster file from the payload
-            await apiPefa.post(`/movies`, { ...rest, poster_url: payload.poster.name, video_url: payload.video.name }, {
+            await apiPefa.post(`/movies`, { ...rest, posterName: payload.poster.name, videoName: payload.video.name }, {
                 headers: {
                     Authorization: `${accessToken}`,
                     "Content-Type": "application/json"
