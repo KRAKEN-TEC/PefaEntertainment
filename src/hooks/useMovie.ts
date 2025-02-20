@@ -86,13 +86,13 @@ export const useMovieActions = () => {
         setLoading(true);
 
         const data = {
+            ...payload,
             genreIds: payload.genreIds || [...movie.genres.map((genre) => genre._id)],
+            rating: isNaN(payload.rating) ? movie.rating : payload.rating,
         }
 
-        console.log(data)
-        console.log(payload)
         try {
-            await apiPefa.put(`/movies/${movie._id}`, { ...payload, ...data }, {
+            await apiPefa.put(`/movies/${movie._id}`, data, {
                 headers: {
                     Authorization: `${accessToken}`,
                     "Content-Type": "application/json" // set content type to json
@@ -103,7 +103,6 @@ export const useMovieActions = () => {
             setAlert("Movie updated successfully");
         }
         catch (error: any) {
-            console.log(error)
             setLoading(false);
             logActionError(error);
         }
