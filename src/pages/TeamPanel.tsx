@@ -33,6 +33,8 @@ import {
 } from "@/components/ui/dialog";
 import { GoHomeFill } from "react-icons/go";
 import { MdMovieEdit } from "react-icons/md";
+import { RiMovie2Fill } from "react-icons/ri";
+import { ImProfile } from "react-icons/im";
 import { NavLink } from "react-router";
 
 import {
@@ -509,8 +511,14 @@ function TeamPanel() {
           <NavLink to="/">
             <GoHomeFill size={"30px"} />
           </NavLink>
+          <NavLink to="/admin/team-panel">
+            <ImProfile size={"27px"} />
+          </NavLink>
           <NavLink to="/admin/movie-panel">
             <MdMovieEdit size={"31px"} />
+          </NavLink>
+          <NavLink to="/admin/serie-panel">
+            <RiMovie2Fill size={"31px"} />
           </NavLink>
           {accessToken ? (
             <UserLogout>Log Out</UserLogout>

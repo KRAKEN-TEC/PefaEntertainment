@@ -133,10 +133,7 @@ const Dropdown: React.FC = () => {
             <Link to="/">Logout</Link>
           </li>
           <li>
-            <Link to="admin/movie-panel">Movie Panel</Link>
-          </li>
-          <li>
-            <Link to="admin/team-panel">Team Panel</Link>
+            <Link to="admin/team-panel">Admin Panel</Link>
           </li>
         </ul>
       </div>

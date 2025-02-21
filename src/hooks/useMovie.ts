@@ -5,14 +5,14 @@ import { logActionError, logError } from "@/services/log-error";
 import { useUserStore } from "@/context/useUserStore";
 import { useMovieStore } from "@/context/useMovieStore";
 import { useState } from "react";
-import { FetchGenre } from "./useGenre";
+import { FetchGenres } from "./useGenre";
 import useData from "./useData";
 import apiPefa from "@/services/api-pefa";
 
 export interface FetchMovie {
     _id: string;
     title: string;
-    genres: FetchGenre[];
+    genres: FetchGenres[];
     poster_url: string;
     video_url: string;
     uploadDate: string;
@@ -58,7 +58,7 @@ export type FormMovie = z.infer<typeof schemaMovie>;
 
 export interface MovieQuery {
     page: number,
-    genres: FetchGenre,
+    genres: FetchGenres,
     search: string,
     ordering: string,
 }
@@ -86,13 +86,13 @@ export const useMovieActions = () => {
         setLoading(true);
 
         const data = {
+            ...payload,
             genreIds: payload.genreIds || [...movie.genres.map((genre) => genre._id)],
+            rating: isNaN(payload.rating) ? movie.rating : payload.rating,
         }
 
-        console.log(data)
-        console.log(payload)
         try {
-            await apiPefa.put(`/movies/${movie._id}`, { ...payload, ...data }, {
+            await apiPefa.put(`/movies/${movie._id}`, data, {
                 headers: {
                     Authorization: `${accessToken}`,
                     "Content-Type": "application/json" // set content type to json
@@ -103,7 +103,6 @@ export const useMovieActions = () => {
             setAlert("Movie updated successfully");
         }
         catch (error: any) {
-            console.log(error)
             setLoading(false);
             logActionError(error);
         }
