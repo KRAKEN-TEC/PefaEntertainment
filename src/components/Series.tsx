@@ -1,17 +1,17 @@
-import { FetchMovie, useMovie } from "@/hooks/useMovie";
 import "./CSS/Series.css";
 import { useNavigate } from "react-router";
+
 import useNavDetail from "@/hooks/useNavDetail";
+import { useSerie, FetchSeries } from "@/hooks/useSerie";
 
 export default function Series() {
-  const { data: series } = useMovie();
+  const { data: series } = useSerie();
   const { callNav } = useNavDetail();
 
   const nav = useNavigate();
 
-  const getRandomSeries = (series: FetchMovie[], count = 3) => {
+  const getRandomSeries = (series: FetchSeries[], count = 3) => {
     return series
-      .filter((s) => s.isSerie)
       .sort(() => Math.random() - 0.5)
       .slice(0, count);
   };

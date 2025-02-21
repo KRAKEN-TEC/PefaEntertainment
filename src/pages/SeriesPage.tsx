@@ -1,9 +1,10 @@
-import { useMovie } from "@/hooks/useMovie";
 import "./CSS/SeriesPage.css";
 import useNavDetail from "@/hooks/useNavDetail";
 
+import { useSerie } from "@/hooks/useSerie";
+
 export default function SeriesPage() {
-  const { data: series } = useMovie();
+  const { data: series } = useSerie();
   const { callNavForSeriesPage } = useNavDetail();
 
   const navigate = () => {
@@ -17,7 +18,6 @@ export default function SeriesPage() {
         <div className="SP-grid">
           {series &&
             series
-              .filter((s) => s.isSerie)
               .map((s) => (
                 <div
                   className="SP-box"

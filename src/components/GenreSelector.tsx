@@ -1,7 +1,7 @@
-import { useGenre, FetchGenre } from "@/hooks/useGenre";
+import { useGenre, FetchGenres } from "@/hooks/useGenre";
 
 interface Props {
-  onChange: (genre: FetchGenre) => void;
+  onChange: (genre: FetchGenres) => void;
 }
 
 export default function GenreSelector({ onChange }: Props) {

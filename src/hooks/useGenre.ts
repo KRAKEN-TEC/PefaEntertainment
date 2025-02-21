@@ -8,7 +8,7 @@ import useData from "./useData"
 import apiPefa from "@/services/api-pefa";
 
 // TYPE AND INTERFACE
-export interface FetchGenre {
+export interface FetchGenres {
     "_id": string,
     "name": string,
 }
@@ -23,7 +23,7 @@ export const schemaGenre = z.object({
 export type FormGenre = z.infer<typeof schemaGenre>;
 
 // FUNCTIONS
-export const useGenre = () => useData<FetchGenre>("/genres")
+export const useGenre = () => useData<FetchGenres>("/genres")
 
 export const useGenreActions = () => {
     const { updateActions } = useMovieStore();
