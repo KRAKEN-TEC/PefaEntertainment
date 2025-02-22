@@ -1,107 +1,134 @@
-.mainbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: sticky;
-  top: 0;
-  z-index: 999;
-  width: 100%;
-  max-width: 100vw; /* Prevents overflow */
-  background: rgba(255, 255, 255, 0.95);
-  height: 100px;
-  padding: 0 20px; /* Adds padding for better spacing */
+/* ========== Movie Section ========== */
+.movie-section {
+  padding: 20px;
+  position: relative;
 }
 
-/* Mode Button */
-.modeButton {
-  border: 1.5px solid #e85448;
+/* Movie Grid Layout */
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjusts dynamically */
+  gap: 20px;
+  justify-content: center;
+}
+
+/* Movie Box */
+.movie-box {
   border-radius: 10px;
-  padding: 15px;
-  margin: 0 10px; /* Shorthand for left/right margin */
-  background: none;
+  overflow: hidden;
+  text-align: center;
+  padding-bottom: 10px;
+  transition: transform 0.3s ease-in-out;
+  perspective: 1000px;
+}
+
+.movie-box:hover {
+  transform: rotateY(5deg) scale(1.05);
+}
+
+.movie-box img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* Movie Text */
+.movie-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.movie-text p {
+  font-weight: bold;
+  margin: 5px 0;
+}
+
+.movie-text h3 {
+  text-align: left;
+  margin-left: 10px;
+  padding-top: 10px;
+}
+
+.movie-text span {
+  display: none;
+}
+
+.movie-text ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0;
+}
+
+.movie-text li {
+  border: 1px solid #e85448;
+  border-radius: 5px;
+  font-size: small;
+  color: #e85448;
+  padding: 4px 10px;
+  display: inline-block;
+}
+
+/* Movie Title Section */
+.movie-title {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.movie-title span {
+  margin-top: 10px;
   cursor: pointer;
 }
 
-/* Search Box */
-.searchBox input {
-  border: 1.5px solid #e85448;
-  border-radius: 10px;
-  padding: 10px;
-}
-
-/* Search Container */
-.searchCon {
-  display: flex;
-  align-items: center;
-}
-
-/* Logo */
-.mainbar img {
-  width: 120px;
-  height: 90px;
-  margin-left: 184px;
+.modeButton {
+  padding: 15px;
 }
 
 /* ========== Responsive Design ========== */
 
 /* Tablets (768px and below) */
 @media screen and (max-width: 768px) {
-  .mainbar {
-    flex-direction: column;
-    height: auto;
-    padding: 15px;
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   }
 
-  .mainbar img {
-    width: 100px;
-    height: 75px;
-    margin-left: 0; /* Centers logo */
-  }
-
-  .searchCon {
+  .movie-box {
     width: 100%;
+  }
+
+  .movie-text {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .movie-text ul {
     justify-content: center;
-    margin-top: 10px;
-  }
-
-  .searchBox input {
-    width: 80%;
-  }
-
-  .modeButton {
-    padding: 10px;
-    font-size: 14px;
   }
 }
 
-
 /* Mobile (480px and below) */
 @media screen and (max-width: 480px) {
-  .mainbar {
-    flex-direction: row;
-    height: auto;
-    padding: 10px;
+  .movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   }
 
-  .mainbar img {
-    width: 70px;
-    height: 60px;
-  }
-
-  .searchCon {
-    flex-direction: row;
-    align-items: center;
-    width: 40%;
-  }
-
-  .searchBox input {
-    width: 75%;
+  .movie-text {
+    text-align: center;
     font-size: 10px;
-    padding: 8px;
+    flex-direction: row;
   }
 
-  .modeButton {
-    padding: 8px;
-    font-size: 12px;
+  .movie-text ul, .movie-text li{
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  .movie-title {
+    flex-direction: row;
+    text-align: center;
+    font-size: 10px;
   }
 }
