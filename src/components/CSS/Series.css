@@ -3,7 +3,7 @@
   position: relative;
 }
 
-/* Movie Grid Layout */
+/* series Grid Layout */
 .series-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(490px, 1fr));
@@ -12,7 +12,7 @@
   width: max-content;
 }
 
-/* Movie Box with 3D Effect */
+/* series Box with 3D Effect */
 .series-box {
   width: 490px;
   border-radius: 10px;
@@ -84,4 +84,49 @@
 .series-title span{
   margin-top: 25px;
   cursor: pointer;
+}
+/* ========== Responsive Design ========== */
+
+/* Tablets (768px and below) */
+@media screen and (max-width: 768px) {
+  .series-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+
+  .series-box {
+    width: 100%;
+  }
+
+  .series-text {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .series-text ul {
+    justify-content: center;
+  }
+}
+
+/* Mobile (480px and below) */
+@media screen and (max-width: 480px) {
+  .series-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+
+  .series-text {
+    text-align: center;
+    font-size: 10px;
+    flex-direction: row;
+  }
+
+  .series-text ul, .series-text li{
+    justify-content: center;
+    font-size: 10px;
+  }
+
+  .series-title {
+    flex-direction: row;
+    text-align: center;
+    font-size: 10px;
+  }
 }
