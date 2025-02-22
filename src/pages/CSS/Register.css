@@ -6,12 +6,12 @@
 }
 
 .register-box {
-  background: #e0e0e0;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  width: 300px;
+  background: #fff;
+  width: 400px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .logo {
@@ -24,10 +24,10 @@
   margin-bottom: 15px;
 }
 
-.registerbox input {
-  width: 100%;
+.register-box input{
+  width: 90%; 
   padding: 10px;
-  margin: 5px 0;
+  margin: 10px 0;
   border: 1px solid #ccc;
   border-radius: 5px;
 }
@@ -45,6 +45,7 @@
   font-size: 12px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-top: 5px;
 }
 
@@ -61,4 +62,9 @@
   border-radius: 5px;
   cursor: pointer;
   margin-top: 10px;
+}
+
+.register-box img{
+  width: 150px;
+  height: 150px;
 }

@@ -56,3 +56,8 @@
 .login-box button:hover {
   background: #e63e00;
 }
+
+.login-box img{
+  width: 150px;
+  height: 150px;
+}
