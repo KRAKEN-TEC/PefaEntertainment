@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./CSS/Register.css";
 import { useUserActions } from "@/hooks/useUser";
+import logo from "../assets/PEFA-black.svg";
 
 export default function Register() {
   const [form, setForm] = useState({
@@ -42,7 +43,7 @@ export default function Register() {
   return (
     <div className="register-container">
       <div className="register-box">
-        <img src="/logo.png" alt="PEFA Logo" className="logo" />
+        <img src={logo} />
         <h2>Register</h2>
 
         {/* COMMENTING ERROR */}
