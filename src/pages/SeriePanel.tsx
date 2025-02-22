@@ -40,21 +40,12 @@ import { GoHomeFill } from "react-icons/go";
 import { ImProfile } from "react-icons/im";
 import { MdMovieEdit } from "react-icons/md";
 import { RiMovie2Fill } from "react-icons/ri";
-import { NavLink } from "react-router";
+import { NavLink, Outlet } from "react-router";
 
-import {
-  useSerie,
-  SerieQuery,
-  FetchSeries,
-  FormSerie,
-  schemaSeries,
-} from "@/hooks/useSerie";
-import {
-  useGenre,
-  useGenreActions,
-  FormGenre,
-  schemaGenre,
-} from "@/hooks/useGenre";
+
+import { useSerie, SerieQuery, FetchSeries, FormSerie, schemaSeries } from "@/hooks/useSerie";
+import { useGenre, useGenreActions, FormGenre, schemaGenre } from "@/hooks/useGenre";
+import { useSerieStore } from "@/context/useSerieStore";
 import { useUserStore } from "@/context/useUserStore";
 import SortSelector from "@/components/SortSelector";
 import AlertMessage from "@/components/AlertMessage";
@@ -74,6 +65,12 @@ interface FileFields {
 interface OtherFieldsProps {
   register: UseFormRegister<FormSerie>;
   errors: FieldErrors<FormSerie>;
+}
+
+interface SerieDetailProps {
+  serie: FetchSeries
+  error: string | null;
+  loading: boolean;
 }
 
 // SERIES ACTIONS AND LIST
@@ -314,70 +311,6 @@ interface OtherFieldsProps {
 //   );
 // };
 
-const SerieList = ({ serieQuery }: { serieQuery: SerieQuery }) => {
-  const { data: series, error, loading } = useSerie(serieQuery);
-
-  return (
-    <>
-      <Table.ScrollArea height={series?.length ? "560px" : "auto"}>
-        <TableRoot stickyHeader>
-          <TableHeader>
-            <TableRow>
-              <TableColumnHeader>Title</TableColumnHeader>
-              <TableColumnHeader>Genres</TableColumnHeader>
-              <TableColumnHeader>Rating</TableColumnHeader>
-              <TableColumnHeader>Seasons</TableColumnHeader>
-              <TableColumnHeader>Episodes</TableColumnHeader>
-              <TableColumnHeader>Is On Going</TableColumnHeader>
-              <TableColumnHeader>Released Date</TableColumnHeader>
-              <TableColumnHeader>Translator</TableColumnHeader>
-              <TableColumnHeader>Encoder</TableColumnHeader>
-              <TableColumnHeader>Studio</TableColumnHeader>
-              <TableColumnHeader paddingLeft={7}>Actions</TableColumnHeader>
-            </TableRow>
-          </TableHeader>
-
-          <TableBody>
-            {series.map((serie) => (
-              <TableRow key={serie._id}>
-                <TableCell>{serie.title}</TableCell>
-                <TableCell>{serie.genres.map((genre) => genre.name).join(", ")}</TableCell>
-                <TableCell>{serie.rating}</TableCell>
-                <TableCell>{serie.seasons.length}</TableCell>
-                <TableCell>{serie.seasons.reduce((total, season) => total + season.episodes.length, 0)}</TableCell>
-                <TableCell>{serie.isOnGoing == true ? "yes" : "no"}</TableCell>
-                <TableCell>{serie.releasedDate.split("T")[0]}</TableCell>
-                <TableCell>{serie.translator}</TableCell>
-                <TableCell>{serie.encoder}</TableCell>
-                <TableCell>{serie.studio}</TableCell>
-                {/* <TableCell>
-                  <SerieAction serie={serie} />
-                </TableCell> */}
-              </TableRow>
-            ))}
-          </TableBody>
-        </TableRoot>
-      </Table.ScrollArea>
-
-      {error && (
-        <Text fontSize="6xl" textAlign="center" mt="20vh">
-          {error}
-        </Text>
-      )}
-
-      {loading && (
-        <Box
-          display={"flex"}
-          justifyContent={"center"}
-          alignItems="center"
-          height="50vh"
-        >
-          <Spinner size="xl" />
-        </Box>
-      )}
-    </>
-  );
-};
 
 // ADD SERIE
 
@@ -621,79 +554,79 @@ const SerieList = ({ serieQuery }: { serieQuery: SerieQuery }) => {
 //   );
 // };
 
-// // ADD GENRE
+// ADD GENRE
 
-// const GenreForm = () => {
-//   const {
-//     register,
-//     handleSubmit,
-//     formState: { errors },
-//   } = useForm<FormGenre>({ resolver: zodResolver(schemaGenre) });
-//   const { alert, loading, handleCreate } = useGenreActions();
+const GenreForm = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormGenre>({ resolver: zodResolver(schemaGenre) });
+  const { alert, loading, handleCreate } = useGenreActions();
 
-//   const onSubmit = (payload: FormGenre) => {
-//     handleCreate(payload);
-//   };
+  const onSubmit = (payload: FormGenre) => {
+    handleCreate(payload);
+  };
 
-//   return (
-//     <>
-//       {alert && <AlertMessage message={alert} />}
+  return (
+    <>
+      {alert && <AlertMessage message={alert} />}
 
-//       <form onSubmit={handleSubmit(onSubmit)}>
-//         <Fieldset.Root>
-//           <Fieldset.HelperText>
-//             Please provide genre details below.
-//           </Fieldset.HelperText>
-//           <Fieldset.Content>
-//             <Field label="Name">
-//               <Input
-//                 {...register("name", { required: true })}
-//                 type="text"
-//                 placeholder="Name..."
-//               />
-//               {errors.name?.message && (
-//                 <p className="text-danger">{errors.name?.message}</p>
-//               )}
-//             </Field>
-//           </Fieldset.Content>
-//           {!loading ? (
-//             <DialogFooter>
-//               <Button type="submit">Submit</Button>{" "}
-//             </DialogFooter>
-//           ) : (
-//             <DialogFooter>
-//               <Button disabled>Submiting...</Button>
-//             </DialogFooter>
-//           )}
-//         </Fieldset.Root>
-//       </form>
-//     </>
-//   );
-// };
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Fieldset.Root>
+          <Fieldset.HelperText>
+            Please provide genre details below.
+          </Fieldset.HelperText>
+          <Fieldset.Content>
+            <Field label="Name">
+              <Input
+                {...register("name", { required: true })}
+                type="text"
+                placeholder="Name..."
+              />
+              {errors.name?.message && (
+                <p className="text-danger">{errors.name?.message}</p>
+              )}
+            </Field>
+          </Fieldset.Content>
+          {!loading ? (
+            <DialogFooter>
+              <Button type="submit">Submit</Button>{" "}
+            </DialogFooter>
+          ) : (
+            <DialogFooter>
+              <Button disabled>Submiting...</Button>
+            </DialogFooter>
+          )}
+        </Fieldset.Root>
+      </form>
+    </>
+  );
+};
 
-// const AddGenre = ({ children }: { children: React.ReactNode }) => {
-//   const ref = useRef<HTMLInputElement>(null);
-//   return (
-//     <DialogRoot initialFocusEl={() => ref.current} placement={"top"}>
-//       <DialogTrigger asChild>
-//         <Button>{children}</Button>
-//       </DialogTrigger>
-//       <DialogContent>
-//         <DialogCloseTrigger />
-//         <DialogHeader>
-//           <DialogTitle>Genre Form</DialogTitle>
-//           <DialogCloseTrigger />
-//         </DialogHeader>
-//         <DialogBody>
-//           <GenreForm />
-//         </DialogBody>
-//       </DialogContent>
-//     </DialogRoot>
-//   );
-// };
+const AddGenre = ({ children }: { children: React.ReactNode }) => {
+  const ref = useRef<HTMLInputElement>(null);
+  return (
+    <DialogRoot initialFocusEl={() => ref.current} placement={"top"}>
+      <DialogTrigger asChild>
+        <Button>{children}</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogCloseTrigger />
+        <DialogHeader>
+          <DialogTitle>Genre Form</DialogTitle>
+          <DialogCloseTrigger />
+        </DialogHeader>
+        <DialogBody>
+          <GenreForm />
+        </DialogBody>
+      </DialogContent>
+    </DialogRoot>
+  );
+};
 
 function SeriePanel() {
-  const [serieQuery, setSerieQuery] = useState<SerieQuery>({} as SerieQuery);
+  const { serieQuery, setSerieQuery } = useSerieStore();
   const { accessToken } = useUserStore();
   const { data: genres } = useGenre();
 
@@ -724,14 +657,14 @@ function SeriePanel() {
           <NavLink to="/admin/movie-panel">
             <MdMovieEdit size={"31px"} />
           </NavLink>
-          <NavLink to="/admin/serie-panel">
+          <NavLink to="/admin/serie-panel/series">
             <RiMovie2Fill size={"31px"} />
           </NavLink>
           {accessToken ?
             (
               <>
-                {/* <AddSerie>Add Series</AddSerie>
-                <AddGenre>Add Genre</AddGenre> */}
+                {/* <AddSerie>Add Series</AddSerie> */}
+                <AddGenre>Add Genre</AddGenre>
               </>
             )
             :
@@ -753,9 +686,9 @@ function SeriePanel() {
 
       {/* SERIE LIST */}
       <GridItem area="list">
-        <Box>
-          <SerieList serieQuery={serieQuery} />
-        </Box>
+        <div>
+          <Outlet />
+        </div>
       </GridItem>
     </Grid>
   );

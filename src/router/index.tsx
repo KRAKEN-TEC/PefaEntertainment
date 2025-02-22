@@ -1,6 +1,14 @@
 import { createBrowserRouter } from "react-router";
 import { Provider } from "@/components/ui/provider";
 
+// ADMIN PANEL
+import MoviePanel from "@/pages/MoviePanel";
+import TeamPanel from "@/pages/TeamPanel";
+import SeriePanel from "@/pages/SeriePanel";
+import SerieTable from "@/components/admin/SerieTable";
+import SerieDetail from "@/components/admin/SerieDetail";
+import Test from "@/components/admin/Test";
+
 import App from "../App";
 import Layout from "@/pages/layout/Layout";
 import AdminLayout from "@/pages/layout/AdminLayout";
@@ -10,9 +18,6 @@ import Profile from "@/pages/Profile";
 import HowToDownload from "@/pages/HowToDownload";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
-import MoviePanel from "@/pages/MoviePanel";
-import TeamPanel from "@/pages/TeamPanel";
-import SeriePanel from "@/pages/SeriePanel";
 import MoviesPage from "@/pages/MoviesPage";
 import SeriesPage from "@/pages/SeriesPage";
 import DetailPage from "@/pages/DetailPage";
@@ -65,6 +70,10 @@ const router = createBrowserRouter([
         path: "series-page",
         element: <SeriesPage />,
       },
+      {
+        path: "test",
+        element: <Test />,
+      }
     ],
   },
 
@@ -84,7 +93,7 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "/admin",
+    path: "/admin/*",
     element:
       <Provider>
         <AdminLayout />
@@ -92,7 +101,14 @@ const router = createBrowserRouter([
     children: [
       { path: "movie-panel", element: <MoviePanel /> },
       { path: "team-panel", element: <TeamPanel /> },
-      { path: "serie-panel", element: <SeriePanel /> },
+      {
+        path: "serie-panel/*",
+        element: <SeriePanel />,
+        children: [
+          { path: "series", element: <SerieTable /> },
+          { path: "series/:serieId", element: <SerieDetail /> }
+        ]
+      },
     ],
   },
 ]);

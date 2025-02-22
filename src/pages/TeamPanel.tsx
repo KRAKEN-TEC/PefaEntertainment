@@ -517,7 +517,7 @@ function TeamPanel() {
           <NavLink to="/admin/movie-panel">
             <MdMovieEdit size={"31px"} />
           </NavLink>
-          <NavLink to="/admin/serie-panel">
+          <NavLink to="/admin/serie-panel/series">
             <RiMovie2Fill size={"31px"} />
           </NavLink>
           {accessToken ? (
