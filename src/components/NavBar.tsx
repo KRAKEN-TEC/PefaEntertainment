@@ -1,4 +1,4 @@
-import logo from "../assets/PEFA(black).svg";
+import logo from "../assets/PEFA-black.svg";
 import { NavLink } from "react-router-dom";
 import SearchInput from "./SearchInput";
 import Dropdown from "./Dropdown";
