@@ -188,33 +188,12 @@ const MovieAction = ({ movie }: { movie: FetchMovie }) => {
       {accessToken ? (
         <HStack>
           <MovieUpdate movie={movie}>Edit</MovieUpdate>
-          <Button
-            variant="plain"
-            _hover={{ color: "cyan" }}
-            color="red"
-            onClick={onClick}
-          >
-            Delete
-          </Button>
+          <Button variant="plain" _hover={{ color: "cyan" }} color="red" onClick={onClick}>Delete</Button>
         </HStack>
       ) : (
         <HStack>
-          <Button
-            variant="plain"
-            _hover={{ textDecoration: "underline" }}
-            color="grey"
-            onClick={() => window.alert("Please login to perform this action")}
-          >
-            Edit
-          </Button>
-          <Button
-            variant="plain"
-            _hover={{ textDecoration: "underline" }}
-            color="grey"
-            onClick={() => window.alert("Please login to perform this action")}
-          >
-            Delete
-          </Button>
+          <Button variant="plain" _hover={{ textDecoration: "underline" }} color="grey" onClick={() => window.alert("Please login to perform this action")} >Edit</Button>
+          <Button variant="plain" _hover={{ textDecoration: "underline" }} color="grey" onClick={() => window.alert("Please login to perform this action")}> Delete</Button>
         </HStack>
       )}
     </>
@@ -597,7 +576,7 @@ function MoviePanel() {
           <NavLink to="/admin/movie-panel">
             <MdMovieEdit size={"31px"} />
           </NavLink>
-          <NavLink to="/admin/serie-panel">
+          <NavLink to="/admin/serie-panel/series">
             <RiMovie2Fill size={"31px"} />
           </NavLink>
           {accessToken ? (

@@ -13,6 +13,37 @@ export interface FetchResponse<T> {
     results: T[];
 }
 
+export function useSingleData<T>(endpoint: string, requestConfig?: AxiosRequestConfig, dep?: any[]) {
+    const [data, setData] = useState<T | null>(null);
+    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        setLoading(true)
+
+        const controller = new AbortController();
+
+        apiPefa
+            .get<T>(endpoint, { signal: controller.signal, ...requestConfig })
+            .then(response => {
+                setData(response.data)
+                setLoading(false)
+            })
+            .catch(error => {
+                if (error instanceof CanceledError) return;
+                setError(error.message)
+                setLoading(false)
+            })
+
+        return () => {
+            controller.abort()
+        }
+    }, dep ? [...dep] : [])
+
+    return { data, error, loading };
+}
+
+
 function useData<T>(endpoint: string, requestConfig?: AxiosRequestConfig, dep?: any[]) {
     const [data, setData] = useState<T[]>([]);
     const [error, setError] = useState<string | null>(null);
