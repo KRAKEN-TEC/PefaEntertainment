@@ -5,23 +5,27 @@ import useNavDetail from "@/hooks/useNavDetail";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { scroll } from "@/helper/GlobalHelper";
 import ButtonWithSVGIcon from "./ui/ButtonWithSvgIcon";
+
 export default function NewRealeses() {
   const { movieQuery, setMovieQuery } = useMovieStore();
   const { data: newRealses } = useMovie(movieQuery);
   const { callNav } = useNavDetail();
+  const [clientWidth, setClientWidth] = useState<number>(0);
   const NR_movie_container = useRef<HTMLDivElement | null>(null);
   const NR_movie_box = useRef<HTMLDivElement | null>(null);
-  const [clientWidth, setClientWidth] = useState<number>(0);
+
   const [apiCallingWatcher, setApiCallingWatcher] = useState({
     watchNumber: 0,
     shouldCall: false,
   });
+
   useLayoutEffect(() => {
     if (NR_movie_box.current) {
       setClientWidth(NR_movie_box.current.clientWidth);
     }
   }, []);
-  console.log(movieQuery);
+
+
   useEffect(() => {
     if (
       apiCallingWatcher.watchNumber > newRealses.length - 4 &&
@@ -31,6 +35,8 @@ export default function NewRealeses() {
       console.log(newRealses);
     }
   }, [apiCallingWatcher]);
+
+
   return (
     <div className="NR-movie-section">
       <h2>New Realsese</h2>
