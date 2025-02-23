@@ -1,11 +1,12 @@
 import { useMovie } from "@/hooks/useMovie";
-import {useSerieStore} f
+import { useMovieStore } from "@/context/useMovieStore";
 import "./CSS/NewRealses.css";
 import useNavDetail from "@/hooks/useNavDetail";
 import { useEffect, useRef, useState } from "react";
 import { scroll } from "@/helper/GlobalHelper";
 export default function NewRealeses() {
-  const { data: newRealses } = useMovie();
+  const { movieQuery, setMovieQuery } = useMovieStore();
+  const { data: newRealses } = useMovie(movieQuery);
   const { callNav } = useNavDetail();
   const NR_movie_container = useRef<HTMLDivElement | null>(null);
   const NR_movie_box = useRef<HTMLDivElement | null>(null);
@@ -23,7 +24,6 @@ export default function NewRealeses() {
       window.removeEventListener("resize", updateWidth);
     };
   }, []);
-
   return (
     <div className="NR-movie-section">
       <h2>New Realsese</h2>
@@ -31,7 +31,8 @@ export default function NewRealeses() {
         <button
           className="scroll-btn left"
           onClick={() =>
-            scroll("left", NR_movie_container.current!, clientWidth)
+            // scroll("left", NR_movie_container.current!, clientWidth)
+            setMovieQuery({ ...movieQuery, page: movieQuery.page + 1 })
           }
         >
           <svg
