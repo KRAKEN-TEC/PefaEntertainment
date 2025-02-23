@@ -1,4 +1,5 @@
 import { useMovie } from "@/hooks/useMovie";
+import {useSerieStore} f
 import "./CSS/NewRealses.css";
 import useNavDetail from "@/hooks/useNavDetail";
 import { useEffect, useRef, useState } from "react";
