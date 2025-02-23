@@ -5,9 +5,7 @@ export const scroll = (
 ) => {
   if (direction === "left") {
     scrollContainer.scrollLeft -= width;
-    console.log(scrollContainer.scrollLeft);
   } else {
     scrollContainer.scrollLeft += width;
-    console.log(scrollContainer.scrollLeft);
   }
 };
