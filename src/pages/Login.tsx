@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./CSS/Login.css";
 import { FetchUser, useUserActions } from "@/hooks/useUser";
+import logo from "../assets/PEFA-black.svg";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -15,7 +16,7 @@ export default function Login() {
   return (
     <div className="login-container">
       <div className="login-box">
-        <img src="../assets/logo.webp" alt="PEFA Logo" className="logo" />
+        <img src={logo} />
 
         <h2>Login</h2>
         <form onSubmit={handleSubmit}>
