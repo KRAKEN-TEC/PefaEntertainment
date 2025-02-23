@@ -1,31 +1,37 @@
 import { useMovie } from "@/hooks/useMovie";
 import "./CSS/NewRealses.css";
 import useNavDetail from "@/hooks/useNavDetail";
-import { useState } from "react";
-
+import { useEffect, useRef, useState } from "react";
+import { scroll } from "@/helper/GlobalHelper";
 export default function NewRealeses() {
   const { data: newRealses } = useMovie();
   const { callNav } = useNavDetail();
-
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const scrollAmount = 300; // Adjust scroll speed
-  const maxScroll = newRealses.length * 300 - 1050; // Prevent infinite scrolling
-
-  const handleScroll = (direction: "left" | "right") => {
-    setScrollPosition((prev) => {
-      let newScroll =
-        direction === "left" ? prev - scrollAmount : prev + scrollAmount;
-      return Math.max(0, Math.min(newScroll, maxScroll)); // Prevent over-scrolling
-    });
-  };
+  const NR_movie_container = useRef<HTMLDivElement | null>(null);
+  const NR_movie_box = useRef<HTMLDivElement | null>(null);
+  const [clientWidth, setClientWidth] = useState(0);
+  useEffect(() => {
+    const updateWidth = () => {
+      if (NR_movie_box.current) {
+        setClientWidth(NR_movie_box.current.clientWidth);
+      }
+    };
+    window.onload = updateWidth;
+    window.addEventListener("resize", updateWidth);
+    updateWidth();
+    return () => {
+      window.removeEventListener("resize", updateWidth);
+    };
+  }, []);
 
   return (
     <div className="NR-movie-section">
       <h2>New Realsese</h2>
-      <div className="NR-scroll-container">
+      <div className="NR-scroll-container" ref={NR_movie_container}>
         <button
           className="scroll-btn left"
-          onClick={() => handleScroll("left")}
+          onClick={() =>
+            scroll("left", NR_movie_container.current!, clientWidth)
+          }
         >
           <svg
             width="30"
@@ -49,13 +55,11 @@ export default function NewRealeses() {
           </svg>
         </button>
 
-        <div
-          className="NR-movie-grid"
-          style={{ transform: `translateX(-${scrollPosition}px)` }}
-        >
+        <div className="NR-movie-grid">
           {newRealses &&
             newRealses.map((newRealse) => (
               <div
+                ref={NR_movie_box}
                 className="NR-movie-box"
                 key={newRealse._id}
                 onClick={() => callNav(newRealse._id)}
@@ -63,7 +67,6 @@ export default function NewRealeses() {
                   backgroundImage: `url(${newRealse.poster_url})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
-                  width: "100%",
                   height: "500px",
                 }}
               >
@@ -83,7 +86,9 @@ export default function NewRealeses() {
         </div>
         <button
           className="scroll-btn right"
-          onClick={() => handleScroll("right")}
+          onClick={() =>
+            scroll("right", NR_movie_container.current!, clientWidth)
+          }
         >
           <svg
             width="30"
