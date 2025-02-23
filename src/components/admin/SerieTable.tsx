@@ -1,8 +1,82 @@
-import { Text, Box, Button, Table, TableBody, TableCell, TableColumnHeader, TableHeader, TableRoot, TableRow, Spinner } from "@chakra-ui/react";
+import { DialogFooter, HStack, Text, Box, Button, Table, TableBody, TableCell, TableColumnHeader, TableHeader, TableRoot, TableRow, Spinner } from "@chakra-ui/react";
 import { NavLink } from "react-router";
+import { useForm } from "react-hook-form";
 
+import "@/admin.css"
+import { FormSerie, FetchSeries, useSerieActions } from "@/hooks/useSerie";
 import { useSerieStore } from "@/context/useSerieStore";
 import { useSerie } from "@/hooks/useSerie";
+import { DialogActionBox } from "../global/DialogBox";
+import AlertMessage from "../global/AlertMessage";
+import SerieGenreUpdateField from "../global/SerieGenreUpdateField";
+import SerieUpdateField from "../global/SerieUpdateField";
+
+interface SerieUpdate {
+  children: React.ReactNode,
+  serie: FetchSeries
+}
+
+const SerieUpdate = ({ children, serie }: SerieUpdate) => {
+  const { register, handleSubmit, formState: { errors }, } = useForm<FormSerie>();
+  const { alert, handleSerieUpdate } = useSerieActions();
+
+  const onSubmit = (payload: FormSerie) => {
+    handleSerieUpdate(payload, serie);
+  };
+
+  return (
+    <>
+      <DialogActionBox dialogTitle="Serie Update Form" buttonTitle={`${children}`}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <SerieUpdateField label="Title" payloadKey="title" fetchKey="title" register={register} errors={errors} serie={serie} />
+          <SerieGenreUpdateField register={register} errors={errors} document={serie} />
+          <SerieUpdateField label="Rating" payloadKey="rating" fetchKey="rating" register={register} errors={errors} serie={serie} />
+          <SerieUpdateField label="Description" payloadKey="description" fetchKey="description" register={register} errors={errors} serie={serie} />
+          <SerieUpdateField label="Released Date" payloadKey="releasedDate" fetchKey="releasedDate" register={register} errors={errors} serie={serie} />
+          <SerieUpdateField label="Translator" payloadKey="translator" fetchKey="translator" register={register} errors={errors} serie={serie} />
+          <SerieUpdateField label="Encoder" payloadKey="encoder" fetchKey="encoder" register={register} errors={errors} serie={serie} />
+          <SerieUpdateField label="Studio" payloadKey="studio" fetchKey="studio" register={register} errors={errors} serie={serie} />
+          {alert && <AlertMessage message={alert} />}
+          <DialogFooter>
+            <Button type="submit">Update</Button>
+          </DialogFooter>
+        </form>
+      </DialogActionBox>
+    </>
+  );
+};
+
+const SerieAction = ({ serie }: { serie: FetchSeries }) => {
+  const { accessToken, handleSerieDelete } = useSerieActions();
+
+  const onClick = () => {
+    handleSerieDelete(serie);
+  };
+
+  return (
+    <>
+      {accessToken ? (
+        <HStack>
+          <SerieUpdate serie={serie}>
+            Edit
+          </SerieUpdate>
+          <Button className="button-action red" onClick={onClick} >
+            Delete
+          </Button>
+        </HStack>
+      ) : (
+        <HStack>
+          <Button className="button-action gray" onClick={() => window.alert("Please login to perform this action")}>
+            Edit
+          </Button>
+          <Button className="button-action gray" onClick={() => window.alert("Please login to perform this action")} >
+            Delete
+          </Button>
+        </HStack>
+      )}
+    </>
+  );
+};
 
 export default function SerieTable() {
   const { serieQuery } = useSerieStore();
@@ -35,7 +109,11 @@ export default function SerieTable() {
                   <TableCell>{serie.title}</TableCell>
                   <TableCell>{serie.genres.map((genre) => genre.name).join(", ")}</TableCell>
                   <TableCell>{serie.rating}</TableCell>
-                  <TableCell>{serie.seasons.length}</TableCell>
+                  <TableCell>
+                    <NavLink to={`${serie._id}`}>
+                      <Button className="button-action">{serie.seasons.length}</Button>
+                    </NavLink>
+                  </TableCell>
                   <TableCell>{serie.seasons.reduce((total, season) => total + season.episodes.length, 0)}</TableCell>
                   <TableCell>{serie.isOnGoing == true ? "yes" : "no"}</TableCell>
                   <TableCell>{serie.releasedDate.split("T")[0]}</TableCell>
@@ -43,9 +121,7 @@ export default function SerieTable() {
                   <TableCell>{serie.encoder}</TableCell>
                   <TableCell>{serie.studio}</TableCell>
                   <TableCell>
-                    <NavLink to={`${serie._id}`}>
-                      <Button variant="plain" _hover={{ color: "cyan" }} color="blue">Detail</Button>
-                    </NavLink>
+                    <SerieAction serie={serie} />
                   </TableCell>
                 </TableRow>
               ))}

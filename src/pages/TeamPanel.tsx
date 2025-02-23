@@ -2,7 +2,6 @@ import { useRef, useState } from "react";
 import {
   Text,
   Box,
-  Grid,
   GridItem,
   Input,
   Button,
@@ -31,11 +30,6 @@ import {
   DialogTrigger,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { GoHomeFill } from "react-icons/go";
-import { MdMovieEdit } from "react-icons/md";
-import { RiMovie2Fill } from "react-icons/ri";
-import { ImProfile } from "react-icons/im";
-import { NavLink } from "react-router";
 
 import {
   useUser,
@@ -46,9 +40,10 @@ import {
   userQuery,
 } from "@/hooks/useUser";
 import { useUserStore } from "@/context/useUserStore";
-import AlertMessage from "@/components/AlertMessage";
-import MultipleSelector from "@/components/MultipleSelector";
-import SearchInput from "@/components/SearchInput";
+import AlertMessage from "@/components/global/AlertMessage";
+import MultipleSelector from "@/components/global/MultipleSelector";
+import SearchInput from "@/components/global/SearchInput";
+import AdminNavLink from "@/components/global/AdminNavLink";
 
 // USER ACTION AND LIST
 
@@ -487,59 +482,31 @@ function TeamPanel() {
   ];
 
   return (
-    <Grid
-      templateAreas={{
-        base: `"buttons" "list"`, // Stack nav, form, and list in one column for small screens
-        lg: `"buttons buttons" "list list"`, // In large screens, side by side
-        md: `"buttons buttons buttons" "list list list"`,
-        sm: `"buttons buttons buttons buttons" "list list list list"`,
-      }}
-      templateColumns={{
-        base: "1fr",
-        md: "1fr",
-        sm: "1fr",
-      }}
-      padding={3}
-    >
-      {/* BUTTONS */}
-      <GridItem area="buttons">
-        <Stack
-          direction={{ base: "row", md: "row", sm: "row" }}
-          justifyContent={"flex-start"}
-          paddingBottom={3}
-        >
-          <NavLink to="/">
-            <GoHomeFill size={"30px"} />
-          </NavLink>
-          <NavLink to="/admin/team-panel">
-            <ImProfile size={"27px"} />
-          </NavLink>
-          <NavLink to="/admin/movie-panel">
-            <MdMovieEdit size={"31px"} />
-          </NavLink>
-          <NavLink to="/admin/serie-panel/series">
-            <RiMovie2Fill size={"31px"} />
-          </NavLink>
+    <>
+      {/* NAV */}
+      <GridItem area="nav">
+        <Stack direction={{ base: "row", md: "row", sm: "row" }} justifyContent={"flex-start"} paddingBottom={3} >
+
+          <AdminNavLink />
+
           {accessToken ? (
             <UserLogout>Log Out</UserLogout>
           ) : (
             <UserLogin>Log In</UserLogin>
           )}
+
           <AddUser>Add Team Member</AddUser>
-          <MultipleSelector
-            labelName="role"
-            placeholderName="Roles"
-            data={users}
+
+          <MultipleSelector labelName="role" placeholderName="Roles" data={users}
             onValueChange={(selected: any) =>
-              setUserQuery({ ...userQuery, roles: selected })
-            }
+              setUserQuery({ ...userQuery, roles: selected })}
           />
-          <SearchInput
-            placeholderName="users by email"
+
+          <SearchInput placeholderName="users by email"
             onSubmit={(payload) =>
-              setUserQuery({ ...userQuery, search: payload.searchName })
-            }
+              setUserQuery({ ...userQuery, search: payload.searchName })}
           />
+
         </Stack>
       </GridItem>
 
@@ -547,7 +514,7 @@ function TeamPanel() {
       <GridItem area="list">
         <UserList userQuery={userQuery} />
       </GridItem>
-    </Grid>
+    </>
   );
 }
 

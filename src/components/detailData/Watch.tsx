@@ -1,7 +1,7 @@
-import { FetchMovie } from "@/hooks/useMovie";
+import { FetchMovies } from "@/hooks/useMovie";
 import WatchingBox from "./WatchingBox";
 
-export default function Watch({ detailData }: { detailData?: FetchMovie }) {
+export default function Watch({ detailData }: { detailData?: FetchMovies }) {
   return (
     <div>{!detailData?.isSerie && <WatchingBox detailData={detailData} />}</div>
   );

@@ -3,10 +3,10 @@ import { useState, useEffect } from "react";
 import { useSerie } from "./useSerie";
 import { useMovie } from "./useMovie";
 
-import { FetchMovie } from '@/hooks/useMovie';
+import { FetchMovies } from '@/hooks/useMovie';
 import { FetchSeries } from '@/hooks/useSerie';
 
-export interface FetchPefa extends FetchSeries, FetchMovie { }
+export interface FetchPefa extends FetchSeries, FetchMovies { }
 
 export function usePefa() {
     const { data: movie, error: movieError, loading: movieLoading } = useMovie();

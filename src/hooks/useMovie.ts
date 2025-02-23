@@ -9,7 +9,7 @@ import { FetchGenres } from "./useGenre";
 import useData from "./useData";
 import apiPefa from "@/services/api-pefa";
 
-export interface FetchMovie {
+export interface FetchMovies {
     _id: string;
     title: string;
     genres: FetchGenres[];
@@ -63,7 +63,7 @@ export interface MovieQuery {
     ordering: string,
 }
 
-export const useMovie = (movieQuery?: MovieQuery) => useData<FetchMovie>('/movies',
+export const useMovie = (movieQuery?: MovieQuery) => useData<FetchMovies>('/movies',
     {
         params: {
             page: movieQuery?.page,
@@ -81,7 +81,7 @@ export const useMovieActions = () => {
     const [loading, setLoading] = useState(false);
     const [alert, setAlert] = useState<string>("");
 
-    const handleUpdate = async (payload: FormMovie, movie: FetchMovie) => {
+    const handleUpdate = async (payload: FormMovie, movie: FetchMovies) => {
         setAlert("");
         setLoading(true);
 
@@ -108,7 +108,7 @@ export const useMovieActions = () => {
         }
     };
 
-    const handleDelete = async (movie: FetchMovie) => {
+    const handleDelete = async (movie: FetchMovies) => {
         setAlert("");
         setLoading(true);
         try {

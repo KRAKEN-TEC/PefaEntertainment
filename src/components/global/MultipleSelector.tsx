@@ -21,23 +21,13 @@ interface Props<T> {
   placeholderName: string;
 }
 
-export default function MultipleSelector<T extends OptionType>({
-  onValueChange,
-  data,
-  labelName,
-  placeholderName,
-}: Props<T>) {
+export default function MultipleSelector<T extends OptionType>({ onValueChange, data, labelName, placeholderName, }: Props<T>) {
   const collection = createListCollection({
     items: data.map((d) => ({ label: d[labelName] as string, value: d._id })),
   });
 
   return (
-    <SelectRoot
-      multiple
-      collection={collection}
-      width="200px"
-      onValueChange={(selected) => onValueChange(selected.value)}
-    >
+    <SelectRoot multiple collection={collection} width="200px" onValueChange={(selected) => onValueChange(selected.value)}>
       <SelectTrigger clearable>
         <SelectValueText placeholder={`All ${placeholderName}`} />
       </SelectTrigger>

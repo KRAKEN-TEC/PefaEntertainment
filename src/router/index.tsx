@@ -6,7 +6,8 @@ import MoviePanel from "@/pages/MoviePanel";
 import TeamPanel from "@/pages/TeamPanel";
 import SeriePanel from "@/pages/SeriePanel";
 import SerieTable from "@/components/admin/SerieTable";
-import SerieDetail from "@/components/admin/SerieDetail";
+import SeasonTable from "@/components/admin/SeasonTable";
+import EpisodeTable from "@/components/admin/EpisodeTable";
 import Test from "@/components/admin/Test";
 
 import App from "../App";
@@ -106,11 +107,13 @@ const router = createBrowserRouter([
         element: <SeriePanel />,
         children: [
           { path: "series", element: <SerieTable /> },
-          { path: "series/:serieId", element: <SerieDetail /> }
+          { path: "series/:serieId", element: <SeasonTable /> },
+          { path: "series/:serieId/seasons/:seasonNumber", element: <EpisodeTable /> }
         ]
       },
     ],
   },
+
 ]);
 
 export default router;

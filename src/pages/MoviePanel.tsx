@@ -1,70 +1,29 @@
-import { useState, useRef } from "react";
-import {
-  Text,
-  Box,
-  Grid,
-  GridItem,
-  Input,
-  Button,
-  Fieldset,
-  HStack,
-  Table,
-  TableBody,
-  TableCell,
-  TableColumnHeader,
-  TableHeader,
-  TableRoot,
-  TableRow,
-  Spinner,
-  Stack,
-} from "@chakra-ui/react";
-import { Field } from "@/components/ui/field";
-import {
-  useForm,
-  UseFormSetValue,
-  FieldErrors,
-  UseFormRegister,
-} from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  DialogBody,
-  DialogCloseTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogRoot,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter,
-} from "@/components/ui/dialog";
-import { GoHomeFill } from "react-icons/go";
-import { ImProfile } from "react-icons/im";
-import { RiMovie2Fill } from "react-icons/ri";
-import { MdMovieEdit } from "react-icons/md";
-import { NavLink } from "react-router";
 
-import {
-  useMovie,
-  useMovieActions,
-  FormMovie,
-  FetchMovie,
-  schemaMovie,
-  MovieQuery,
-} from "@/hooks/useMovie";
-import {
-  useGenre,
-  useGenreActions,
-  FormGenre,
-  schemaGenre,
-} from "@/hooks/useGenre";
+import { DialogFooter, Text, Box, GridItem, Button, Fieldset, HStack, Table, TableBody, TableCell, TableColumnHeader, TableHeader, TableRoot, TableRow, Spinner, Stack } from "@chakra-ui/react";
+import { useForm, UseFormSetValue, FieldErrors, UseFormRegister } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Field } from "@/components/ui/field";
+
+import { useMovie, useMovieActions, FormMovie, FetchMovies, schemaMovie } from "@/hooks/useMovie";
+import { useGenre } from "@/hooks/useGenre";
+import { useMovieStore } from "@/context/useMovieStore";
 import { useUserStore } from "@/context/useUserStore";
-import SortSelector from "@/components/SortSelector";
-import AlertMessage from "@/components/AlertMessage";
-import SearchInput from "@/components/SearchInput";
-import MultipleSelector from "@/components/MultipleSelector";
+import SortSelector from "@/components/global/SortSelector";
+import AlertMessage from "@/components/global/AlertMessage";
+import SearchInput from "@/components/global/SearchInput";
+import MultipleSelector from "@/components/global/MultipleSelector";
+import DialogBox from "@/components/global/DialogBox";
+import { DialogActionBox } from "@/components/global/DialogBox";
+import GenreField from "@/components/global/GenreField";
+import MovieField from "@/components/global/MovieField";
+import MovieUpdateField from "@/components/global/MovieUpdateField";
+import AddGenre from "@/components/global/AddGenre";
+import MovieGenreUpdateField from "@/components/global/MovieGenreUpdateField";
+import AdminNavLink from "@/components/global/AdminNavLink";
 
 interface MovieUpdateProps {
   children: React.ReactNode;
-  movie: FetchMovie;
+  movie: FetchMovies;
 }
 
 interface FileFields {
@@ -78,10 +37,8 @@ interface OtherFieldsProps {
 }
 
 // MOVIE ACTIONS AND LIST
-
-const MovieUpdateForm = ({ movie }: { movie: FetchMovie }) => {
+const MovieUpdateForm = ({ movie, children }: MovieUpdateProps) => {
   const { register, handleSubmit, formState: { errors }, } = useForm<FormMovie>();
-  const { data: genres } = useGenre();
   const { alert, handleUpdate } = useMovieActions();
 
   const onSubmit = (payload: FormMovie) => {
@@ -90,93 +47,27 @@ const MovieUpdateForm = ({ movie }: { movie: FetchMovie }) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Field label="Title">
-          <Input {...register("title")} type="text" placeholder={`${movie.title}`} />
-          {errors.title?.message && (<p className="text-danger">{errors.title?.message}</p>)}
-        </Field>
-
-        <Field label="Select Genres">
-          <HStack>
-            {genres.map((genre) => (
-              <div key={genre._id}>
-                <input {...register("genreIds")} type="checkbox" id={`${genre._id}`} value={genre._id} defaultChecked={movie.genres.some((g) => g._id === genre._id)} />
-                <label htmlFor={`${genre._id}`} style={{ paddingLeft: "5px" }}>
-                  {genre.name}
-                </label>
-              </div>
-            ))}
-          </HStack>
-          {errors.genreIds?.message && (<p className="text-danger">{errors.genreIds?.message}</p>)}
-        </Field>
-
-        <Field label="Rating">
-          <Input {...register("rating", { valueAsNumber: true })} type="text" placeholder={`${movie.rating}`} />
-          {errors.rating?.message && (<p className="text-danger">{errors.rating?.message}</p>)}
-        </Field>
-
-        <Field label="Description">
-          <Input {...register("description")} type="text" placeholder={`${movie.description}`} />
-          {errors.description?.message && (<p className="text-danger">{errors.description?.message}</p>)}
-        </Field>
-
-        <Field label="Released Date">
-          <Input {...register("releasedDate")} type="text" placeholder={`${movie.releasedDate.split("T")[0]}`} />
-          {errors.releasedDate?.message && (<p className="text-danger">{errors.releasedDate?.message}</p>)}
-        </Field>
-
-        <Field label="Translator">
-          <Input {...register("translator")} type="text" placeholder={`${movie.translator}`} />
-          {errors.translator?.message && (<p className="text-danger">{errors.translator?.message}</p>)}
-        </Field>
-
-        <Field label="Encoder">
-          <Input {...register("encoder")} type="text" placeholder={`${movie.encoder}`} />
-          {errors.encoder?.message && (<p className="text-danger">{errors.encoder?.message}</p>)}
-        </Field>
-
-        <Field label="Studio">
-          <Input {...register("studio")} type="text" placeholder={`${movie.studio}`} />
-          {errors.studio?.message && (<p className="text-danger">{errors.studio?.message}</p>)}
-        </Field>
-
-        {alert && <AlertMessage message={alert} />}
-
-        <DialogFooter>
-          <Button type="submit">Update</Button>
-        </DialogFooter>
-      </form>
+      <DialogActionBox dialogTitle="Movie Form" buttonTitle={`${children}`}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <MovieUpdateField label="Title" payloadKey="title" fetchKey="title" movie={movie} register={register} errors={errors} />
+          <MovieGenreUpdateField register={register} errors={errors} document={movie} />
+          <MovieUpdateField label="Rating" payloadKey="rating" fetchKey="rating" movie={movie} valueAsNumber={true} register={register} errors={errors} />
+          <MovieUpdateField label="Description" payloadKey="description" fetchKey="description" movie={movie} register={register} errors={errors} />
+          <MovieUpdateField label="Released Date" payloadKey="releasedDate" fetchKey="releasedDate" movie={movie} register={register} errors={errors} />
+          <MovieUpdateField label="Translator" payloadKey="translator" fetchKey="translator" movie={movie} register={register} errors={errors} />
+          <MovieUpdateField label="Encoder" payloadKey="encoder" fetchKey="encoder" movie={movie} register={register} errors={errors} />
+          <MovieUpdateField label="Studio" payloadKey="studio" fetchKey="studio" movie={movie} register={register} errors={errors} />
+          {alert && <AlertMessage message={alert} />}
+          <DialogFooter>
+            <Button type="submit">Update</Button>
+          </DialogFooter>
+        </form>
+      </DialogActionBox>
     </>
   );
 };
 
-const MovieUpdate = ({ children, movie }: MovieUpdateProps) => {
-  const ref = useRef<HTMLInputElement>(null);
-  return (
-    <DialogRoot
-      initialFocusEl={() => ref.current}
-      scrollBehavior={"inside"}
-      placement={"top"}
-    >
-      <DialogTrigger asChild>
-        <Button variant="plain" _hover={{ color: "cyan" }} color="blue">
-          {children}
-        </Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Movie Updating</DialogTitle>
-          <DialogCloseTrigger />
-        </DialogHeader>
-        <DialogBody>
-          <MovieUpdateForm movie={movie} />
-        </DialogBody>
-      </DialogContent>
-    </DialogRoot>
-  );
-};
-
-const MovieAction = ({ movie }: { movie: FetchMovie }) => {
+const MovieAction = ({ movie }: { movie: FetchMovies }) => {
   const { accessToken, handleDelete } = useMovieActions();
 
   const onClick = () => {
@@ -187,7 +78,7 @@ const MovieAction = ({ movie }: { movie: FetchMovie }) => {
     <>
       {accessToken ? (
         <HStack>
-          <MovieUpdate movie={movie}>Edit</MovieUpdate>
+          <MovieUpdateForm movie={movie}>Edit</MovieUpdateForm>
           <Button variant="plain" _hover={{ color: "cyan" }} color="red" onClick={onClick}>Delete</Button>
         </HStack>
       ) : (
@@ -200,7 +91,8 @@ const MovieAction = ({ movie }: { movie: FetchMovie }) => {
   );
 };
 
-const MovieList = ({ movieQuery }: { movieQuery: MovieQuery }) => {
+const MovieList = () => {
+  const { movieQuery } = useMovieStore();
   const { data: movies, error, loading } = useMovie(movieQuery);
 
   return (
@@ -262,33 +154,6 @@ const MovieList = ({ movieQuery }: { movieQuery: MovieQuery }) => {
 };
 
 // ADD MOVIE
-
-const GenreField = ({ register, errors }: OtherFieldsProps) => {
-  const { data: genres } = useGenre();
-  return (
-    <Field label="Select Genres">
-      <HStack>
-        {genres.map((genre) => (
-          <div key={genre._id}>
-            <input
-              {...register("genreIds")}
-              type="checkbox"
-              id={`${genre._id}`}
-              value={genre._id}
-            />
-            <label htmlFor={`${genre._id}`} style={{ paddingLeft: "5px" }}>
-              {genre.name}
-            </label>
-          </div>
-        ))}
-      </HStack>
-      {errors.genreIds?.message && (
-        <p className="text-danger">{errors.genreIds?.message}</p>
-      )}
-    </Field>
-  );
-};
-
 const FileField = ({ setValue, errors }: FileFields) => {
   return (
     <>
@@ -328,95 +193,27 @@ const FileField = ({ setValue, errors }: FileFields) => {
 const OtherFields = ({ register, errors }: OtherFieldsProps) => {
   return (
     <>
-      <Field label="Title">
-        <Input
-          {...register("title", { required: true })}
-          type="text"
-          placeholder="Title..."
-        />
-        {errors.title?.message && (
-          <p className="text-danger">{errors.title?.message}</p>
-        )}
-      </Field>
+      <MovieField label="Title" payloadKey="title" placeHolder="Title..." required={true} register={register} errors={errors} />
 
-      <GenreField register={register} errors={errors} />
+      <GenreField payloadKey="genreIds" register={register} errors={errors} />
 
-      <Field label="Rating">
-        <Input
-          {...register("rating", { valueAsNumber: true })}
-          type="text"
-          placeholder="1~10"
-        />
-        {errors.rating?.message && (
-          <p className="text-danger">{errors.rating?.message}</p>
-        )}
-      </Field>
+      <MovieField label="Rating" payloadKey="rating" placeHolder="1~10" valueAsNumber={true} register={register} errors={errors} />
 
-      <Field label="Description">
-        <Input
-          {...register("description")}
-          type="text"
-          placeholder="Spirited is ..."
-        />
-        {errors.description?.message && (
-          <p className="text-danger">{errors.description?.message}</p>
-        )}
-      </Field>
+      <MovieField label="Description" payloadKey="description" placeHolder="Spirited Away is a ..." required={true} register={register} errors={errors} />
 
-      <Field label="Released Date">
-        <Input
-          {...register("releasedDate", { required: true })}
-          type="text"
-          placeholder="YYYY-MM-DD"
-        />
-        {errors.releasedDate?.message && (
-          <p className="text-danger">{errors.releasedDate?.message}</p>
-        )}
-      </Field>
+      <MovieField label="Released Date" payloadKey="releasedDate" placeHolder="YYYY-MM-DD" required={true} register={register} errors={errors} />
 
-      <Field label="Translator">
-        <Input
-          {...register("translator", { required: true })}
-          type="text"
-          placeholder="name..."
-        />
-        {errors.translator?.message && (
-          <p className="text-danger">{errors.translator?.message}</p>
-        )}
-      </Field>
+      <MovieField label="Translator" payloadKey="translator" placeHolder="Translator..." required={true} register={register} errors={errors} />
 
-      <Field label="Encoder">
-        <Input
-          {...register("encoder", { required: true })}
-          type="text"
-          placeholder="name..."
-        />
-        {errors.encoder?.message && (
-          <p className="text-danger">{errors.encoder?.message}</p>
-        )}
-      </Field>
+      <MovieField label="Encoder" payloadKey="encoder" placeHolder="Encoder..." required={true} register={register} errors={errors} />
 
-      <Field label="Studio">
-        <Input
-          {...register("studio", { required: true })}
-          type="text"
-          placeholder="Studio name"
-        />
-        {errors.studio?.message && (
-          <p className="text-danger">{errors.studio?.message}</p>
-        )}
-      </Field>
+      <MovieField label="Studio" payloadKey="studio" placeHolder="Studio..." required={true} register={register} errors={errors} />
     </>
   );
 };
 
-const MovieForm = () => {
-  const {
-    register,
-    setValue,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormMovie>({ resolver: zodResolver(schemaMovie) });
+const AddMovie = () => {
+  const { register, setValue, handleSubmit, formState: { errors }, } = useForm<FormMovie>({ resolver: zodResolver(schemaMovie) });
   const { alert, loading, handleCreate } = useMovieActions();
 
   const onSubmit = (payload: FormMovie) => {
@@ -424,212 +221,69 @@ const MovieForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Fieldset.Root>
-        <Fieldset.HelperText>
-          Please provide movie details below.
-        </Fieldset.HelperText>
-        <Fieldset.Content>
-          <OtherFields register={register} errors={errors} />
-          <FileField setValue={setValue} errors={errors} />
-        </Fieldset.Content>
-        {alert && <AlertMessage message={alert} />}
-        {!loading ? (
-          <Button type="submit">Submit</Button>
-        ) : (
-          <Button disabled>Submiting...</Button>
-        )}
-      </Fieldset.Root>
-    </form>
-  );
-};
-
-const AddMovie = ({ children }: { children: React.ReactNode }) => {
-  const ref = useRef<HTMLInputElement>(null);
-  return (
-    <DialogRoot
-      initialFocusEl={() => ref.current}
-      scrollBehavior="inside"
-      placement={"top"}
-    >
-      <DialogTrigger asChild>
-        <Button>{children}</Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogCloseTrigger />
-        <DialogHeader>
-          <DialogTitle>Movie Form</DialogTitle>
-          <DialogCloseTrigger />
-        </DialogHeader>
-        <DialogBody>
-          <MovieForm />
-        </DialogBody>
-      </DialogContent>
-    </DialogRoot>
-  );
-};
-
-// ADD GENRE
-
-const GenreForm = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormGenre>({ resolver: zodResolver(schemaGenre) });
-  const { alert, loading, handleCreate } = useGenreActions();
-
-  const onSubmit = (payload: FormGenre) => {
-    handleCreate(payload);
-  };
-
-  return (
-    <>
-      {alert && <AlertMessage message={alert} />}
-
+    <DialogBox dialogTitle="Movie Form" buttonTitle="Add Movie">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Fieldset.Root>
           <Fieldset.HelperText>
-            Please provide genre details below.
+            Please provide movie details below.
           </Fieldset.HelperText>
           <Fieldset.Content>
-            <Field label="Name">
-              <Input
-                {...register("name", { required: true })}
-                type="text"
-                placeholder="Name..."
-              />
-              {errors.name?.message && (
-                <p className="text-danger">{errors.name?.message}</p>
-              )}
-            </Field>
+            <OtherFields register={register} errors={errors} />
+            <FileField setValue={setValue} errors={errors} />
           </Fieldset.Content>
+          {alert && <AlertMessage message={alert} />}
           {!loading ? (
-            <DialogFooter>
-              <Button type="submit">Submit</Button>{" "}
-            </DialogFooter>
+            <Button type="submit">Submit</Button>
           ) : (
-            <DialogFooter>
-              <Button disabled>Submiting...</Button>
-            </DialogFooter>
+            <Button disabled>Submiting...</Button>
           )}
         </Fieldset.Root>
       </form>
-    </>
-  );
-};
-
-const AddGenre = ({ children }: { children: React.ReactNode }) => {
-  const ref = useRef<HTMLInputElement>(null);
-  return (
-    <DialogRoot initialFocusEl={() => ref.current} placement={"top"}>
-      <DialogTrigger asChild>
-        <Button>{children}</Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogCloseTrigger />
-        <DialogHeader>
-          <DialogTitle>Genre Form</DialogTitle>
-          <DialogCloseTrigger />
-        </DialogHeader>
-        <DialogBody>
-          <GenreForm />
-        </DialogBody>
-      </DialogContent>
-    </DialogRoot>
+    </DialogBox>
   );
 };
 
 function MoviePanel() {
-  const [movieQuery, setMovieQuery] = useState<MovieQuery>({} as MovieQuery);
+  // const [movieQuery, setMovieQuery] = useState<MovieQuery>({} as MovieQuery);
+  const { movieQuery, setMovieQuery } = useMovieStore();
   const { accessToken } = useUserStore();
   const { data: genres } = useGenre();
 
   return (
-    <Grid
-      templateAreas={{
-        base: `"buttons" "list"`, // Stack nav, form, and list in one column for small screens
-        lg: `"buttons buttons" "list list"`, // In large screens, side by side
-        md: `"buttons buttons buttons" "list list list"`,
-        sm: `"buttons buttons buttons buttons" "list list list list"`,
-      }}
-      templateColumns={{
-        base: "1fr",
-        md: "1fr",
-        sm: "1fr",
-      }}
-      padding={3}
-    >
-      {/* BUTTONS */}
-      <GridItem area="buttons">
-        <Stack
-          direction={{ base: "row", md: "row", sm: "row" }}
-          justifyContent={"flex-start"}
-          paddingBottom={3}
-        >
-          <NavLink to="/">
-            <GoHomeFill size={"30px"} />
-          </NavLink>
-          <NavLink to="/admin/team-panel">
-            <ImProfile size={"27px"} />
-          </NavLink>
-          <NavLink to="/admin/movie-panel">
-            <MdMovieEdit size={"31px"} />
-          </NavLink>
-          <NavLink to="/admin/serie-panel/series">
-            <RiMovie2Fill size={"31px"} />
-          </NavLink>
+    <>
+      {/* NAV */}
+      <GridItem area="nav">
+        <Stack direction={{ base: "row", md: "row", sm: "row" }} justifyContent={"flex-start"} paddingBottom={3}>
+          <AdminNavLink />
           {accessToken ? (
             <>
-              <AddMovie>Add Movie</AddMovie>
-              <AddGenre>Add Genre</AddGenre>
+              <AddMovie />
+              <AddGenre />
             </>
           ) : (
             <>
-              <Button
-                onClick={() =>
-                  window.alert("Please login to perform this action")
-                }
-              >
+              <Button onClick={() => window.alert("Please login to perform this action")} >
                 Add Movie
               </Button>
-              <Button
-                onClick={() =>
-                  window.alert("Please login to perform this action")
-                }
-              >
+              <Button onClick={() => window.alert("Please login to perform this action")} >
                 Add Genre
               </Button>
             </>
           )}
-          <SortSelector
-            selectedSort={movieQuery.ordering}
-            onClick={(ordering) => setMovieQuery({ ...movieQuery, ordering })}
-          />
-          <MultipleSelector
-            labelName="name"
-            placeholderName="Genre"
-            data={genres}
-            onValueChange={(selected: any) =>
-              setMovieQuery({ ...movieQuery, genres: selected })
-            }
-          />
-          <SearchInput
-            placeholderName="movies"
-            onSubmit={(payload) =>
-              setMovieQuery({ ...movieQuery, search: payload.searchName })
-            }
-          />
+
+          <SortSelector selectedSort={movieQuery.ordering} onClick={(ordering) => setMovieQuery({ ...movieQuery, ordering })} />
+          <MultipleSelector labelName="name" placeholderName="Genre" data={genres} onValueChange={(selected: any) => setMovieQuery({ ...movieQuery, genres: selected })} />
+          <SearchInput placeholderName="movies" onSubmit={(payload) => setMovieQuery({ ...movieQuery, search: payload.searchName })} />
         </Stack>
       </GridItem>
 
       {/* MOVIE LIST */}
       <GridItem area="list">
         <Box>
-          <MovieList movieQuery={movieQuery} />
+          <MovieList />
         </Box>
       </GridItem>
-    </Grid>
+    </>
   );
 }
 

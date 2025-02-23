@@ -1,5 +1,7 @@
+
 import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
+import { Grid } from "@chakra-ui/react";
 
 import { useUserStore } from "@/context/useUserStore";
 
@@ -15,8 +17,23 @@ export default function AdminLayout() {
   }, [accessToken, fetchAccessToken]);
 
   return (
-    <div>
+    <Grid
+      templateAreas={{
+        base: `"nav" "list"`, // Stack nav, form, and list in one column for small screens
+        lg: `"nav nav" "list list"`, // In large screens, side by side
+        md: `"nav nav nav" "list list list"`,
+        sm: `"nav nav nav nav" "list list list list"`,
+      }}
+      templateColumns={{
+        base: "1fr",
+        md: "1fr",
+        sm: "1fr",
+      }}
+      padding={3}
+    >
+
       <Outlet />
-    </div>
+
+    </Grid>
   );
 }

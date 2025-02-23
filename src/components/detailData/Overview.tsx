@@ -1,6 +1,6 @@
-import { FetchMovie } from "@/hooks/useMovie";
+import { FetchMovies } from "@/hooks/useMovie";
 
-export default function Overview({ detailData }: { detailData?: FetchMovie }) {
+export default function Overview({ detailData }: { detailData?: FetchMovies }) {
   return (
     <div className="detail-container">
       {/* Description */}
