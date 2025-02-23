@@ -5,9 +5,9 @@ import { Provider } from "@/components/ui/provider";
 import MoviePanel from "@/pages/MoviePanel";
 import TeamPanel from "@/pages/TeamPanel";
 import SeriePanel from "@/pages/SeriePanel";
-import Serie from "@/components/admin/Serie";
-import Season from "@/components/admin/Season";
-import Episode from "@/components/admin/Episode";
+import SerieTable from "@/components/admin/SerieTable";
+import SeasonTable from "@/components/admin/SeasonTable";
+import EpisodeTable from "@/components/admin/EpisodeTable";
 import Test from "@/components/admin/Test";
 
 import App from "../App";
@@ -106,9 +106,9 @@ const router = createBrowserRouter([
         path: "serie-panel/*",
         element: <SeriePanel />,
         children: [
-          { path: "series", element: <Serie /> },
-          { path: "series/:serieId", element: <Season /> },
-          { path: "series/:serieId/seasons/:seasonNumber", element: <Episode /> }
+          { path: "series", element: <SerieTable /> },
+          { path: "series/:serieId", element: <SeasonTable /> },
+          { path: "series/:serieId/seasons/:seasonNumber", element: <EpisodeTable /> }
         ]
       },
     ],

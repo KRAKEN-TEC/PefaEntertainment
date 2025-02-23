@@ -8,7 +8,7 @@ import { useSerieStore } from "@/context/useSerieStore";
 import { useSerie } from "@/hooks/useSerie";
 import { DialogActionBox } from "../global/DialogBox";
 import AlertMessage from "../global/AlertMessage";
-import GenreUpdateField from "../global/GenreUpdateField";
+import SerieGenreUpdateField from "../global/SerieGenreUpdateField";
 import SerieUpdateField from "../global/SerieUpdateField";
 
 interface SerieUpdate {
@@ -29,7 +29,7 @@ const SerieUpdate = ({ children, serie }: SerieUpdate) => {
       <DialogActionBox dialogTitle="Serie Update Form" buttonTitle={`${children}`}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <SerieUpdateField label="Title" payloadKey="title" fetchKey="title" register={register} errors={errors} serie={serie} />
-          <GenreUpdateField register={register} errors={errors} document={serie} />
+          <SerieGenreUpdateField register={register} errors={errors} document={serie} />
           <SerieUpdateField label="Rating" payloadKey="rating" fetchKey="rating" register={register} errors={errors} serie={serie} />
           <SerieUpdateField label="Description" payloadKey="description" fetchKey="description" register={register} errors={errors} serie={serie} />
           <SerieUpdateField label="Released Date" payloadKey="releasedDate" fetchKey="releasedDate" register={register} errors={errors} serie={serie} />
@@ -78,7 +78,7 @@ const SerieAction = ({ serie }: { serie: FetchSeries }) => {
   );
 };
 
-export default function Serie() {
+export default function SerieTable() {
   const { serieQuery } = useSerieStore();
   const { data: series, error, loading } = useSerie(serieQuery);
 

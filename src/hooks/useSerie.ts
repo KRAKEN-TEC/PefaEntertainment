@@ -1,13 +1,10 @@
 
 import { z } from "zod";
-
-import { logActionError, logError } from "@/services/log-error";
 import { useUserStore } from "@/context/useUserStore";
 import { useState } from "react";
 import { FetchGenres } from "./useGenre";
 import { useSerieStore } from "@/context/useSerieStore";
-import useData from "./useData";
-import apiPefa from "@/services/api-pefa";
+import useData, { useSingleData } from "./useData";
 
 
 export interface FetchEpisodes {
@@ -130,6 +127,30 @@ export const useSerie = (serieQuery?: SerieQuery) => useData<FetchSeries>('/seri
     [serieQuery]
 )
 
+export const useSeason = (serieId?: string, serieQuery?: SerieQuery) => useSingleData<FetchSeasons[]>(`/series/${serieId}/seasons`,
+    {
+        params: {
+            page: serieQuery?.page,
+            genres: serieQuery?.genres,
+            search: serieQuery?.search,
+            ordering: serieQuery?.ordering
+        }
+    },
+    [serieQuery]
+);
+
+export const useEpisode = (serieId?: string, seasonNumber?: string, serieQuery?: SerieQuery) => useSingleData<FetchEpisodes[]>(`/series/${serieId}/seasons/${seasonNumber}/episodes`,
+    {
+        params: {
+            page: serieQuery?.page,
+            genres: serieQuery?.genres,
+            search: serieQuery?.search,
+            ordering: serieQuery?.ordering
+        }
+    },
+    [serieQuery]
+);
+
 export const useSerieActions = () => {
     const { updateActions } = useSerieStore();
     const { accessToken } = useUserStore();
@@ -179,122 +200,3 @@ export const useSerieActions = () => {
         handleEpisodeCreate, handleEpisodeUpdate, handleEpisodeDelete
     }
 }
-
-// export const useMovieActions = () => {
-//     const { updateActions } = useMovieStore();
-//     const { accessToken } = useUserStore();
-//     const [loading, setLoading] = useState(false);
-//     const [alert, setAlert] = useState<string>("");
-
-//     const handleUpdate = async (payload: FormMovie, movie: FetchMovies) => {
-//         setAlert("");
-//         setLoading(true);
-
-//         const data = {
-//             ...payload,
-//             genreIds: payload.genreIds || [...movie.genres.map((genre) => genre._id)],
-//             rating: isNaN(payload.rating) ? movie.rating : payload.rating,
-//         }
-
-//         try {
-//             await apiPefa.put(`/movies/${movie._id}`, data, {
-//                 headers: {
-//                     Authorization: `${accessToken}`,
-//                     "Content-Type": "application/json" // set content type to json
-//                 }
-//             })
-//             updateActions(["movie-update"]);
-//             setLoading(false);
-//             setAlert("Movie updated successfully");
-//         }
-//         catch (error: any) {
-//             setLoading(false);
-//             logActionError(error);
-//         }
-//     };
-
-//     const handleDelete = async (movie: FetchMovies) => {
-//         setAlert("");
-//         setLoading(true);
-//         try {
-//             const poster_key = movie.poster_url.split('com/')[1]
-//             const presigned_poster = await apiPefa.post('/presigned-url/delete-url', { KEY: poster_key });
-
-//             const video_key = movie.video_url.split('com/')[1]
-//             const presigned_video = await apiPefa.post('/presigned-url/delete-url', { KEY: video_key });
-
-
-//             await apiPefa.delete(`/movies/${movie._id}`, {
-//                 headers: {
-//                     Authorization: `${accessToken}`,
-//                     "Content-Type": "multipart/form-data"
-//                 }
-//             })
-
-//             // await fetch (url, {method: 'DELETE'})
-//             // Delete the file from S3 using the pre-signed URL after the movie is successfully deleted
-//             await fetch(presigned_poster.data.url, {
-//                 method: 'DELETE',
-//             });
-
-//             // Delete the file from S3 using the pre-signed URL after the movie is successfully deleted
-//             await fetch(presigned_video.data.url, {
-//                 method: 'DELETE',
-//             });
-
-//             // Update the actions in the store
-//             updateActions(["movie-delete"]);
-//             setLoading(false);
-//             setAlert("Movie deleted successfully");
-//         }
-//         catch (error: any) {
-//             setLoading(false);
-//             logActionError(error)
-//         }
-//     };
-
-//     const handleCreate = async (payload: FormMovie) => {
-//         setAlert(""); // Reset the alert
-//         setLoading(true);
-//         try {
-//             // Get the pre-signed URL from the backend
-//             const presigned_poster = await apiPefa.post('/presigned-url/post-url', { name: payload.poster.name, type: payload.poster.type });
-//             const presigned_video = await apiPefa.post('/presigned-url/post-url', { name: payload.video.name, type: payload.video.type });
-
-//             // send the payload to the backend
-//             const { poster, video, ...rest } = payload; // Separate the poster file from the payload
-//             await apiPefa.post(`/movies`, { ...rest, posterName: payload.poster.name, videoName: payload.video.name }, {
-//                 headers: {
-//                     Authorization: `${accessToken}`,
-//                     "Content-Type": "application/json"
-//                 }
-//             })
-
-//             // Upload the file to S3 using the pre-signed URL after the movie is successfully posted
-//             await fetch(presigned_poster.data.url, {
-//                 method: 'PUT',
-//                 headers: { 'Content-Type': payload.poster.type },
-//                 body: payload.poster,
-//             });
-
-//             // Upload the file to S3 using the pre-signed URL after the movie is successfully posted
-//             await fetch(presigned_video.data.url, {
-//                 method: 'PUT',
-//                 headers: { 'Content-Type': payload.video.type },
-//                 body: payload.video,
-//             });
-
-//             // Update the actions in the store
-//             updateActions(["movie-post"]);
-//             setAlert("Movie posted successfully");
-//             setLoading(false);
-//         }
-//         // Handle the error
-//         catch (error: any) {
-//             logError(error, setAlert);
-//             setLoading(false);
-//         }
-//     };
-
-//     return { accessToken, loading, alert, handleDelete, handleUpdate, handleCreate };
-// }

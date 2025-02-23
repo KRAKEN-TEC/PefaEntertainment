@@ -9,16 +9,17 @@ interface MovieFeildProps {
   label: string;
   payloadKey: keyof FormMovie;
   fetchKey: keyof FetchMovies;
+  valueAsNumber?: boolean;
   errors: FieldErrors<FormMovie>;
   movie: FetchMovies;
   register: UseFormRegister<FormMovie>;
 }
 
-export default function MovieUpdateField({ label, payloadKey, fetchKey, register, errors, movie }: MovieFeildProps) {
+export default function MovieUpdateField({ label, payloadKey, valueAsNumber, fetchKey, register, errors, movie }: MovieFeildProps) {
 
   return (
     <Field label={label}>
-      <Input {...register(payloadKey)} type="text" placeholder={`${movie[fetchKey]}`} />
+      <Input {...register(payloadKey, { valueAsNumber: valueAsNumber })} type="text" placeholder={`${movie[fetchKey]}`} />
       {errors[payloadKey]?.message && (<p className="text-danger">{errors[payloadKey]?.message}</p>)}
     </Field>
   )

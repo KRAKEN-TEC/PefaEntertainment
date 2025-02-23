@@ -17,7 +17,7 @@ interface OtherFieldsProps<T> {
   document: T
 }
 
-export default function GenreUpdateField<T extends OptionTypes>({ register, errors, document }: OtherFieldsProps<T>) {
+export default function SerieGenreUpdateField<T extends OptionTypes>({ register, errors, document }: OtherFieldsProps<T>) {
   const { data: genres } = useGenre();
   return (
     <Field label="Select Genres">

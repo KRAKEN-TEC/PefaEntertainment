@@ -1,20 +1,29 @@
-import { DialogFooter, HStack, Button, Text, Box, Table, TableBody, TableCell, TableColumnHeader, TableHeader, TableRoot, TableRow, Spinner } from "@chakra-ui/react";
+import { Fieldset, DialogFooter, HStack, Button, Text, Box, Table, TableBody, TableCell, TableColumnHeader, TableHeader, TableRoot, TableRow, Spinner } from "@chakra-ui/react";
+import { Field } from "../ui/field";
 import { useParams, NavLink } from "react-router";
-import { useForm } from "react-hook-form";
+import { useForm, FieldErrors, UseFormSetValue } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import "@/admin.css"
-import { FetchSeasons, FormSeason, useSerieActions, FetchSeries } from "@/hooks/useSerie";
-import { DialogActionBox } from "../global/DialogBox";
+import { FetchSeasons, FormSeason, useSerieActions, FetchSeries, schemaSeasons, useSeason } from "@/hooks/useSerie";
 import { useSingleData } from "@/hooks/useData";
+import DialogBox, { DialogActionBox } from "../global/DialogBox";
 import SeasonUpdateField from "../global/SeasonUpdateField";
 import AlertMessage from "../global/AlertMessage";
+import SeasonField from "../global/SeasonField";
+import { useSerieStore } from "@/context/useSerieStore";
 
-interface SerieUpdate {
+interface SerieUpdateProps {
   children: React.ReactNode,
   season: FetchSeasons
 }
 
-const SeasonUpdate = ({ children, season }: SerieUpdate) => {
+interface FileFieldProps {
+  setValue: UseFormSetValue<FormSeason>;
+  errors: FieldErrors<FormSeason>;
+}
+
+const SeasonUpdate = ({ children, season }: SerieUpdateProps) => {
   const { register, handleSubmit, formState: { errors }, } = useForm<FormSeason>();
   const { alert, handleSeasonUpdate } = useSerieActions();
 
@@ -38,7 +47,6 @@ const SeasonUpdate = ({ children, season }: SerieUpdate) => {
     </>
   );
 };
-
 
 const SeasonAction = ({ season }: { season: FetchSeasons }) => {
   const { accessToken, handleSeasonDelete } = useSerieActions();
@@ -72,15 +80,70 @@ const SeasonAction = ({ season }: { season: FetchSeasons }) => {
   );
 };
 
+// ADD SEASON
+const FileField = ({ setValue, errors }: FileFieldProps) => {
+  return (
+    <>
+      <Field label="Poster File">
+        <input type="file" accept="image/jpeg, image/png" className="file-upload"
+          onChange={(e) => {
+            const file = e.target.files?.[0];
+            if (file) setValue("poster", file);
+          }}
+        />
+        {errors.poster?.message && (<p className="text-danger">{errors.poster?.message}</p>)}
+      </Field>
+    </>
+  );
+};
 
-const Season = () => {
+export const AddSeason = () => {
+  const { register, handleSubmit, setValue, formState: { errors }, } = useForm<FormSeason>({ resolver: zodResolver(schemaSeasons) });
+  const { alert, loading, handleSeasonCreate } = useSerieActions();
+
+  const onSubmit = (payload: FormSeason) => {
+    handleSeasonCreate(payload);
+  };
+
+  return (
+    <DialogBox dialogTitle="Season Form" buttonTitle="Add Season">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Fieldset.Root>
+
+          <Fieldset.HelperText>
+            Please provide series details below.
+          </Fieldset.HelperText>
+
+          <Fieldset.Content>
+            <SeasonField label="Season Number" payloadKey="seasonNumber" required={true} valueAsNumber={true} placeHolder="A Number" register={register} errors={errors} />
+            <SeasonField label="Title" payloadKey="title" placeHolder="Title..." required={true} register={register} errors={errors} />
+            <SeasonField label="Description" payloadKey="description" placeHolder="Attack On Titan is a ..." register={register} errors={errors} />
+            <FileField setValue={setValue} errors={errors} />
+          </Fieldset.Content>
+
+          {alert && <AlertMessage message={alert} />}
+
+          {!loading ? (
+            <Button type="submit">Submit</Button>
+          ) : (
+            <Button disabled>Submiting...</Button>
+          )}
+
+        </Fieldset.Root>
+      </form>
+    </DialogBox>
+  );
+};
+
+const SeasonTable = () => {
   const { serieId } = useParams();
-  const { data: serie, error, loading } = useSingleData<FetchSeries>(`/series/${serieId}`);
+  const { serieQuery } = useSerieStore();
+  const { data: seasons, error, loading } = useSeason(serieId, serieQuery);
 
   return (
     <>
-      {serie &&
-        <Table.ScrollArea height={serie.seasons?.length ? "560px" : "auto"}>
+      {seasons &&
+        <Table.ScrollArea height={seasons ? "560px" : "auto"}>
           <TableRoot stickyHeader>
             <Table.ColumnGroup>
               <Table.Column htmlWidth="10%" />
@@ -100,7 +163,7 @@ const Season = () => {
             </TableHeader>
 
             <TableBody>
-              {serie.seasons.map((season) => (
+              {seasons.map((season) => (
                 <TableRow key={season._id}>
                   <TableCell>{season.seasonNumber}</TableCell>
                   <TableCell>{season.title}</TableCell>
@@ -131,4 +194,4 @@ const Season = () => {
   )
 }
 
-export default Season
+export default SeasonTable
