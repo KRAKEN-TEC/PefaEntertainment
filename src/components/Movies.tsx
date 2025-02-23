@@ -1,4 +1,4 @@
-import { FetchMovie, useMovie } from "@/hooks/useMovie";
+import { FetchMovies, useMovie } from "@/hooks/useMovie";
 import "./CSS/Movies.css";
 import { useNavigate } from "react-router";
 import useNavDetail from "@/hooks/useNavDetail";
@@ -9,7 +9,7 @@ export default function Movies() {
 
   const nav = useNavigate();
 
-  const getRandomMovies = (movies: FetchMovie[], count = 3) => {
+  const getRandomMovies = (movies: FetchMovies[], count = 3) => {
     return movies
       .filter((m) => !m.isSerie)
       .sort(() => Math.random() - 0.5)

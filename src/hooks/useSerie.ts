@@ -5,6 +5,7 @@ import { logActionError, logError } from "@/services/log-error";
 import { useUserStore } from "@/context/useUserStore";
 import { useState } from "react";
 import { FetchGenres } from "./useGenre";
+import { useSerieStore } from "@/context/useSerieStore";
 import useData from "./useData";
 import apiPefa from "@/services/api-pefa";
 
@@ -129,13 +130,63 @@ export const useSerie = (serieQuery?: SerieQuery) => useData<FetchSeries>('/seri
     [serieQuery]
 )
 
+export const useSerieActions = () => {
+    const { updateActions } = useSerieStore();
+    const { accessToken } = useUserStore();
+    const [loading, setLoading] = useState(false);
+    const [alert, setAlert] = useState<string>("");
+
+    const handleSerieCreate = (payload: FormSerie) => {
+        // ...
+    }
+
+    const handleSerieUpdate = (payload: FormSerie, serie: FetchSeries) => {
+        // ...
+    }
+
+    const handleSerieDelete = (serie: FetchSeries) => {
+        // ...
+    }
+
+    const handleSeasonCreate = (payload: FormSeason) => {
+        // ...
+    }
+
+    const handleSeasonUpdate = (payload: FormSeason, season: FetchSeasons) => {
+        // ...
+    }
+
+    const handleSeasonDelete = (season: FetchSeasons) => {
+        // ...
+    }
+
+    const handleEpisodeCreate = (payload: FormEpisode) => {
+        // ...
+    }
+
+    const handleEpisodeUpdate = (payload: FormEpisode, episode: FetchEpisodes) => {
+        // ...
+    }
+
+    const handleEpisodeDelete = (episode: FetchEpisodes) => {
+        // ...
+    }
+
+    return {
+        alert, accessToken, loading,
+        handleSerieCreate, handleSerieUpdate, handleSerieDelete,
+        handleSeasonCreate, handleSeasonUpdate, handleSeasonDelete,
+        handleEpisodeCreate, handleEpisodeUpdate, handleEpisodeDelete
+    }
+}
+
 // export const useMovieActions = () => {
 //     const { updateActions } = useMovieStore();
 //     const { accessToken } = useUserStore();
 //     const [loading, setLoading] = useState(false);
 //     const [alert, setAlert] = useState<string>("");
 
-//     const handleUpdate = async (payload: FormMovie, movie: FetchMovie) => {
+//     const handleUpdate = async (payload: FormMovie, movie: FetchMovies) => {
 //         setAlert("");
 //         setLoading(true);
 
@@ -162,7 +213,7 @@ export const useSerie = (serieQuery?: SerieQuery) => useData<FetchSeries>('/seri
 //         }
 //     };
 
-//     const handleDelete = async (movie: FetchMovie) => {
+//     const handleDelete = async (movie: FetchMovies) => {
 //         setAlert("");
 //         setLoading(true);
 //         try {

@@ -1,5 +1,5 @@
 import "../CSS/WatchingBox.css";
-import { FetchMovie } from "@/hooks/useMovie";
+import { FetchMovies } from "@/hooks/useMovie";
 import { useUserStore } from "@/context/useUserStore";
 import { useState } from "react";
 import { useNavigate } from "react-router";
@@ -7,7 +7,7 @@ import { useNavigate } from "react-router";
 export default function WatchingBox({
   detailData,
 }: {
-  detailData?: FetchMovie;
+  detailData?: FetchMovies;
 }) {
   const [showPopup, setShowPopup] = useState(false);
   const { accessToken } = useUserStore();

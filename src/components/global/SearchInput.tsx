@@ -1,5 +1,6 @@
 import { FieldValues, useForm } from "react-hook-form";
-import "./CSS/NavBar.css";
+import "@/components/CSS/NavBar.css"
+
 interface Props {
   onSubmit: (payload: FieldValues) => void;
   placeholderName: string;

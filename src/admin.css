@@ -1,0 +1,18 @@
+.button-action {
+    background: none;
+    border: none;
+    color: blue;
+}
+
+.button-action:hover {
+    color: cyan;
+}
+
+.button-action.red {
+    color: red;
+}
+
+
+.button-action.gray {
+    color: gray;
+}

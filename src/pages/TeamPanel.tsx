@@ -46,9 +46,9 @@ import {
   userQuery,
 } from "@/hooks/useUser";
 import { useUserStore } from "@/context/useUserStore";
-import AlertMessage from "@/components/AlertMessage";
-import MultipleSelector from "@/components/MultipleSelector";
-import SearchInput from "@/components/SearchInput";
+import AlertMessage from "@/components/global/AlertMessage";
+import MultipleSelector from "@/components/global/MultipleSelector";
+import SearchInput from "@/components/global/SearchInput";
 
 // USER ACTION AND LIST
 
