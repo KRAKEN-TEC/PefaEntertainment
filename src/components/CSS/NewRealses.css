@@ -12,6 +12,12 @@
   white-space: nowrap;
 }
 
+.series-scroll-container {
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  overflow-x: scroll;
+}
+
 /* Movie Grid Layout */
 .NR-movie-grid {
   display: grid;
@@ -86,17 +92,17 @@
   align-items: left;
 }
 
-.overlay ul{
-display: flex;
-flex-direction: row;
-justify-content: flex-start;
+.overlay ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
 }
 
 .overlay li {
   border: none;
   background-color: white;
   border-radius: 10px;
-  font-size: small; 
+  font-size: small;
   margin: 0 7px 0 0px;
   color: #e85448;
   display: inline-block;
