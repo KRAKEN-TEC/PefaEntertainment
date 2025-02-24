@@ -30,7 +30,7 @@ export default function DetailPage() {
   }, [index, text, pefaStore]);
 
   return (
-    <div>
+    <div className="s-con">
       {/* Header Section */}
       {movieData ? (
         <div

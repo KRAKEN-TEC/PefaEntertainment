@@ -103,12 +103,13 @@
   border: none;
   background-color: white;
   border-radius: 10px;
-  font-size: small;
+  font-size: x-small;
   margin: 0 7px 0 0px;
   color: #e85448;
   display: inline-block;
   padding: 4px 10px;
-  width: 50px;
+  width: max-content;
+  font-weight:500;
 }
 
 .overlay h3 {

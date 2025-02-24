@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 
 import useNavDetail from "@/hooks/useNavDetail";
 import { useSerie, FetchSeries } from "@/hooks/useSerie";
+import { genreLi } from "./global/genreLi";
 
 export default function Series() {
   const { data: series } = useSerie();
@@ -39,7 +40,7 @@ export default function Series() {
                     <span>{s.description}</span>
                     <ul>
                       {s.genres.map((g) => (
-                        <li key={g._id}>{g.name}</li>
+                        genreLi(g._id, g.name.toUpperCase())
                       ))}
                     </ul>
                   </div>

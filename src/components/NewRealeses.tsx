@@ -4,8 +4,9 @@ import "./CSS/NewRealses.css";
 import useNavDetail from "@/hooks/useNavDetail";
 import { useEffect, useRef, useState } from "react";
 import { scroll } from "@/helper/GlobalHelper";
-import ButtonWithSVGIcon from "./ui/ButtonWithSvgIcon";
+import { genreLi } from "./global/genreLi";
 import { FetchPefa, usePefa } from "@/hooks/usePefa";
+
 export default function NewRealeses() {
   const NR_movie_container = useRef<HTMLDivElement | null>(null);
   const NR_movie_box = useRef<HTMLDivElement | null>(null);
@@ -147,10 +148,10 @@ export default function NewRealeses() {
                   <h3>{newRealse.title}</h3>
                   {/* <span>{newRealse.description}</span> */}
                   <ul>
-                    {newRealse.genres.map(
-                      (genre, index) =>
-                        index < 3 && <li key={genre._id}>{genre.name}</li>
-                    )}
+                    {newRealse.genres.map((genre, index) => (
+                      index < 3 &&
+                      genreLi(genre._id, genre.name.toUpperCase())
+                    ))}
                   </ul>
                 </div>
               </div>
