@@ -1,10 +1,13 @@
 import { create } from "zustand";
 import { FetchMovies, MovieQuery } from "@/hooks/useMovie";
+import { FetchPefa } from "@/hooks/usePefa";
 
 export interface ActionSlice {
   movieQuery: MovieQuery;
   actions: string[];
   newReleaseMovieStore: FetchMovies[];
+  pefaStore: FetchPefa[];
+  setPefaStore: (pefaData: FetchPefa[]) => void;
   setMovieQuery: (query: MovieQuery) => void;
   setNewReleaseMovieStore: (newRelease: FetchMovies[]) => void;
   updateActions: (actions: string[]) => void;
@@ -18,6 +21,10 @@ export const useMovieStore = create<ActionSlice>((set) => ({
   newReleaseMovieStore: [] as FetchMovies[],
   setNewReleaseMovieStore: (newRelease: FetchMovies[]) => {
     set({ newReleaseMovieStore: newRelease });
+  },
+  pefaStore: [] as FetchPefa[],
+  setPefaStore: (pefaData: FetchPefa[]) => {
+    set({ pefaStore: pefaData });
   },
   setMovieQuery: (query) => set({ movieQuery: query }),
   updateActions: (actions) => {

@@ -9,3 +9,8 @@ export const scroll = (
     scrollContainer.scrollLeft += width;
   }
 };
+
+export const stringSliceWith$ = (st: string) => {
+  const [index, text] = st.split("$");
+  return { index, text };
+};
