@@ -2,33 +2,40 @@ import { useMovie } from "@/hooks/useMovie";
 import { useMovieStore } from "@/context/useMovieStore";
 import "./CSS/NewRealses.css";
 import useNavDetail from "@/hooks/useNavDetail";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { scroll } from "@/helper/GlobalHelper";
 import ButtonWithSVGIcon from "./ui/ButtonWithSvgIcon";
 export default function NewRealeses() {
-  const { movieQuery, setMovieQuery } = useMovieStore();
-  const { data: newRealses } = useMovie(movieQuery);
-  const { callNav } = useNavDetail();
   const NR_movie_container = useRef<HTMLDivElement | null>(null);
   const NR_movie_box = useRef<HTMLDivElement | null>(null);
+  const {
+    movieQuery,
+    setMovieQuery,
+    newReleaseMovieStore,
+    setNewReleaseMovieStore,
+  } = useMovieStore();
+
+  const { data: newRealses } = useMovie(movieQuery);
+  console.log(newReleaseMovieStore);
+  const { callNav } = useNavDetail();
   const [clientWidth, setClientWidth] = useState<number>(0);
   const [apiCallingWatcher, setApiCallingWatcher] = useState({
     watchNumber: 0,
     shouldCall: false,
   });
-  useLayoutEffect(() => {
+  useEffect(() => {
+    newRealses && setNewReleaseMovieStore(newRealses);
     if (NR_movie_box.current) {
       setClientWidth(NR_movie_box.current.clientWidth);
     }
-  }, []);
-  console.log(movieQuery);
+  }, [newRealses]);
+  console.log(newRealses);
   useEffect(() => {
     if (
       apiCallingWatcher.watchNumber > newRealses.length - 4 &&
       apiCallingWatcher.shouldCall
     ) {
       setMovieQuery({ ...movieQuery, page: movieQuery.page + 1 });
-      console.log(newRealses);
     }
   }, [apiCallingWatcher]);
   return (
@@ -122,8 +129,8 @@ export default function NewRealeses() {
           {newRealses &&
             newRealses.map((newRealse) => (
               <div
-                ref={NR_movie_box}
                 className="NR-movie-box"
+                ref={NR_movie_box}
                 key={newRealse._id}
                 onClick={() => callNav(newRealse._id)}
                 style={{
