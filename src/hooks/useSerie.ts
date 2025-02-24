@@ -2,10 +2,13 @@
 import { z } from "zod";
 import { useUserStore } from "@/context/useUserStore";
 import { useState } from "react";
+
+import apiPefa from "@/services/api-pefa";
 import { FetchGenres } from "./useGenre";
 import { useSerieStore } from "@/context/useSerieStore";
 import useData, { useSingleData } from "./useData";
-
+import { logError, logActionError } from "@/services/log-error";
+import { createDocument, deleteDocument, updateDocument } from "@/services/serie-service";
 
 export interface FetchEpisodes {
     _id: string;
@@ -80,7 +83,7 @@ export const schemaSeasons = z.object({
                     "image/png"
                 ].includes(file.type),
             { message: "Invalid image file type" }
-        ),
+        ).optional(),
 });
 
 export const schemaSeries = z.object({
@@ -92,6 +95,7 @@ export const schemaSeries = z.object({
     translator: z.string().min(1),
     encoder: z.string().min(1),
     studio: z.string().min(1),
+    isOnGoing: z.boolean().optional(),
     poster: z
         .instanceof(File)
         .refine(
@@ -101,7 +105,7 @@ export const schemaSeries = z.object({
                     "image/png"
                 ].includes(file.type),
             { message: "Invalid image file type" }
-        ),
+        ).optional(),
 });
 
 export type FormEpisode = z.infer<typeof schemaEpisodes>;
@@ -157,40 +161,79 @@ export const useSerieActions = () => {
     const [loading, setLoading] = useState(false);
     const [alert, setAlert] = useState<string>("");
 
-    const handleSerieCreate = (payload: FormSerie) => {
-        // ...
+    const handleSerieCreate = async (payload: FormSerie) => {
+        setAlert("");
+        setLoading(true);
+        try {
+            await createDocument("/series", "series", payload, accessToken)
+            updateActions(["create-serie"]);
+            setLoading(false);
+            setAlert("Series created successfully.");
+        }
+        catch (error: any) {
+            logError(error, setAlert);
+            setLoading(false);
+        }
     }
 
-    const handleSerieUpdate = (payload: FormSerie, serie: FetchSeries) => {
-        // ...
+    const handleSerieUpdate = async (payload: FormSerie, serie: FetchSeries) => {
+        setAlert("");
+        setLoading(true);
+
+        const data = {
+            ...payload,
+            genreIds: Array.isArray(payload.genreIds) ? payload.genreIds : [payload.genreIds],
+            rating: isNaN(payload.rating) ? serie.rating : payload.rating,
+        };
+
+        try {
+            await updateDocument("/series", serie._id, data, accessToken)
+            updateActions(["movie-update"]);
+            setLoading(false);
+            setAlert("Movie updated successfully");
+        } catch (error: any) {
+            setLoading(false);
+            logActionError(error);
+        }
     }
 
-    const handleSerieDelete = (serie: FetchSeries) => {
-        // ...
+    const handleSerieDelete = async (id: string) => {
+        setAlert("");
+        setLoading(true);
+        try {
+            await deleteDocument('/series', id, accessToken);
+            updateActions(['user-delete']);
+            setLoading(false);
+            window.alert("User deleted successfully");
+        }
+        catch (error: any) {
+            logActionError(error);
+            setLoading(false);
+        }
     }
 
     const handleSeasonCreate = (payload: FormSeason) => {
-        // ...
+        console.log(payload)
     }
 
     const handleSeasonUpdate = (payload: FormSeason, season: FetchSeasons) => {
-        // ...
+        console.log(payload, season)
     }
 
     const handleSeasonDelete = (season: FetchSeasons) => {
-        // ...
+        console.log(season)
     }
 
     const handleEpisodeCreate = (payload: FormEpisode) => {
-        // ...
+        console.log(payload)
     }
 
     const handleEpisodeUpdate = (payload: FormEpisode, episode: FetchEpisodes) => {
-        // ...
+        console.log(payload, episode)
     }
 
     const handleEpisodeDelete = (episode: FetchEpisodes) => {
-        // ...
+        console.log(episode)
     }
 
     return {

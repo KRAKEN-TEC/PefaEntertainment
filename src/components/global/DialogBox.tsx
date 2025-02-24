@@ -21,7 +21,7 @@ interface Props {
 export function DialogActionBox({ children, dialogTitle, buttonTitle }: Props) {
   const ref = useRef<HTMLInputElement>(null);
   return (
-    <DialogRoot initialFocusEl={() => ref.current} placement={"top"}>
+    <DialogRoot initialFocusEl={() => ref.current} size="cover" scrollBehavior="inside" placement={"top"}>
       <DialogTrigger asChild>
         <Button className="button-action">{buttonTitle}</Button>
       </DialogTrigger>
@@ -42,7 +42,7 @@ export function DialogActionBox({ children, dialogTitle, buttonTitle }: Props) {
 export default function DialogBox({ children, dialogTitle, buttonTitle }: Props) {
   const ref = useRef<HTMLInputElement>(null);
   return (
-    <DialogRoot initialFocusEl={() => ref.current} placement={"top"}>
+    <DialogRoot initialFocusEl={() => ref.current} size="cover" scrollBehavior="inside" placement={"top"}>
       <DialogTrigger asChild>
         <Button>{buttonTitle}</Button>
       </DialogTrigger>

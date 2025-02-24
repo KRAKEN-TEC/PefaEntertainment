@@ -4,8 +4,7 @@ import { useParams } from "react-router";
 import { useForm, UseFormSetValue, FieldErrors } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { schemaEpisodes, FormEpisode, FetchEpisodes, useSerieActions, FetchSeasons, useEpisode } from "@/hooks/useSerie";
-import { useSingleData } from "@/hooks/useData";
+import { schemaEpisodes, FormEpisode, FetchEpisodes, useSerieActions, useEpisode } from "@/hooks/useSerie";
 import DialogBox, { DialogActionBox } from "../global/DialogBox";
 import EpisodeUpdateField from "../global/EpisodeUpdateField";
 import AlertMessage from "../global/AlertMessage";

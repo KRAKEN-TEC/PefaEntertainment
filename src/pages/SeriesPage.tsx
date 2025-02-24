@@ -11,7 +11,6 @@ export default function SeriesPage() {
   const navigate = () => {
     console.log("Hello");
   };
-
   return (
     <div className="SP-section">
       <h2>Series</h2>

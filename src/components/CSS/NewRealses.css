@@ -10,6 +10,7 @@
   scrollbar-width: none;
   scroll-behavior: smooth;
   white-space: nowrap;
+  scroll-behavior: smooth;
 }
 
 .series-scroll-container {
