@@ -2,46 +2,48 @@ import { useMovie } from "@/hooks/useMovie";
 import { useMovieStore } from "@/context/useMovieStore";
 import "./CSS/NewRealses.css";
 import useNavDetail from "@/hooks/useNavDetail";
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { scroll } from "@/helper/GlobalHelper";
 import ButtonWithSVGIcon from "./ui/ButtonWithSvgIcon";
-
+import { FetchPefa, usePefa } from "@/hooks/usePefa";
 export default function NewRealeses() {
-  const { movieQuery, setMovieQuery } = useMovieStore();
-  const { data: newRealses } = useMovie(movieQuery);
-  const { callNav } = useNavDetail();
-  const [clientWidth, setClientWidth] = useState<number>(0);
   const NR_movie_container = useRef<HTMLDivElement | null>(null);
   const NR_movie_box = useRef<HTMLDivElement | null>(null);
+  const { movieQuery, setMovieQuery, pefaStore, setPefaStore } =
+    useMovieStore();
 
+  const { data: newRealses } = usePefa();
+  const { callNav } = useNavDetail();
+  const [clientWidth, setClientWidth] = useState<number>(0);
   const [apiCallingWatcher, setApiCallingWatcher] = useState({
     watchNumber: 0,
     shouldCall: false,
   });
-
-  useLayoutEffect(() => {
+  console.log(pefaStore);
+  useEffect(() => {
+    if (
+      newRealses &&
+      JSON.stringify(pefaStore) !== JSON.stringify(newRealses)
+    ) {
+      setPefaStore(newRealses as FetchPefa[]);
+    }
     if (NR_movie_box.current) {
       setClientWidth(NR_movie_box.current.clientWidth);
     }
-  }, []);
-
-
-  useEffect(() => {
-    if (
-      apiCallingWatcher.watchNumber > newRealses.length - 4 &&
-      apiCallingWatcher.shouldCall
-    ) {
-      setMovieQuery({ ...movieQuery, page: movieQuery.page + 1 });
-      console.log(newRealses);
-    }
-  }, [apiCallingWatcher]);
-
-
+  }, [newRealses]);
+  // useEffect(() => {
+  //   if (
+  //     apiCallingWatcher.watchNumber > newRealses.length - 4 &&
+  //     apiCallingWatcher.shouldCall
+  //   ) {
+  //     setMovieQuery({ ...movieQuery, page: movieQuery.page + 1 });
+  //   }
+  // }, [apiCallingWatcher]);
   return (
     <div className="NR-movie-section">
       <h2>New Realsese</h2>
       <div className="NR-scroll-container" ref={NR_movie_container}>
-        {newRealses.length > 1 && (
+        {pefaStore?.length > 1 && (
           <>
             <ButtonWithSVGIcon
               onClick={() => {
@@ -125,13 +127,13 @@ export default function NewRealeses() {
         )}
 
         <div className="NR-movie-grid">
-          {newRealses &&
-            newRealses.map((newRealse) => (
+          {pefaStore &&
+            pefaStore.map((newRealse, index) => (
               <div
-                ref={NR_movie_box}
                 className="NR-movie-box"
+                ref={NR_movie_box}
                 key={newRealse._id}
-                onClick={() => callNav(newRealse._id)}
+                onClick={() => callNav(`${index}$NR`)}
                 style={{
                   backgroundImage: `url(${newRealse.poster_url})`,
                   backgroundSize: "cover",
@@ -145,9 +147,10 @@ export default function NewRealeses() {
                   <h3>{newRealse.title}</h3>
                   {/* <span>{newRealse.description}</span> */}
                   <ul>
-                    {newRealse.genres.map((genre) => (
-                      <li key={genre._id}>{genre.name}</li>
-                    ))}
+                    {newRealse.genres.map(
+                      (genre, index) =>
+                        index < 3 && <li key={genre._id}>{genre.name}</li>
+                    )}
                   </ul>
                 </div>
               </div>

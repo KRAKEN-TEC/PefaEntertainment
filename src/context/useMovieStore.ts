@@ -1,26 +1,39 @@
-import { create } from 'zustand';
-import { MovieQuery } from '@/hooks/useMovie';
+import { create } from "zustand";
+import { FetchMovies, MovieQuery } from "@/hooks/useMovie";
+import { FetchPefa } from "@/hooks/usePefa";
 
 export interface ActionSlice {
-    movieQuery: MovieQuery;
-    actions: string[];
-    setMovieQuery: (query: MovieQuery) => void;
-    updateActions: (actions: string[]) => void;
-    addAction: (action: string) => void;
-    removeAction: (action: string) => void;
+  movieQuery: MovieQuery;
+  actions: string[];
+  newReleaseMovieStore: FetchMovies[];
+  pefaStore: FetchPefa[];
+  setPefaStore: (pefaData: FetchPefa[]) => void;
+  setMovieQuery: (query: MovieQuery) => void;
+  setNewReleaseMovieStore: (newRelease: FetchMovies[]) => void;
+  updateActions: (actions: string[]) => void;
+  addAction: (action: string) => void;
+  removeAction: (action: string) => void;
 }
 
 export const useMovieStore = create<ActionSlice>((set) => ({
-    actions: [],
-    movieQuery: { page: 0 } as MovieQuery,
-    setMovieQuery: (query) => set({ movieQuery: query }),
-    updateActions: (actions) => {
-        set({ actions: actions });
-    },
-    addAction: (action) => {
-        set((state) => ({ actions: [...state.actions, action] }));
-    },
-    removeAction: (action) => {
-        set((state) => ({ actions: state.actions.filter(a => a !== action) }));
-    }
+  actions: [],
+  movieQuery: { page: 0 } as MovieQuery,
+  newReleaseMovieStore: [] as FetchMovies[],
+  setNewReleaseMovieStore: (newRelease: FetchMovies[]) => {
+    set({ newReleaseMovieStore: newRelease });
+  },
+  pefaStore: [] as FetchPefa[],
+  setPefaStore: (pefaData: FetchPefa[]) => {
+    set({ pefaStore: pefaData });
+  },
+  setMovieQuery: (query) => set({ movieQuery: query }),
+  updateActions: (actions) => {
+    set({ actions: actions });
+  },
+  addAction: (action) => {
+    set((state) => ({ actions: [...state.actions, action] }));
+  },
+  removeAction: (action) => {
+    set((state) => ({ actions: state.actions.filter((a) => a !== action) }));
+  },
 }));
