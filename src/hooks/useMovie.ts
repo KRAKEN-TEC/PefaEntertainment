@@ -86,7 +86,7 @@ export const useMovieActions = () => {
 
     const data = {
       ...payload,
-      genreIds: payload.genreIds || [...movie.genres.map((genre) => genre._id)],
+      genreIds: Array.isArray(payload.genreIds) ? payload.genreIds : [payload.genreIds],
       rating: isNaN(payload.rating) ? movie.rating : payload.rating,
     };
 
