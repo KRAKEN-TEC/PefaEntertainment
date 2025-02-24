@@ -2,6 +2,7 @@ import { FetchMovies, useMovie } from "@/hooks/useMovie";
 import "./CSS/Movies.css";
 import { useNavigate } from "react-router";
 import useNavDetail from "@/hooks/useNavDetail";
+import { genreLi } from "./global/genreLi";
 
 export default function Movies() {
   const { data: movies } = useMovie();
@@ -36,8 +37,9 @@ export default function Movies() {
                   <h3>{movie.title}</h3>
                   <span>{movie.description}</span>
                   <ul>
-                    {movie.genres.map((g) => (
-                      <li key={g._id}>{g.name}</li>
+                    {movie.genres.map((g, index) => (
+                      index < 3 &&
+                      genreLi(g._id, g.name.toUpperCase())
                     ))}
                   </ul>
                 </div>

@@ -15,13 +15,13 @@ export default function DetailPage() {
   );
 
   return (
-    <div>
+    <div className="s-con">
       {/* Header Section */}
       <div className="series-header" style={{
         backgroundImage: `url(${deatilData?.poster_url})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        width: "97%",
+        width: "100%",
         height: "500px",
       }}>
         <div className="details-overlay">
@@ -29,7 +29,7 @@ export default function DetailPage() {
           <p>{deatilData?.description}</p>
           <div className="genres-box"><ul>
             {deatilData?.genres.map((genre) => (
-              <li>{genre.name}</li>
+              <li>{genre.name.toUpperCase()}</li>
             ))}
           </ul>
             <span>{deatilData?.rating}</span>

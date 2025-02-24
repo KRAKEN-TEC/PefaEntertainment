@@ -1,3 +1,4 @@
+import { genreLi } from "@/components/global/genreLi";
 import "./CSS/SeriesPage.css";
 import useNavDetail from "@/hooks/useNavDetail";
 
@@ -29,8 +30,9 @@ export default function SeriesPage() {
                     <h3>{s.title}</h3>
                     <span>{s.description}</span>
                     <ul>
-                      {s.genres.map((g) => (
-                        <li key={g._id}>{g.name}</li>
+                      {s.genres.map((g, index) => (
+                        index < 3 &&
+                        genreLi(g._id, g.name.toUpperCase())
                       ))}
                     </ul>
                   </div>

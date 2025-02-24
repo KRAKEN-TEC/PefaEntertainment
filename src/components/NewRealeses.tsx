@@ -5,6 +5,7 @@ import useNavDetail from "@/hooks/useNavDetail";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { scroll } from "@/helper/GlobalHelper";
 import ButtonWithSVGIcon from "./ui/ButtonWithSvgIcon";
+import { genreLi } from "./global/genreLi";
 
 export default function NewRealeses() {
   const { movieQuery, setMovieQuery } = useMovieStore();
@@ -145,8 +146,9 @@ export default function NewRealeses() {
                   <h3>{newRealse.title}</h3>
                   {/* <span>{newRealse.description}</span> */}
                   <ul>
-                    {newRealse.genres.map((genre) => (
-                      <li key={genre._id}>{genre.name}</li>
+                    {newRealse.genres.map((genre, index) => (
+                      index < 3 &&
+                      genreLi(genre._id, genre.name.toUpperCase())
                     ))}
                   </ul>
                 </div>
