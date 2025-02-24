@@ -5,8 +5,7 @@ import { useForm, FieldErrors, UseFormSetValue } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import "@/admin.css"
-import { FetchSeasons, FormSeason, useSerieActions, FetchSeries, schemaSeasons, useSeason } from "@/hooks/useSerie";
-import { useSingleData } from "@/hooks/useData";
+import { FetchSeasons, FormSeason, useSerieActions, schemaSeasons, useSeason } from "@/hooks/useSerie";
 import DialogBox, { DialogActionBox } from "../global/DialogBox";
 import SeasonUpdateField from "../global/SeasonUpdateField";
 import AlertMessage from "../global/AlertMessage";

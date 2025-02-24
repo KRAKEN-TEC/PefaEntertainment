@@ -6,6 +6,7 @@ import { useUserStore } from "@/context/useUserStore";
 import { useMovieStore } from "@/context/useMovieStore";
 import { CanceledError } from "../services/api-pefa"
 import apiPefa from "../services/api-pefa"
+import { useSerieStore } from "@/context/useSerieStore";
 
 export interface FetchResponse<T> {
     count: number;
@@ -17,6 +18,7 @@ export function useSingleData<T>(endpoint: string, requestConfig?: AxiosRequestC
     const [data, setData] = useState<T | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+    const { actions } = useSerieStore();
 
     useEffect(() => {
         setLoading(true)
@@ -38,7 +40,7 @@ export function useSingleData<T>(endpoint: string, requestConfig?: AxiosRequestC
         return () => {
             controller.abort()
         }
-    }, dep ? [...dep] : [])
+    }, dep ? [...dep, actions] : [actions])
 
     return { data, error, loading };
 }
@@ -50,6 +52,7 @@ function useData<T>(endpoint: string, requestConfig?: AxiosRequestConfig, dep?: 
     const [loading, setLoading] = useState(false);
     const { actions: userStoreActions } = useUserStore();
     const { actions: movieStoreActions } = useMovieStore();
+    const { actions: serieStoreActions } = useSerieStore();
 
     useEffect(() => {
         setLoading(true)
@@ -71,7 +74,7 @@ function useData<T>(endpoint: string, requestConfig?: AxiosRequestConfig, dep?: 
         return () => {
             controller.abort()
         }
-    }, dep ? [...dep, userStoreActions, movieStoreActions] : [userStoreActions, movieStoreActions])
+    }, dep ? [...dep, userStoreActions, movieStoreActions, serieStoreActions] : [userStoreActions, movieStoreActions, serieStoreActions])
 
     return { data, error, loading };
 }
