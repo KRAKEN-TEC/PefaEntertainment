@@ -5,7 +5,8 @@ import { useState } from "react";
 import { FetchGenres } from "./useGenre";
 import { useSerieStore } from "@/context/useSerieStore";
 import useData, { useSingleData } from "./useData";
-
+import apiPefa from "@/services/api-pefa";
+import { logError, logActionError } from "@/services/log-error";
 
 export interface FetchEpisodes {
     _id: string;
@@ -157,40 +158,75 @@ export const useSerieActions = () => {
     const [loading, setLoading] = useState(false);
     const [alert, setAlert] = useState<string>("");
 
-    const handleSerieCreate = (payload: FormSerie) => {
-        // ...
+    const handleSerieCreate = async (payload: FormSerie) => {
+        console.log(payload)
+        setAlert("");
+        setLoading(true);
+        try {
+            // await apiPefa.post("/series", payload, {
+            //     headers: {
+            //         Authorization: `${accessToken}`,
+            //         "Content-Type": "application/json"
+            //     }
+            // });
+            // updateActions(["create-serie"]);
+            setLoading(false);
+            setAlert("Series created successfully.");
+        }
+        catch (error: any) {
+            console.log(error)
+            logError(error, setAlert);
+            setLoading(false);
+        }
     }
 
     const handleSerieUpdate = (payload: FormSerie, serie: FetchSeries) => {
-        // ...
+        console.log(payload, serie)
     }
 
-    const handleSerieDelete = (serie: FetchSeries) => {
-        // ...
+    const handleSerieDelete = async (id: string) => {
+        setAlert("");
+        setLoading(true);
+        try {
+            await apiPefa.delete(`/seires/${id}`, {
+                headers: {
+                    Authorization: `${accessToken}`,
+                    "Content-Type": "multipart/form-data"
+                }
+            })
+
+            updateActions(['user-delete']);
+            setLoading(false);
+            window.alert("User deleted successfully");
+        }
+        catch (error: any) {
+            logActionError(error);
+            setLoading(false);
+        }
     }
 
     const handleSeasonCreate = (payload: FormSeason) => {
-        // ...
+        console.log(payload)
     }
 
     const handleSeasonUpdate = (payload: FormSeason, season: FetchSeasons) => {
-        // ...
+        console.log(payload, season)
     }
 
     const handleSeasonDelete = (season: FetchSeasons) => {
-        // ...
+        console.log(season)
     }
 
     const handleEpisodeCreate = (payload: FormEpisode) => {
-        // ...
+        console.log(payload)
     }
 
     const handleEpisodeUpdate = (payload: FormEpisode, episode: FetchEpisodes) => {
-        // ...
+        console.log(payload, episode)
     }
 
     const handleEpisodeDelete = (episode: FetchEpisodes) => {
-        // ...
+        console.log(episode)
     }
 
     return {
