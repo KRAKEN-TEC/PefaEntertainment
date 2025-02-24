@@ -5,31 +5,26 @@ import useNavDetail from "@/hooks/useNavDetail";
 import { useEffect, useRef, useState } from "react";
 import { scroll } from "@/helper/GlobalHelper";
 import ButtonWithSVGIcon from "./ui/ButtonWithSvgIcon";
-export default function NewRealeses() {
-  const NR_movie_container = useRef<HTMLDivElement | null>(null);
-  const NR_movie_box = useRef<HTMLDivElement | null>(null);
-  const {
-    movieQuery,
-    setMovieQuery,
-    newReleaseMovieStore,
-    setNewReleaseMovieStore,
-  } = useMovieStore();
 
+export default function NewRealeses() {
+  const { movieQuery, setMovieQuery } = useMovieStore();
   const { data: newRealses } = useMovie(movieQuery);
-  console.log(newReleaseMovieStore);
   const { callNav } = useNavDetail();
   const [clientWidth, setClientWidth] = useState<number>(0);
+  const NR_movie_container = useRef<HTMLDivElement | null>(null);
+  const NR_movie_box = useRef<HTMLDivElement | null>(null);
+
   const [apiCallingWatcher, setApiCallingWatcher] = useState({
     watchNumber: 0,
     shouldCall: false,
   });
-  useEffect(() => {
-    newRealses && setNewReleaseMovieStore(newRealses);
+
+  useLayoutEffect(() => {
     if (NR_movie_box.current) {
       setClientWidth(NR_movie_box.current.clientWidth);
     }
-  }, [newRealses]);
-  console.log(newRealses);
+  }, []);
+
   useEffect(() => {
     if (
       apiCallingWatcher.watchNumber > newRealses.length - 4 &&
@@ -38,6 +33,7 @@ export default function NewRealeses() {
       setMovieQuery({ ...movieQuery, page: movieQuery.page + 1 });
     }
   }, [apiCallingWatcher]);
+
   return (
     <div className="NR-movie-section">
       <h2>New Realsese</h2>
