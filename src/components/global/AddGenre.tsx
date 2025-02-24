@@ -19,9 +19,10 @@ export default function AddGenre() {
 
   return (
     <>
-      {alert && <AlertMessage message={alert} />}
 
       <DialogBox dialogTitle="Genre Form" buttonTitle="Add Genre">
+        {alert && <AlertMessage message={alert} />}
+
         <form onSubmit={handleSubmit(onSubmit)}>
           <Fieldset.Root>
             <Fieldset.HelperText>

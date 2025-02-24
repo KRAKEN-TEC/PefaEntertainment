@@ -10,15 +10,16 @@ interface SerieFeildProps {
   payloadKey: keyof FormSerie;
   placeHolder: string;
   required?: boolean;
+  valueAsNumber?: boolean;
   errors: FieldErrors<FormSerie>;
   register: UseFormRegister<FormSerie>;
 }
 
-export default function SerieField({ label, payloadKey, required, placeHolder, register, errors }: SerieFeildProps) {
+export default function SerieField({ label, payloadKey, required, valueAsNumber, placeHolder, register, errors }: SerieFeildProps) {
 
   return (
     <Field label={label}>
-      <Input {...register(payloadKey, { required: required })} type="text" placeholder={placeHolder} />
+      <Input {...register(payloadKey, { required: required, valueAsNumber: valueAsNumber })} type="text" placeholder={placeHolder} />
       {errors[payloadKey]?.message && (<p className="text-danger">{errors[payloadKey]?.message}</p>)}
     </Field>
   )
