@@ -4,9 +4,15 @@ import "./CSS/NewRealses.css";
 import useNavDetail from "@/hooks/useNavDetail";
 import { useEffect, useRef, useState } from "react";
 import { scroll } from "@/helper/GlobalHelper";
+<<<<<<< HEAD
 import ButtonWithSVGIcon from "./ui/ButtonWithSvgIcon";
 import { genreLi } from "./global/genreLi";
 import { FetchPefa, usePefa } from "@/hooks/usePefa";
+=======
+import { genreLi } from "./global/genreLi";
+import { FetchPefa, usePefa } from "@/hooks/usePefa";
+
+>>>>>>> a3859057941e1018b29b528834f1a92e28cc5b93
 export default function NewRealeses() {
   const NR_movie_container = useRef<HTMLDivElement | null>(null);
   const NR_movie_box = useRef<HTMLDivElement | null>(null);
