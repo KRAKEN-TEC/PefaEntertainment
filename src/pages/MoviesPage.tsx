@@ -38,10 +38,10 @@ export default function MoviesPage() {
                   <h3>{movie.title}</h3>
                   <span>{movie.description}</span>
                   <ul>
-                    {movie.genres.map((g, index) => (
-                      index < 3 &&
-                      genreLi(g._id, g.name.toUpperCase())
-                    ))}
+                    {movie.genres.map(
+                      (g, index) =>
+                        index < 3 && genreLi(g.name.toUpperCase(), g._id)
+                    )}
                   </ul>
                 </div>
               </div>

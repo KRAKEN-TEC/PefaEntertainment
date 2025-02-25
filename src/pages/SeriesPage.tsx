@@ -33,10 +33,10 @@ export default function SeriesPage() {
                 <h3>{s.title}</h3>
                 <span>{s.description}</span>
                 <ul>
-                  {s.genres.map((g, index) => (
-                    index < 3 &&
-                    genreLi(g._id, g.name.toUpperCase())
-                  ))}
+                  {s.genres.map(
+                    (g, index) =>
+                      index < 3 && genreLi(g.name.toUpperCase(), g._id)
+                  )}
                 </ul>
               </div>
             </div>
