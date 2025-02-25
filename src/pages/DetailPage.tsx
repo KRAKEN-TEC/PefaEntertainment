@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 import Overview from "@/components/detailData/Overview";
 import Watch from "@/components/detailData/Watch";
 import "./CSS/DetailPage.css";
-import { stringSliceWith$ } from "@/helper/GlobalHelper";
+import { stringSlice } from "@/helper/GlobalHelper";
 import { useMovieStore } from "@/context/useMovieStore";
 import { FetchSeries } from "@/hooks/useSerie";
 import { useSerieStore } from "@/context/useSerieStore";
 
 export default function DetailPage() {
   const { id } = useParams();
-  const { index, text } = stringSliceWith$(id !== undefined ? id : "h");
+  const { front, end } = stringSlice(id !== undefined ? id : "h", "$"); //front is index
 
   const [videoData, setVideoData] = useState<FetchMovies | FetchSeries | null>(
     null
@@ -51,7 +51,7 @@ export default function DetailPage() {
           backgroundImage: `url(${videoData?.poster_url})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          width: "97%",
+          width: "100%",
           height: "500px",
         }}
       >

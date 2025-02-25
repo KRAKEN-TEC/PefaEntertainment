@@ -3,7 +3,7 @@ import { useSerieStore } from "@/context/useSerieStore";
 import { useEffect, useRef, useState } from "react";
 import useNavDetail from "@/hooks/useNavDetail";
 import { scroll } from "@/helper/GlobalHelper";
-import ButtonWithSVGIcon from "./ui/ButtonWithSvgIcon";
+import ButtonWithSVGIcon from "./global/ButtonWithSvgIcon";
 import { genreLi } from "./global/genreLi";
 
 import { FetchMovies, useMovie } from "@/hooks/useMovie";
@@ -27,18 +27,6 @@ export default function NewRealeses() {
   );
 
   useEffect(() => {
-    if (
-      newRealsesMovies &&
-      JSON.stringify(moviesStore) !== JSON.stringify(newRealsesMovies)
-    ) {
-      setMovieStore(newRealsesMovies as FetchMovies[]);
-    }
-    if (
-      newRealsesSeries &&
-      JSON.stringify(seriesStore) !== JSON.stringify(newRealsesSeries)
-    ) {
-      setSeriesStore(newRealsesSeries as FetchSeries[]);
-    }
     if (NR_movie_box.current) {
       setClientWidth(NR_movie_box.current.clientWidth);
     }
@@ -72,9 +60,9 @@ export default function NewRealeses() {
         {displayedData?.length > 0 && (
           <>
             <ButtonWithSVGIcon
-              onClick={() =>
-                scroll("left", NR_movie_container.current!, clientWidth)
-              }
+              onClick={() => {
+                scroll("right", NR_movie_container.current!, clientWidth);
+              }}
               btnType="button"
               className="scroll-btn left"
               svg={
@@ -101,9 +89,9 @@ export default function NewRealeses() {
               }
             />
             <ButtonWithSVGIcon
-              onClick={() =>
-                scroll("right", NR_movie_container.current!, clientWidth)
-              }
+              onClick={() => {
+                scroll("left", NR_movie_container.current!, clientWidth);
+              }}
               btnType="button"
               className="scroll-btn right"
               svg={

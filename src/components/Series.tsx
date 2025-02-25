@@ -42,7 +42,7 @@ export default function Series() {
                     <span>{s.description}</span>
                     <ul>
                       {s.genres.map((g) => (
-                        genreLi(g._id, g.name.toUpperCase())
+                        <li key={g._id}>{g.name}</li>
                       ))}
                     </ul>
                   </div>

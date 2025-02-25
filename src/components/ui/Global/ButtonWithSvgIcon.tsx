@@ -3,6 +3,7 @@ interface ButtonWithSVGIconProps {
   btnType: "button" | "submit" | "reset";
   className?: string;
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
+  disabled?: boolean;
 }
 
 const ButtonWithSVGIcon: React.FC<ButtonWithSVGIconProps> = ({
@@ -10,9 +11,16 @@ const ButtonWithSVGIcon: React.FC<ButtonWithSVGIconProps> = ({
   className,
   onClick,
   svg,
+  disabled = false,
 }) => {
+  console.log(disabled);
   return (
-    <button className={className} type={btnType} onClick={onClick}>
+    <button
+      disabled={disabled}
+      className={`${className}`}
+      type={btnType}
+      onClick={onClick}
+    >
       {svg}
     </button>
   );
