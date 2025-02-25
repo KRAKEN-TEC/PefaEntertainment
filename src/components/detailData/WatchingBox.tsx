@@ -1,64 +1,58 @@
-import "../CSS/WatchingBox.css";
-import { FetchMovies } from "@/hooks/useMovie";
-import { useUserStore } from "@/context/useUserStore";
-import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useRef } from "react";
+import { data, useParams } from "react-router";
+import Player from "video.js/dist/types/player";
+import videojs from "video.js";
+import { useMovie } from "@/hooks/useMovie";
+import VideoPlayer from "@/helper/VideoPlayer";
+import ForMovie from "../ForMovie";
+import ForSeries from "../ForSeries";
 
-export default function WatchingBox({
-  detailData,
-}: {
-  detailData?: FetchMovies;
-}) {
-  const [showPopup, setShowPopup] = useState(false);
-  const { accessToken } = useUserStore();
-  const navigate = useNavigate();
+export default function WatchingVideo() {
+  const { id } = useParams();
+  const { data: allData } = useMovie();
 
-  const handleDownloadClick = () => {
-    if (!accessToken) {
-      setShowPopup(true); // Show login popup
-    } else {
-      console.log("Download"); // Proceed with download if logged in
-    }
+  const playerRef = useRef<Player | null>(null);
+
+  const handlePlayerReady = (player: Player) => {
+    playerRef.current = player;
+
+    // You can handle player events here, for example:
+    player.on("waiting", () => {
+      videojs.log("player is waiting");
+    });
+
+    player.on("dispose", () => {
+      videojs.log("player will dispose");
+    });
   };
 
-  const handleVideoNav = () => {
-    navigate("watch");
-  };
+  const deatilData = allData.find(
+    (allData) => String(allData._id) === String(id)
+  );
 
   return (
-    <div className="episode-box" key={detailData?._id}>
-      <img
-        src={detailData?.poster_url}
-        alt="Episode 1 Thumbnail"
-        className="episode-thumbnail"
-      />
-      <div className="episode-info">
-        <h3>{detailData?.title}</h3>
-        <p className="episode-description">{detailData?.description}</p>
-        <button className="watch-button" onClick={handleVideoNav}>
-          Watch Now
-        </button>
-        <button className="download-btn" onClick={handleDownloadClick}>
-          Download
-        </button>
-        {/* Popup Modal for Login Prompt */}
-        {showPopup && (
-          <div className="popup">
-            <div className="popup-content">
-              <h3>Login Required</h3>
-              <p>You must log in to download this episode.</p>
-              <button
-                className="login-btn"
-                onClick={() => alert("Redirecting to login...")}
-              >
-                Login
-              </button>
-              <button className="close-btn" onClick={() => setShowPopup(false)}>
-                Close
-              </button>
-            </div>
-          </div>
+    <div>
+      <div>
+        {!deatilData?.seasons ? (
+          <VideoPlayer
+            posterUrl={deatilData.poster_url}
+            videoUrl={deatilData.video_url}
+            onReady={handlePlayerReady}
+          />
+        ) : (
+          deatilData.map((ep, i) => (
+            <VideoPlayer
+              posterUrl={ep.poster_url}
+              videoUrl={ep.video_url}
+              onReady={handlePlayerReady}
+            />
+          ))
         )}
+      </div>
+
+      <div>
+        {!deatilData?.seasons && <ForMovie detailData={deatilData} />}
+        {deatilData?.seasons && <ForSeries detailData={deatilData} />}
       </div>
     </div>
   );

@@ -43,9 +43,24 @@ export default function WatchingVideo() {
       </div>
 
       <div>
-        {!deatilData?.isSerie && <ForMovie detailData={deatilData} />}
-        {deatilData?.isSerie && <ForSeries detailData={deatilData} />}
+        {!deatilData?.seasons && <ForMovie detailData={deatilData} />}
+        {deatilData?.seasons && <ForSeries detailData={deatilData} />}
       </div>
     </div>
   );
 }
+
+// {videoData.seasons[selectedSeason].episodes.map(
+//   (episode, i) => (
+//     <div key={i} className="episode-item">
+//       <img
+//         src={episode.thumbnail}
+//         alt={`Episode ${i + 1}`}
+//       />
+//       <div>
+//         <h3>
+//           Episode {i + 1} - {episode.title}
+//         </h3>
+//         <p>{episode.description}</p>
+//         <span>{episode.duration}</span>
+//       </div>

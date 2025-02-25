@@ -115,3 +115,24 @@
   margin-top: 250px;
   font-size: 15px;
 }
+
+.filter-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-buttons button {
+  background: #ccc;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 5px;
+}
+
+.filter-buttons button.active {
+  background: #e85448;
+  color: white;
+}
+
