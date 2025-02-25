@@ -16,7 +16,7 @@ export default function WatchingVideo() {
     player.on("waiting", () => {
       videojs.log("player is waiting");
     });
-    u;
+
     player.on("dispose", () => {
       videojs.log("player will dispose");
     });
