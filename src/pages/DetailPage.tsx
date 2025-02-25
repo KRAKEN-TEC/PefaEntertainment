@@ -104,20 +104,8 @@ export default function DetailPage() {
                 {selectedSeason !== null && (
                   <div className="episodes-list">
                     {videoData.seasons[selectedSeason].episodes.map(
-                      (episode, i) => (
-                        <div key={i} className="episode-item">
-                          <img
-                            src={episode.thumbnail}
-                            alt={`Episode ${i + 1}`}
-                          />
-                          <div>
-                            <h3>
-                              Episode {i + 1} - {episode.title}
-                            </h3>
-                            <p>{episode.description}</p>
-                            <span>{episode.duration}</span>
-                          </div>
-                        </div>
+                      (episode) => (
+                        <Watch detailData={episode} key={episode._id} />
                       )
                     )}
                   </div>
@@ -125,7 +113,7 @@ export default function DetailPage() {
               </>
             ) : (
               // Movie Watch Section (Only One Box)
-              <Watch detailData={videoData}></Watch>
+              <Watch detailData={videoData} key={videoData._id}></Watch>
             )}
           </div>
         )}

@@ -1,9 +1,7 @@
-
-import { FetchMovies } from "@/hooks/useMovie";
 import { useState } from "react";
 import "./CSS/ForMovie.css";
 
-export default function ForMovie({ detailData }: { detailData?: FetchMovies }) {
+export default function ForMovie({ detailData }: { detailData?: any }) {
   const [showDownloadOptions, setShowDownloadOptions] = useState(false);
 
   const toggleDownloadOptions = () => {
