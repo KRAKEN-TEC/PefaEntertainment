@@ -3,7 +3,6 @@ import { useNavigate } from "react-router";
 
 import useNavDetail from "@/hooks/useNavDetail";
 import { useSerie, FetchSeries } from "@/hooks/useSerie";
-import { genreLi } from "./global/genreLi";
 
 export default function Series() {
   const { data: series } = useSerie();
@@ -12,9 +11,7 @@ export default function Series() {
   const nav = useNavigate();
 
   const getRandomSeries = (series: FetchSeries[], count = 3) => {
-    return series
-      .sort(() => Math.random() - 0.5)
-      .slice(0, count);
+    return series.sort(() => Math.random() - 0.5).slice(0, count);
   };
 
   const randomSeries = getRandomSeries(series);
@@ -23,7 +20,8 @@ export default function Series() {
     <div className="series-section">
       <div className="series-title">
         <h2>Series</h2>
-        <span onClick={() => nav("series-page")}>See more</span></div>
+        <span onClick={() => nav("series-page")}>See more</span>
+      </div>
       <div className="series-scroll-container">
         <div className="series-grid">
           {series &&
@@ -40,7 +38,7 @@ export default function Series() {
                     <span>{s.description}</span>
                     <ul>
                       {s.genres.map((g) => (
-                        genreLi(g._id, g.name.toUpperCase())
+                        <li key={g._id}>{g.name}</li>
                       ))}
                     </ul>
                   </div>
