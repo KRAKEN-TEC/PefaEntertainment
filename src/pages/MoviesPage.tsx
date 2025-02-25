@@ -1,6 +1,7 @@
 import { useMovie } from "@/hooks/useMovie";
 import "./CSS/MoviesPage.css";
 import useNavDetail from "@/hooks/useNavDetail";
+import { genreLi } from "@/components/global/genreLi";
 import { useMovieStore } from "@/context/useMovieStore";
 import { FetchMovies } from "@/hooks/useMovie";
 import { useEffect } from "react";
@@ -37,8 +38,9 @@ export default function MoviesPage() {
                   <h3>{movie.title}</h3>
                   <span>{movie.description}</span>
                   <ul>
-                    {movie.genres.map((g) => (
-                      <li key={g._id}>{g.name}</li>
+                    {movie.genres.map((g, index) => (
+                      index < 3 &&
+                      genreLi(g._id, g.name.toUpperCase())
                     ))}
                   </ul>
                 </div>

@@ -1,16 +1,14 @@
+import { genreLi } from "@/components/global/genreLi";
 import "./CSS/SeriesPage.css";
 import useNavDetail from "@/hooks/useNavDetail";
 import { FetchSeries, useSerie } from "@/hooks/useSerie";
 import { useSerieStore } from "@/context/useSerieStore";
+import { useEffect } from "react";
 
 export default function SeriesPage() {
   const { data: series } = useSerie();
   const { callNavForSeriesPage } = useNavDetail();
   const { seriesStore, setSeriesStore } = useSerieStore();
-
-  const navigate = () => {
-    console.log("Hello");
-  };
 
   useEffect(() => {
     if (series && JSON.stringify(seriesStore) !== JSON.stringify(series)) {
@@ -21,28 +19,28 @@ export default function SeriesPage() {
   return (
     <div className="SP-section">
       <h2>Series</h2>
-      <div className="SP-scroll-container">
-        <div className="SP-grid">
-          {seriesStore &&
-            seriesStore.map((s, index) => (
-              <div
-                className="SP-box"
-                key={s._id}
-                onClick={() => callNavForSeriesPage(`${index}$series`)}
-              >
-                <img src={s.poster_url} />
-                <div className="SP-text">
-                  <h3>{s.title}</h3>
-                  <span>{s.description}</span>
-                  <ul>
-                    {s.genres.map((g) => (
-                      <li key={g._id}>{g.name}</li>
-                    ))}
-                  </ul>
-                </div>
+      <div className="SP-scroll-container"></div>
+      <div className="SP-grid">
+        {seriesStore &&
+          seriesStore.map((s, index) => (
+            <div
+              className="SP-box"
+              key={s._id}
+              onClick={() => callNavForSeriesPage(`${index}$series`)}
+            >
+              <img src={s.poster_url} />
+              <div className="SP-text">
+                <h3>{s.title}</h3>
+                <span>{s.description}</span>
+                <ul>
+                  {s.genres.map((g, index) => (
+                    index < 3 &&
+                    genreLi(g._id, g.name.toUpperCase())
+                  ))}
+                </ul>
               </div>
-            ))}
-        </div>
+            </div>
+          ))}
       </div>
     </div>
   );

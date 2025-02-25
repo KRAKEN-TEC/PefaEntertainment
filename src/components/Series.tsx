@@ -1,6 +1,8 @@
 import "./CSS/Series.css";
 import { useNavigate } from "react-router";
 import useNavDetail from "@/hooks/useNavDetail";
+
+import { genreLi } from "./global/genreLi";
 import { FetchSeries } from "@/hooks/useSerie";
 import { useSerieStore } from "@/context/useSerieStore";
 

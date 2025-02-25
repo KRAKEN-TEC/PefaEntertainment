@@ -7,7 +7,7 @@
 /* Movie Grid Layout */
 .movie-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Adjusts dynamically */
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Adjusts dynamically */
   gap: 20px;
   justify-content: center;
 }
@@ -24,6 +24,7 @@
 
 .movie-box:hover {
   transform: rotateY(5deg) scale(1.05);
+  padding: 1px;
 }
 
 .movie-box img {
@@ -65,7 +66,7 @@
 .movie-text li {
   border: 1px solid #e85448;
   border-radius: 5px;
-  font-size: small;
+  font-size: x-small;
   color: #e85448;
   padding: 4px 10px;
   display: inline-block;

@@ -3,10 +3,13 @@ import { useSerieStore } from "@/context/useSerieStore";
 import { useEffect, useRef, useState } from "react";
 import useNavDetail from "@/hooks/useNavDetail";
 import { scroll } from "@/helper/GlobalHelper";
-import ButtonWithSVGIcon from "./ui/ButtonWithSvgIcon";
+
+import { genreLi } from "./global/genreLi";
+
 import { FetchMovies, useMovie } from "@/hooks/useMovie";
 import { FetchSeries, useSerie } from "@/hooks/useSerie";
 import "./CSS/NewRealses.css";
+import ButtonWithSVGIcon from "./ui/Global/ButtonWithSvgIcon";
 
 export default function NewRealeses() {
   const NR_movie_container = useRef<HTMLDivElement | null>(null);
@@ -70,9 +73,9 @@ export default function NewRealeses() {
         {displayedData?.length > 0 && (
           <>
             <ButtonWithSVGIcon
-              onClick={() =>
-                scroll("left", NR_movie_container.current!, clientWidth)
-              }
+              onClick={() => {
+                scroll("right", NR_movie_container.current!, clientWidth);
+              }}
               btnType="button"
               className="scroll-btn left"
               svg={
@@ -99,9 +102,9 @@ export default function NewRealeses() {
               }
             />
             <ButtonWithSVGIcon
-              onClick={() =>
-                scroll("right", NR_movie_container.current!, clientWidth)
-              }
+              onClick={() => {
+                scroll("left", NR_movie_container.current!, clientWidth);
+              }}
               btnType="button"
               className="scroll-btn right"
               svg={
@@ -155,10 +158,10 @@ export default function NewRealeses() {
                 <div className="overlay">
                   <h3>{item.title}</h3>
                   <ul>
-                    {item.genres.map(
-                      (genre, index) =>
-                        index < 3 && <li key={genre._id}>{genre.name}</li>
-                    )}
+                    {item.genres.map((genre: { _id: string; name: string }, index: number) => (
+                      index < 3 &&
+                      genreLi(genre.name.toUpperCase(), genre._id)
+                    ))}
                   </ul>
                 </div>
               </div>

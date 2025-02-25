@@ -4,14 +4,14 @@ import { useEffect, useState } from "react";
 import Overview from "@/components/detailData/Overview";
 import Watch from "@/components/detailData/Watch";
 import "./CSS/DetailPage.css";
-import { stringSliceWith$ } from "@/helper/GlobalHelper";
+import { stringSlice } from "@/helper/GlobalHelper";
 import { useMovieStore } from "@/context/useMovieStore";
 import { FetchSeries } from "@/hooks/useSerie";
 import { useSerieStore } from "@/context/useSerieStore";
 
 export default function DetailPage() {
   const { id } = useParams();
-  const { index, text } = stringSliceWith$(id !== undefined ? id : "h");
+  const { front, end } = stringSlice(id !== undefined ? id : "h", "$"); //front is index
 
   const [videoData, setVideoData] = useState<FetchMovies | FetchSeries | null>(
     null
@@ -22,17 +22,17 @@ export default function DetailPage() {
   const [selectedSeason, setSelectedSeason] = useState<number | null>(null);
 
   useEffect(() => {
-    switch (text) {
+    switch (end) {
       case "movie":
-        setVideoData(moviesStore[parseInt(index)]);
+        setVideoData(moviesStore[parseInt(front)]);
         break;
       case "series":
-        setVideoData(seriesStore[parseInt(index)]);
+        setVideoData(seriesStore[parseInt(front)]);
         break;
       default:
         setVideoData(null);
     }
-  }, [index, text, moviesStore, seriesStore]);
+  }, [front, end, moviesStore, seriesStore]);
 
   console.log("Video Data:", videoData);
 
@@ -40,10 +40,10 @@ export default function DetailPage() {
     return <p>Loading...</p>;
   }
 
-  const isSeries = text === "series";
+  const isSeries = end === "series";
 
   return (
-    <div>
+    <div className="s-con">
       {/* Header Section */}
       <div
         className="header"
@@ -51,7 +51,7 @@ export default function DetailPage() {
           backgroundImage: `url(${videoData?.poster_url})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
-          width: "97%",
+          width: "100%",
           height: "500px",
         }}
       >
@@ -89,9 +89,8 @@ export default function DetailPage() {
                     {videoData.seasons.map((season, i) => (
                       <button
                         key={season._id}
-                        className={`season-btn ${
-                          selectedSeason === i ? "active" : ""
-                        }`}
+                        className={`season-btn ${selectedSeason === i ? "active" : ""
+                          }`}
                         onClick={() => setSelectedSeason(i)}
                       >
                         Season {season.seasonNumber}

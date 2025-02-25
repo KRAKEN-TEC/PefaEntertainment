@@ -14,7 +14,7 @@
 
 /* Movie Box with 3D Effect */
 .MP-box {
-  width: 490px;
+  width: 480px;
   border-radius: 10px;
   overflow: hidden;
   text-align: center;
@@ -65,7 +65,7 @@
 .mp-text li {
   border: 1px solid #e85448;
   border-radius: 5px;
-  font-size: small;
+  font-size: x-small;
   margin: 10px 0 0 20px;
   color: #e85448;
   display: inline-block;
