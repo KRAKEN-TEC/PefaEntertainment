@@ -157,7 +157,7 @@ export default function NewRealeses() {
                 <div className="overlay">
                   <h3>{item.title}</h3>
                   <ul>
-                    {newRealse.genres.map((genre, index) => (
+                    {item.genres.map((genre: { _id: string; name: string }, index: number) => (
                       index < 3 &&
                       genreLi(genre._id, genre.name.toUpperCase())
                     ))}
