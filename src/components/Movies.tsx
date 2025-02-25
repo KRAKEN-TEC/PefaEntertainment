@@ -41,7 +41,7 @@ export default function Movies() {
                   <ul>
                     {movie.genres.map((g, index) => (
                       index < 3 &&
-                      genreLi(g._id, g.name.toUpperCase())
+                      genreLi(g.name.toUpperCase(), g._id)
                     ))}
                   </ul>
                 </div>

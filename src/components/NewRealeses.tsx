@@ -3,12 +3,13 @@ import { useSerieStore } from "@/context/useSerieStore";
 import { useEffect, useRef, useState } from "react";
 import useNavDetail from "@/hooks/useNavDetail";
 import { scroll } from "@/helper/GlobalHelper";
-import ButtonWithSVGIcon from "./global/ButtonWithSvgIcon";
+
 import { genreLi } from "./global/genreLi";
 
 import { FetchMovies, useMovie } from "@/hooks/useMovie";
 import { FetchSeries, useSerie } from "@/hooks/useSerie";
 import "./CSS/NewRealses.css";
+import ButtonWithSVGIcon from "./ui/Global/ButtonWithSvgIcon";
 
 export default function NewRealeses() {
   const NR_movie_container = useRef<HTMLDivElement | null>(null);
@@ -27,6 +28,18 @@ export default function NewRealeses() {
   );
 
   useEffect(() => {
+    if (
+      newRealsesMovies &&
+      JSON.stringify(moviesStore) !== JSON.stringify(newRealsesMovies)
+    ) {
+      setMovieStore(newRealsesMovies as FetchMovies[]);
+    }
+    if (
+      newRealsesSeries &&
+      JSON.stringify(seriesStore) !== JSON.stringify(newRealsesSeries)
+    ) {
+      setSeriesStore(newRealsesSeries as FetchSeries[]);
+    }
     if (NR_movie_box.current) {
       setClientWidth(NR_movie_box.current.clientWidth);
     }
@@ -147,7 +160,7 @@ export default function NewRealeses() {
                   <ul>
                     {item.genres.map((genre: { _id: string; name: string }, index: number) => (
                       index < 3 &&
-                      genreLi(genre._id, genre.name.toUpperCase())
+                      genreLi(genre.name.toUpperCase(), genre._id)
                     ))}
                   </ul>
                 </div>

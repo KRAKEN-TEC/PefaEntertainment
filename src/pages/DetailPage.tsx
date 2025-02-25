@@ -22,17 +22,17 @@ export default function DetailPage() {
   const [selectedSeason, setSelectedSeason] = useState<number | null>(null);
 
   useEffect(() => {
-    switch (text) {
+    switch (end) {
       case "movie":
-        setVideoData(moviesStore[parseInt(index)]);
+        setVideoData(moviesStore[parseInt(front)]);
         break;
       case "series":
-        setVideoData(seriesStore[parseInt(index)]);
+        setVideoData(seriesStore[parseInt(front)]);
         break;
       default:
         setVideoData(null);
     }
-  }, [index, text, moviesStore, seriesStore]);
+  }, [front, end, moviesStore, seriesStore]);
 
   console.log("Video Data:", videoData);
 
@@ -40,7 +40,7 @@ export default function DetailPage() {
     return <p>Loading...</p>;
   }
 
-  const isSeries = text === "series";
+  const isSeries = end === "series";
 
   return (
     <div className="s-con">
