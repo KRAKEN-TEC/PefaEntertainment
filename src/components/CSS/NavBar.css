@@ -13,17 +13,22 @@
 
 /* Mode Button */
 .modeButton {
-  border: 1.5px solid #e85448;
+  border: 2px solid #e85448;
   border-radius: 10px;
-  padding: 15px;
+  height: 8px;
+  width: max-content;
   margin: 0 10px; /* Shorthand for left/right margin */
-  background: none;
   cursor: pointer;
+  background: none;
+  justify-content: center;
+  display: flex;
+  position: relative;
+  align-items: center;
 }
 
 /* Search Box */
 .searchBox input {
-  border: 1.5px solid #e85448;
+  border: 2px solid #e85448;
   border-radius: 10px;
   padding: 10px;
 }

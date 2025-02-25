@@ -39,7 +39,7 @@ export default function DetailPage() {
             backgroundImage: `url(${movieData?.poster_url})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
-            width: "97%",
+            width: "100%",
             height: "500px",
           }}
         >
