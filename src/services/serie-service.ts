@@ -1,36 +1,81 @@
 import apiPefa from "./api-pefa";
 
-export const uploadFile = async (file: File, document: string) => {
+function replaceSpacesWithUnderscore(input: string) {
+    if (input.includes(" ")) {
+        return input.replace(/ /g, "_");
+    }
+    return input;
+}
+
+export const uploadFile = async (file: File, endpoint: string, mediaId: string, accessToken?: string | null) => {
+    // PARAMETERS
+    const filePathKey = endpoint.replace(/^\/+/, "") + "/" + mediaId
+    const fileNameKey = file.name.toLowerCase().includes(".mp4") ?
+        `videos/${replaceSpacesWithUnderscore(file.name)}` :
+        `images/${replaceSpacesWithUnderscore(file.name)}`;
+    const key = `${filePathKey}/${fileNameKey}`
+    const fileType = file.type.split('/')[0]; // Extracts "image" or "video"
+
     const presignedUrl = await apiPefa.post("/presigned-url/post-url", {
-        name: `${document}/${file.name}`,
-        type: `${document}/${file.type}`,
+        key: key,
+        type: file.type,
     });
 
+    // DEBUG
+    console.log("fileNameKey", fileNameKey)
+    console.log("key", key)
+    console.log("endpoint", endpoint + "/" + mediaId)
+    console.log("fileType", fileType)
+    console.log("presignedUrl", presignedUrl)
+
+    // UPLOADING TO S3
     await fetch(presignedUrl.data.url, {
         method: "PUT",
         headers: { "Content-Type": file.type },
         body: file,
     });
+
+    // UPDATING DATABASE
+    if (fileType === "image") {
+        await apiPefa.put(endpoint + "/" + mediaId, { posterKey: key }, {
+            headers: {
+                Authorization: `${accessToken}`,
+                "Content-Type": "application/json",
+            },
+        });
+
+    }
+    if (fileType === "video") {
+        await apiPefa.put(endpoint + "/" + mediaId, { videoKey: key }, {
+            headers: {
+                Authorization: `${accessToken}`,
+                "Content-Type": "application/json",
+            },
+        });
+    }
 };
 
-export async function createDocument(endpoint: string, document: string, payload: any, accessToken: string | null) {
+export async function createDocument(endpoint: string, payload: any, accessToken: string | null) {
+    // PARAMETERS
     let { poster, video, ...rest } = payload;
-
     let data = {
         ...rest,
-        ...(poster && { posterName: poster.name }),
-        ...(video && { videoName: video.name }),
+        ...(poster && { posterKey: "" }), // pending in backend
+        ...(video && { videoKey: "" }), // pending in backend
     };
 
-    await apiPefa.post(endpoint, data, {
+    // CREATE DOCUMENT
+    const response = await apiPefa.post(endpoint, data, {
         headers: {
             Authorization: `${accessToken}`,
             "Content-Type": "application/json",
         },
     });
 
-    if (payload.poster) await uploadFile(payload.poster, document);
-    if (payload.video) await uploadFile(payload.video, document);
+    // UPLOADING PROCESS
+    const mediaId = response.data?._id || response.data?.seasonNumber || response.data?.episodeNumber
+    if (payload.poster) await uploadFile(payload.poster, endpoint, mediaId, accessToken);
+    if (payload.video) await uploadFile(payload.video, endpoint, mediaId, accessToken);
 }
 
 export async function deleteDocument(endpoint: string, id: string, accessToken: string | null) {
