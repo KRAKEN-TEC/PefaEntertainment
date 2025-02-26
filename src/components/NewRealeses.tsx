@@ -1,4 +1,3 @@
-import { useMovie } from "@/hooks/useMovie";
 import { useMovieStore } from "@/context/useMovieStore";
 import "./CSS/NewRealses.css";
 import useNavDetail from "@/hooks/useNavDetail";
@@ -6,6 +5,8 @@ import { useEffect, useRef, useState } from "react";
 import { scroll } from "@/helper/GlobalHelper";
 import { genreLi } from "./global/genreLi";
 import { FetchPefa, usePefa } from "@/hooks/usePefa";
+import ButtonWithSVGIcon from "./ui/Global/ButtonWithSvgIcon";
+import Tag from "./ui/Global/Tag";
 
 export default function NewRealeses() {
   const NR_movie_container = useRef<HTMLDivElement | null>(null);
@@ -16,11 +17,7 @@ export default function NewRealeses() {
   const { data: newRealses } = usePefa();
   const { callNav } = useNavDetail();
   const [clientWidth, setClientWidth] = useState<number>(0);
-  const [apiCallingWatcher, setApiCallingWatcher] = useState({
-    watchNumber: 0,
-    shouldCall: false,
-  });
-  console.log(pefaStore);
+
   useEffect(() => {
     if (
       newRealses &&
@@ -32,14 +29,7 @@ export default function NewRealeses() {
       setClientWidth(NR_movie_box.current.clientWidth);
     }
   }, [newRealses]);
-  // useEffect(() => {
-  //   if (
-  //     apiCallingWatcher.watchNumber > newRealses.length - 4 &&
-  //     apiCallingWatcher.shouldCall
-  //   ) {
-  //     setMovieQuery({ ...movieQuery, page: movieQuery.page + 1 });
-  //   }
-  // }, [apiCallingWatcher]);
+
   return (
     <div className="NR-movie-section">
       <h2>New Realsese</h2>
@@ -48,12 +38,7 @@ export default function NewRealeses() {
           <>
             <ButtonWithSVGIcon
               onClick={() => {
-                scroll("left", NR_movie_container.current!, clientWidth);
-                setApiCallingWatcher((prev) =>
-                  prev.watchNumber === 0
-                    ? { watchNumber: 0, shouldCall: false }
-                    : { watchNumber: prev.watchNumber - 1, shouldCall: false }
-                );
+                scroll("right", NR_movie_container.current!, clientWidth);
               }}
               btnType="button"
               className="scroll-btn left"
@@ -80,22 +65,9 @@ export default function NewRealeses() {
                 </svg>
               }
             />
-            {/* <button
-              className="scroll-btn left"
-              onClick={() =>
-                // scroll("left", NR_movie_container.current!, clientWidth)
-                setMovieQuery({ ...movieQuery, page: movieQuery.page + 1 })
-              }
-            >
-         
-            </button> */}
             <ButtonWithSVGIcon
               onClick={() => {
-                scroll("right", NR_movie_container.current!, clientWidth);
-                setApiCallingWatcher({
-                  watchNumber: apiCallingWatcher.watchNumber + 1,
-                  shouldCall: true,
-                });
+                scroll("left", NR_movie_container.current!, clientWidth);
               }}
               btnType="button"
               className="scroll-btn right"
@@ -142,16 +114,15 @@ export default function NewRealeses() {
                   height: "500px",
                 }}
               >
-                {/* <img src={newRealse.poster_url} /> */}
-
                 <div className="overlay">
-                  <h3>{newRealse.title}</h3>
-                  {/* <span>{newRealse.description}</span> */}
+                  <Tag txt={newRealse.title} as="h3" />
+
                   <ul>
-                    {newRealse.genres.map((genre, index) => (
-                      index < 3 &&
-                      genreLi(genre._id, genre.name.toUpperCase())
-                    ))}
+                    {newRealse.genres.map(
+                      (genre, index) =>
+                        index < 3 &&
+                        genreLi(genre.name.toUpperCase(), genre._id)
+                    )}
                   </ul>
                 </div>
               </div>

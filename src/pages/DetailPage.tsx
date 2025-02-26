@@ -1,17 +1,17 @@
 import { useParams } from "react-router";
-import { FetchMovies, useMovie } from "@/hooks/useMovie";
+import { FetchMovies } from "@/hooks/useMovie";
 import { useEffect, useState } from "react";
 import Overview from "@/components/detailData/Overview";
 import Watch from "@/components/detailData/Watch";
 import "./CSS/DetailPage.css";
-import { stringSliceWith$ } from "@/helper/GlobalHelper";
+import { stringSlice } from "@/helper/GlobalHelper";
 import { useMovieStore } from "@/context/useMovieStore";
 import { FetchSeries } from "@/hooks/useSerie";
 import { FetchPefa } from "@/hooks/usePefa";
 
 export default function DetailPage() {
   const { id } = useParams();
-  const { index, text } = stringSliceWith$(id !== undefined ? id : "h");
+  const { front, end } = stringSlice(id !== undefined ? id : "h", "$"); //front is index
 
   const [movieData, setMovieData] = useState<
     FetchMovies | FetchSeries | FetchPefa | null
@@ -20,14 +20,14 @@ export default function DetailPage() {
   const [activeTab, setActiveTab] = useState<string>("overview");
 
   useEffect(() => {
-    switch (text) {
+    switch (end) {
       case "NR":
-        setMovieData(pefaStore[parseInt(index)]);
+        setMovieData(pefaStore[parseInt(front)]);
         break;
       default:
         setMovieData(null);
     }
-  }, [index, text, pefaStore]);
+  }, [front, end, pefaStore]);
 
   return (
     <div className="s-con">
