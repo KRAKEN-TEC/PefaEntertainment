@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { useSerie } from "./useSerie";
+import { useSeries } from "./useSerie";
 import { useMovie } from "./useMovie";
 
 import { FetchMovies } from '@/hooks/useMovie';
@@ -10,7 +10,7 @@ export interface FetchPefa extends FetchSeries, FetchMovies { }
 
 export function usePefa() {
     const { data: movie, error: movieError, loading: movieLoading } = useMovie();
-    const { data: serie, error: serieError, loading: serieLoading } = useSerie();
+    const { data: serie, error: serieError, loading: serieLoading } = useSeries();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 

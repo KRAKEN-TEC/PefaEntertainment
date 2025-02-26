@@ -128,3 +128,140 @@ text-align: center;
     margin-top: -81px;
     overflow: hidden;
   }
+/* Header Section */
+.header {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  color: white;
+  padding: 40px;
+  border-radius: 10px;
+}
+
+.details-overlay {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 20px;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.details-overlay h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.details-overlay p {
+  font-size: 16px;
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+
+.genres-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.genres-box ul {
+  display: flex;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+}
+
+.genres-box ul li {
+  background: #d32f2f;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+/* Tabs (Overview, Watch, Episodes) */
+.tabs {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.tabs button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  padding-bottom: 5px;
+  transition: 0.3s;
+}
+
+.tabs button:hover,
+.tabs button:focus {
+  border-bottom: 2px solid white;
+}
+
+/* Seasons Buttons */
+.seasons {
+  display: flex;
+  gap: 10px;
+  margin: 20px 0;
+  flex-wrap: wrap;
+}
+
+.season-btn {
+  padding: 10px 15px;
+  border: 2px solid #d32f2f;
+  background-color: transparent;
+  color: #d32f2f;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.season-btn:hover,
+.season-btn.active {
+  background-color: #d32f2f;
+  color: white;
+}
+
+/* Episodes List */
+.episodes-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.episode-item {
+  display: flex;
+  align-items: center;
+  background: #222;
+  padding: 15px;
+  border-radius: 8px;
+  gap: 15px;
+}
+
+.episode-item img {
+  width: 120px;
+  height: 70px;
+  border-radius: 5px;
+}
+
+.episode-item div {
+  flex: 1;
+}
+
+.episode-item h3 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.episode-item p {
+  font-size: 14px;
+  color: #ccc;
+  margin: 5px 0;
+}
+
+.episode-item span {
+  font-size: 12px;
+  color: #999;
+}

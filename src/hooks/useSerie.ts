@@ -119,7 +119,7 @@ export interface SerieQuery {
     ordering: string,
 }
 
-export const useSerie = (serieQuery?: SerieQuery) => useData<FetchSeries>('/series',
+export const useSeries = (serieQuery?: SerieQuery) => useData<FetchSeries>('/series',
     {
         params: {
             page: serieQuery?.page,
@@ -131,7 +131,15 @@ export const useSerie = (serieQuery?: SerieQuery) => useData<FetchSeries>('/seri
     [serieQuery]
 )
 
-export const useSeason = (serieId?: string, serieQuery?: SerieQuery) => useSingleData<FetchSeasons[]>(`/series/${serieId}/seasons`,
+export const useSingleSerie = (serieId?: string) => useSingleData<FetchSeries>(`/series/${serieId}`);
+
+// export const useSeasons = (serieId: string) => useData<FetchSeasons>(`/series/${serieId}/seasons`)
+export const useSingleSeason = (serieId?: string, seasonNumber?: string) => useSingleData<FetchSeasons>(`/series/${serieId}/seasons/${seasonNumber}`)
+
+export const useSingleEpisode = (serieId?: string, seasonNumber?: string, episodeNumber?: string) => useSingleData<FetchSeasons>(`/series/${serieId}/seasons/${seasonNumber}/episodes/${episodeNumber}`)
+
+
+export const useSeasons = (serieId?: string, serieQuery?: SerieQuery) => useData<FetchSeasons>(`/series/${serieId}/seasons`,
     {
         params: {
             page: serieQuery?.page,
@@ -143,7 +151,7 @@ export const useSeason = (serieId?: string, serieQuery?: SerieQuery) => useSingl
     [serieQuery]
 );
 
-export const useEpisode = (serieId?: string, seasonNumber?: string, serieQuery?: SerieQuery) => useSingleData<FetchEpisodes[]>(`/series/${serieId}/seasons/${seasonNumber}/episodes`,
+export const useEpisodes = (serieId?: string, seasonNumber?: string, serieQuery?: SerieQuery) => useData<FetchEpisodes>(`/series/${serieId}/seasons/${seasonNumber}/episodes`,
     {
         params: {
             page: serieQuery?.page,

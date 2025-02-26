@@ -1,3 +1,5 @@
+import { boolean } from "zod";
+
 export const scroll = (
   direction: string,
   scrollContainer: HTMLDivElement,
@@ -10,7 +12,42 @@ export const scroll = (
   }
 };
 
-export const stringSliceWith$ = (st: string) => {
-  const [index, text] = st.split("$");
-  return { index, text };
+export const stringSlice = (st: string, sliceVal: string) => {
+  const [front, end] = st.split(sliceVal);
+  return { front, end };
+};
+
+export const stringSliceFrontOnly = (st: string, sliceVal: string) => {
+  return st.split(sliceVal)[0];
+};
+
+export const stringSliceBackOnly = (st: string, sliceVal: string) => {
+  return st.split(sliceVal)[1];
+};
+
+export const numberChecker = (
+  num1: number,
+  num2: number,
+  comparationOperator: string
+): boolean => {
+  switch (comparationOperator) {
+    case ">":
+      return num1 > num2;
+    case "<":
+      return num1 < num2;
+    case ">=":
+      return num1 >= num2;
+    case "<=":
+      return num1 <= num2;
+    case "==":
+      return num1 == num2;
+    case "===":
+      return num1 === num2;
+    case "!=":
+      return num1 != num2;
+    case "!==":
+      return num1 !== num2;
+    default:
+      throw new Error("Invalid comparison operator");
+  }
 };

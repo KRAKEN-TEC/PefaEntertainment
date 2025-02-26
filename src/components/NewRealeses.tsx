@@ -1,59 +1,80 @@
-import { useMovie } from "@/hooks/useMovie";
 import { useMovieStore } from "@/context/useMovieStore";
-import "./CSS/NewRealses.css";
-import useNavDetail from "@/hooks/useNavDetail";
+import { useSerieStore } from "@/context/useSerieStore";
 import { useEffect, useRef, useState } from "react";
+import useNavDetail from "@/hooks/useNavDetail";
 import { scroll } from "@/helper/GlobalHelper";
+
 import { genreLi } from "./global/genreLi";
-import { FetchPefa, usePefa } from "@/hooks/usePefa";
+
+import { FetchMovies, useMovie } from "@/hooks/useMovie";
+import { FetchSeries, useSeries } from "@/hooks/useSerie";
+import "./CSS/NewRealses.css";
+import ButtonWithSVGIcon from "./ui/Global/ButtonWithSvgIcon";
 
 export default function NewRealeses() {
   const NR_movie_container = useRef<HTMLDivElement | null>(null);
   const NR_movie_box = useRef<HTMLDivElement | null>(null);
-  const { movieQuery, setMovieQuery, pefaStore, setPefaStore } =
-    useMovieStore();
 
-  const { data: newRealses } = usePefa();
+  const { moviesStore, setMovieStore } = useMovieStore();
+  const { seriesStore, setSeriesStore } = useSerieStore();
+  const { data: newRealsesMovies } = useMovie();
+  const { data: newRealsesSeries } = useSeries();
   const { callNav } = useNavDetail();
   const [clientWidth, setClientWidth] = useState<number>(0);
-  const [apiCallingWatcher, setApiCallingWatcher] = useState({
-    watchNumber: 0,
-    shouldCall: false,
-  });
-  console.log(pefaStore);
+
+  // State for filtering
+  const [selectedCategory, setSelectedCategory] = useState<"movies" | "series">(
+    "movies"
+  );
+
   useEffect(() => {
     if (
-      newRealses &&
-      JSON.stringify(pefaStore) !== JSON.stringify(newRealses)
+      newRealsesMovies &&
+      JSON.stringify(moviesStore) !== JSON.stringify(newRealsesMovies)
     ) {
-      setPefaStore(newRealses as FetchPefa[]);
+      setMovieStore(newRealsesMovies as FetchMovies[]);
+    }
+    if (
+      newRealsesSeries &&
+      JSON.stringify(seriesStore) !== JSON.stringify(newRealsesSeries)
+    ) {
+      setSeriesStore(newRealsesSeries as FetchSeries[]);
     }
     if (NR_movie_box.current) {
       setClientWidth(NR_movie_box.current.clientWidth);
     }
-  }, [newRealses]);
-  // useEffect(() => {
-  //   if (
-  //     apiCallingWatcher.watchNumber > newRealses.length - 4 &&
-  //     apiCallingWatcher.shouldCall
-  //   ) {
-  //     setMovieQuery({ ...movieQuery, page: movieQuery.page + 1 });
-  //   }
-  // }, [apiCallingWatcher]);
+  }, [newRealsesMovies, newRealsesSeries]);
+
+  // Filter data based on selected category
+  const displayedData =
+    selectedCategory === "movies" ? moviesStore : seriesStore;
+
   return (
     <div className="NR-movie-section">
-      <h2>New Realsese</h2>
+      <h2>New Releases</h2>
+
+      {/* Category Filter Buttons */}
+      <div className="filter-buttons">
+        <button
+          className={selectedCategory === "movies" ? "active" : ""}
+          onClick={() => setSelectedCategory("movies")}
+        >
+          Movies
+        </button>
+        <button
+          className={selectedCategory === "series" ? "active" : ""}
+          onClick={() => setSelectedCategory("series")}
+        >
+          Series
+        </button>
+      </div>
+
       <div className="NR-scroll-container" ref={NR_movie_container}>
-        {pefaStore?.length > 1 && (
+        {displayedData?.length > 0 && (
           <>
             <ButtonWithSVGIcon
               onClick={() => {
-                scroll("left", NR_movie_container.current!, clientWidth);
-                setApiCallingWatcher((prev) =>
-                  prev.watchNumber === 0
-                    ? { watchNumber: 0, shouldCall: false }
-                    : { watchNumber: prev.watchNumber - 1, shouldCall: false }
-                );
+                scroll("right", NR_movie_container.current!, clientWidth);
               }}
               btnType="button"
               className="scroll-btn left"
@@ -80,22 +101,9 @@ export default function NewRealeses() {
                 </svg>
               }
             />
-            {/* <button
-              className="scroll-btn left"
-              onClick={() =>
-                // scroll("left", NR_movie_container.current!, clientWidth)
-                setMovieQuery({ ...movieQuery, page: movieQuery.page + 1 })
-              }
-            >
-         
-            </button> */}
             <ButtonWithSVGIcon
               onClick={() => {
-                scroll("right", NR_movie_container.current!, clientWidth);
-                setApiCallingWatcher({
-                  watchNumber: apiCallingWatcher.watchNumber + 1,
-                  shouldCall: true,
-                });
+                scroll("left", NR_movie_container.current!, clientWidth);
               }}
               btnType="button"
               className="scroll-btn right"
@@ -128,29 +136,31 @@ export default function NewRealeses() {
         )}
 
         <div className="NR-movie-grid">
-          {pefaStore &&
-            pefaStore.map((newRealse, index) => (
+          {displayedData &&
+            displayedData.map((item, index) => (
               <div
                 className="NR-movie-box"
                 ref={NR_movie_box}
-                key={newRealse._id}
-                onClick={() => callNav(`${index}$NR`)}
+                key={item._id}
+                onClick={() => {
+                  const type = item.hasOwnProperty("seasons")
+                    ? "series"
+                    : "movie";
+                  callNav(`${index}$${type}`);
+                }}
                 style={{
-                  backgroundImage: `url(${newRealse.poster_url})`,
+                  backgroundImage: `url(${item.poster_url})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   height: "500px",
                 }}
               >
-                {/* <img src={newRealse.poster_url} /> */}
-
                 <div className="overlay">
-                  <h3>{newRealse.title}</h3>
-                  {/* <span>{newRealse.description}</span> */}
+                  <h3>{item.title}</h3>
                   <ul>
-                    {newRealse.genres.map((genre, index) => (
+                    {item.genres.map((genre: { _id: string; name: string }, index: number) => (
                       index < 3 &&
-                      genreLi(genre._id, genre.name.toUpperCase())
+                      genreLi(genre.name.toUpperCase(), genre._id)
                     ))}
                   </ul>
                 </div>

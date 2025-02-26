@@ -7,7 +7,7 @@ import { Field } from "../ui/field";
 import "@/admin.css"
 import { FormSerie, FetchSeries, schemaSeries, useSerieActions } from "@/hooks/useSerie";
 import { useSerieStore } from "@/context/useSerieStore";
-import { useSerie } from "@/hooks/useSerie";
+import { useSeries } from "@/hooks/useSerie";
 import { DialogActionBox } from "../global/DialogBox";
 import AlertMessage from "../global/AlertMessage";
 import SerieGenreUpdateField from "../global/SerieGenreUpdateField";
@@ -169,7 +169,7 @@ export const AddSerie = () => {
 
 export default function SerieTable() {
   const { serieQuery } = useSerieStore();
-  const { data: series, error, loading } = useSerie(serieQuery);
+  const { data: series, error, loading } = useSeries(serieQuery);
 
   return (
     <>
