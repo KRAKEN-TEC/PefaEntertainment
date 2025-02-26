@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import { useForm, UseFormSetValue, FieldErrors } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { schemaEpisodes, FormEpisode, FetchEpisodes, useSerieActions, useEpisode } from "@/hooks/useSerie";
+import { schemaEpisodes, FormEpisode, FetchEpisodes, useSerieActions, useEpisodes } from "@/hooks/useSerie";
 import DialogBox, { DialogActionBox } from "../global/DialogBox";
 import EpisodeUpdateField from "../global/EpisodeUpdateField";
 import AlertMessage from "../global/AlertMessage";
@@ -157,7 +157,7 @@ export const AddEpisode = () => {
 const EpisodeTable = () => {
   const { serieId, seasonNumber } = useParams();
   const { serieQuery } = useSerieStore();
-  const { data: episodes, error, loading } = useEpisode(serieId, seasonNumber, serieQuery);
+  const { data: episodes, error, loading } = useEpisodes(serieId, seasonNumber, serieQuery);
 
   return (
     <>

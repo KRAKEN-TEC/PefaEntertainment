@@ -5,7 +5,7 @@ import { useForm, FieldErrors, UseFormSetValue } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import "@/admin.css"
-import { FetchSeasons, FormSeason, useSerieActions, schemaSeasons, useSeason } from "@/hooks/useSerie";
+import { FetchSeasons, FormSeason, useSerieActions, schemaSeasons, useSeasons } from "@/hooks/useSerie";
 import DialogBox, { DialogActionBox } from "../global/DialogBox";
 import SeasonUpdateField from "../global/SeasonUpdateField";
 import AlertMessage from "../global/AlertMessage";
@@ -137,7 +137,7 @@ export const AddSeason = () => {
 const SeasonTable = () => {
   const { serieId } = useParams();
   const { serieQuery } = useSerieStore();
-  const { data: seasons, error, loading } = useSeason(serieId, serieQuery);
+  const { data: seasons, error, loading } = useSeasons(serieId, serieQuery);
 
   return (
     <>
