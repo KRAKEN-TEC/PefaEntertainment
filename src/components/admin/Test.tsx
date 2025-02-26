@@ -3,22 +3,11 @@ import { useEpisodes, useSeasons, useSeries, useSingleSeason, useSingleSerie, us
 
 function Test() {
   const { data: series } = useSeries();
-  const { data: serie } = useSingleSerie("67be56c81c83a35fcb4cf2e2");
-  const { data: seasons } = useSeasons("67be56c81c83a35fcb4cf2e2");
-  const { data: season } = useSingleSeason("67be56c81c83a35fcb4cf2e2", "1")
-  const { data: episodes } = useEpisodes("67be56c81c83a35fcb4cf2e2", "1")
-  const { data: episode, loading, error } = useSingleEpisode("67be56c81c83a35fcb4cf2e2", "1", "1")
-
-  console.log(episodes)
-  // useEffect(() => {
-  //   apiPefa.get("/series/67be56c81c83a35fcb4cf2e2")
-  //     .then((response) => {
-  //       console.log(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching series:", error);
-  //     });
-  // }, []);
+  const { data: serie } = useSingleSerie("67bf255c5881b85c8a531234");
+  const { data: seasons } = useSeasons("67bf255c5881b85c8a531234");
+  const { data: season } = useSingleSeason("67bf255c5881b85c8a531234", "1")
+  const { data: episodes } = useEpisodes("67bf255c5881b85c8a531234", "1")
+  const { data: episode, loading, error } = useSingleEpisode("67bf255c5881b85c8a531234", "1", "1")
 
   return (
     <>

@@ -138,7 +138,7 @@ const SeasonTable = () => {
   const { serieId } = useParams();
   const { serieQuery } = useSerieStore();
   const { data: seasons, error, loading } = useSeasons(serieId, serieQuery);
-
+  console.log(seasons)
   return (
     <>
       {seasons &&
