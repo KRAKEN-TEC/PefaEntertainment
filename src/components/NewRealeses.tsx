@@ -7,7 +7,7 @@ import { scroll } from "@/helper/GlobalHelper";
 import { genreLi } from "./global/genreLi";
 
 import { FetchMovies, useMovie } from "@/hooks/useMovie";
-import { FetchSeries, useSerie } from "@/hooks/useSerie";
+import { FetchSeries, useSeries } from "@/hooks/useSerie";
 import "./CSS/NewRealses.css";
 import ButtonWithSVGIcon from "./ui/Global/ButtonWithSvgIcon";
 
@@ -18,7 +18,7 @@ export default function NewRealeses() {
   const { moviesStore, setMovieStore } = useMovieStore();
   const { seriesStore, setSeriesStore } = useSerieStore();
   const { data: newRealsesMovies } = useMovie();
-  const { data: newRealsesSeries } = useSerie();
+  const { data: newRealsesSeries } = useSeries();
   const { callNav } = useNavDetail();
   const [clientWidth, setClientWidth] = useState<number>(0);
 

@@ -1,12 +1,12 @@
 import { genreLi } from "@/components/global/genreLi";
 import "./CSS/SeriesPage.css";
 import useNavDetail from "@/hooks/useNavDetail";
-import { FetchSeries, useSerie } from "@/hooks/useSerie";
+import { FetchSeries, useSeries } from "@/hooks/useSerie";
 import { useSerieStore } from "@/context/useSerieStore";
 import { useEffect } from "react";
 
 export default function SeriesPage() {
-  const { data: series } = useSerie();
+  const { data: series } = useSeries();
   const { callNavForSeriesPage } = useNavDetail();
   const { seriesStore, setSeriesStore } = useSerieStore();
 
