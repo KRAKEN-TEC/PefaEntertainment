@@ -27,12 +27,12 @@ export default function Series() {
       <div className="series-scroll-container">
         <div className="series-grid">
           {seriesStore &&
-            randomSeries.map((s, index) => (
+            randomSeries.map((s) => (
               <div
                 className="series-box"
                 key={s._id}
                 onClick={() => {
-                  callNav(`${index}$series`);
+                  callNav(`${s._id}$series`);
                 }}
               >
                 <img src={s.poster_url} />

@@ -1,8 +1,7 @@
 import { stringSliceFrontOnly } from "@/helper/GlobalHelper";
 import Tag from "../ui/Global/Tag";
-import { FetchMovies } from "@/hooks/useMovie";
 
-export default function Overview({ detailData }: { detailData?: FetchMovies }) {
+export default function Overview({ detailData }: { detailData?: any }) {
   return (
     <div className="detail-container">
       {/* Description */}

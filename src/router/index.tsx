@@ -74,7 +74,7 @@ const router = createBrowserRouter([
       {
         path: "test",
         element: <Test />,
-      }
+      },
     ],
   },
 
@@ -87,6 +87,10 @@ const router = createBrowserRouter([
         element: <DetailPage />,
       },
       {
+        path: "seasons/:seasonNumber",
+        element: <DetailPage />,
+      },
+      {
         path: "watch",
         element: <WatchingVideo />,
       },
@@ -95,10 +99,11 @@ const router = createBrowserRouter([
 
   {
     path: "/admin/*",
-    element:
+    element: (
       <Provider>
         <AdminLayout />
-      </Provider>, // Separate layout without Navbar
+      </Provider>
+    ), // Separate layout without Navbar
     children: [
       { path: "movie-panel", element: <MoviePanel /> },
       { path: "team-panel", element: <TeamPanel /> },
@@ -108,12 +113,14 @@ const router = createBrowserRouter([
         children: [
           { path: "series", element: <SerieTable /> },
           { path: "series/:serieId", element: <SeasonTable /> },
-          { path: "series/:serieId/seasons/:seasonNumber", element: <EpisodeTable /> }
-        ]
+          {
+            path: "series/:serieId/seasons/:seasonNumber",
+            element: <EpisodeTable />,
+          },
+        ],
       },
     ],
   },
-
 ]);
 
 export default router;

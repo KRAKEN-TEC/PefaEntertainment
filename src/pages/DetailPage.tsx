@@ -1,50 +1,44 @@
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { FetchMovies } from "@/hooks/useMovie";
 import { useEffect, useState } from "react";
 import Overview from "@/components/detailData/Overview";
 import Watch from "@/components/detailData/Watch";
 import "./CSS/DetailPage.css";
-import { stringSlice } from "@/helper/GlobalHelper";
 import { useMovieStore } from "@/context/useMovieStore";
-import { FetchSeries } from "@/hooks/useSerie";
+import { FetchSeries, useSingleSeason } from "@/hooks/useSerie";
 import { useSerieStore } from "@/context/useSerieStore";
+import useNavDetail from "@/hooks/useNavDetail";
 
 export default function DetailPage() {
-  const { id } = useParams();
-  const { front, end } = stringSlice(id !== undefined ? id : "h", "$"); //front is index
-
+  const { id: rawId, seasonNumber } = useParams();
+  const navigate = useNavigate();
+  const [id, type] = rawId?.split("$") || ["", ""];
   const [videoData, setVideoData] = useState<FetchMovies | FetchSeries | null>(
     null
   );
   const { moviesStore } = useMovieStore();
   const { seriesStore } = useSerieStore();
   const [activeTab, setActiveTab] = useState<string>("overview");
-  const [selectedSeason, setSelectedSeason] = useState<number | null>(null);
+  const selectedSeason = seasonNumber ? parseInt(seasonNumber) : 1;
+  const { callNavForSeason } = useNavDetail();
 
   useEffect(() => {
-    switch (end) {
-      case "movie":
-        setVideoData(moviesStore[parseInt(front)]);
-        break;
-      case "series":
-        setVideoData(seriesStore[parseInt(front)]);
-        break;
-      default:
-        setVideoData(null);
+    if (!id || !type) return;
+
+    if (type === "movie") {
+      setVideoData(moviesStore.find((movie) => movie._id === id) || null);
+    } else if (type === "series") {
+      setVideoData(seriesStore.find((serie) => serie._id === id) || null);
     }
-  }, [front, end, moviesStore, seriesStore]);
+  }, [id, type, moviesStore, seriesStore]);
 
-  console.log("Video Data:", videoData);
+  const isSeries = type === "series";
 
-  if (!videoData) {
-    return <p>Loading...</p>;
-  }
-
-  const isSeries = end === "series";
+  // Fetch selected season when user selects it
+  const { data: seasonData } = useSingleSeason(id, selectedSeason);
 
   return (
     <div className="s-con">
-      {/* Header Section */}
       <div
         className="header"
         style={{
@@ -78,41 +72,36 @@ export default function DetailPage() {
       <div className="tab-content">
         {activeTab === "overview" && <Overview detailData={videoData} />}
 
-        {/* Watch Section: Different View for Movies and Series */}
         {activeTab === "watch" && (
           <div>
             {isSeries ? (
               <>
-                {/* Season Selection for Series */}
-                {videoData?.seasons?.length > 0 && (
-                  <div className="seasons">
-                    {videoData.seasons.map((season, i) => (
-                      <button
-                        key={season._id}
-                        className={`season-btn ${selectedSeason === i ? "active" : ""
-                          }`}
-                        onClick={() => setSelectedSeason(i)}
-                      >
-                        Season {season.seasonNumber}
-                      </button>
-                    ))}
-                  </div>
-                )}
-
-                {/* Episodes List (Only Show When a Season is Selected) */}
-                {selectedSeason !== null && (
+                <div className="seasons">
+                  {videoData?.seasons?.map((season) => (
+                    <button
+                      key={season._id}
+                      className={`season-btn ${
+                        selectedSeason === season.seasonNumber ? "active" : ""
+                      }`}
+                      onClick={() => {
+                        callNavForSeason(id, season.seasonNumber);
+                      }}
+                    >
+                      Season {season.seasonNumber}
+                    </button>
+                  ))}
+                </div>
+                ;
+                {seasonData && (
                   <div className="episodes-list">
-                    {videoData.seasons[selectedSeason].episodes.map(
-                      (episode) => (
-                        <Watch detailData={episode} key={episode._id} />
-                      )
-                    )}
+                    {seasonData.episodes.map((episode) => (
+                      <Watch detailData={episode} key={episode._id} />
+                    ))}
                   </div>
                 )}
               </>
             ) : (
-              // Movie Watch Section (Only One Box)
-              <Watch detailData={videoData} key={videoData._id}></Watch>
+              <Watch detailData={videoData} key={videoData._id} />
             )}
           </div>
         )}

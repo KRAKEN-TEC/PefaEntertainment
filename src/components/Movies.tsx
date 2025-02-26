@@ -26,12 +26,12 @@ export default function Movies() {
       <div className="scroll-container">
         <div className="movie-grid">
           {moviesStore &&
-            randomMovies.map((movie, index) => (
+            randomMovies.map((movie) => (
               <div
                 className="movie-box"
                 key={movie._id}
                 onClick={() => {
-                  callNav(`${index}$movie`);
+                  callNav(`${movie._id}$movie`);
                 }}
               >
                 <img src={movie.poster_url} />
@@ -39,10 +39,10 @@ export default function Movies() {
                   <h3>{movie.title}</h3>
                   <span>{movie.description}</span>
                   <ul>
-                    {movie.genres.map((g, index) => (
-                      index < 3 &&
-                      genreLi(g.name.toUpperCase(), g._id)
-                    ))}
+                    {movie.genres.map(
+                      (g, index) =>
+                        index < 3 && genreLi(g.name.toUpperCase(), g._id)
+                    )}
                   </ul>
                 </div>
               </div>

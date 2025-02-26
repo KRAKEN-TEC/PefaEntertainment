@@ -31,7 +31,7 @@ export default function MoviesPage() {
               <div
                 className="MP-box"
                 key={movie._id}
-                onClick={() => callNavForMoviesPage(`${index}$movie`)}
+                onClick={() => callNavForMoviesPage(`${movie._id}$movie`)}
               >
                 <img src={movie.poster_url} />
                 <div className="mp-text">

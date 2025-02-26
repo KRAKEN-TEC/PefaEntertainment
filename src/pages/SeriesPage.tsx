@@ -26,7 +26,7 @@ export default function SeriesPage() {
             <div
               className="SP-box"
               key={s._id}
-              onClick={() => callNavForSeriesPage(`${index}$series`)}
+              onClick={() => callNavForSeriesPage(`${s._id}$series`)}
             >
               <img src={s.poster_url} />
               <div className="SP-text">
