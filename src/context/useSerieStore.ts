@@ -1,9 +1,11 @@
 import { create } from "zustand";
-import { SerieQuery } from "@/hooks/useSerie";
+import { FetchSeries, SerieQuery } from "@/hooks/useSerie";
 
 interface SerieQueryStore {
     actions: string[];
     serieQuery: SerieQuery;
+    seriesStore: FetchSeries[];
+    setSeriesStore: (series: FetchSeries[]) => void;
     setSerieQuery: (query: SerieQuery) => void;
     updateActions: (actions: string[]) => void;
     addAction: (action: string) => void;
@@ -13,6 +15,10 @@ interface SerieQueryStore {
 export const useSerieStore = create<SerieQueryStore>((set) => ({
     actions: [],
     serieQuery: {} as SerieQuery,
+    seriesStore: [] as FetchSeries[],
+    setSeriesStore(series: FetchSeries[]) {
+        set({ seriesStore: series });
+    },
     setSerieQuery: (query) => set({ serieQuery: query }),
     updateActions: (actions) => {
         set({ actions: actions });

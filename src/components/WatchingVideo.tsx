@@ -2,15 +2,11 @@ import { useRef } from "react";
 import { data, useParams } from "react-router";
 import Player from "video.js/dist/types/player";
 import videojs from "video.js";
-import { useMovie } from "@/hooks/useMovie";
 import VideoPlayer from "@/helper/VideoPlayer";
 import ForMovie from "./ForMovie";
 import ForSeries from "./ForSeries";
 
 export default function WatchingVideo() {
-  const { id } = useParams();
-  const { data: allData } = useMovie();
-
   const playerRef = useRef<Player | null>(null);
 
   const handlePlayerReady = (player: Player) => {
@@ -26,13 +22,9 @@ export default function WatchingVideo() {
     });
   };
 
-  const deatilData = allData.find(
-    (allData) => String(allData._id) === String(id)
-  );
-
   return (
     <div>
-      <div>
+      {/* <div>
         {deatilData && (
           <VideoPlayer
             posterUrl={deatilData.poster_url}
@@ -43,9 +35,9 @@ export default function WatchingVideo() {
       </div>
 
       <div>
-        {!deatilData?.isSerie && <ForMovie detailData={deatilData} />}
-        {deatilData?.isSerie && <ForSeries detailData={deatilData} />}
-      </div>
+        {!deatilData?.seasons && <ForMovie detailData={deatilData} />}
+        {deatilData?.seasons && <ForSeries detailData={deatilData} />}
+      </div> */}
     </div>
   );
 }

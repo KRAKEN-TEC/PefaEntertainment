@@ -1,6 +1,6 @@
-import { FetchMovies } from "@/hooks/useMovie";
-import Tag from "../ui/Global/Tag";
 import { stringSliceFrontOnly } from "@/helper/GlobalHelper";
+import Tag from "../ui/Global/Tag";
+import { FetchMovies } from "@/hooks/useMovie";
 
 export default function Overview({ detailData }: { detailData?: FetchMovies }) {
   return (
