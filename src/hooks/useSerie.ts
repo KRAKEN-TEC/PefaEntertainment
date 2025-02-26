@@ -2,8 +2,8 @@
 import { z } from "zod";
 import { useUserStore } from "@/context/useUserStore";
 import { useState } from "react";
+import { useParams } from "react-router";
 
-import apiPefa from "@/services/api-pefa";
 import { FetchGenres } from "./useGenre";
 import { useSerieStore } from "@/context/useSerieStore";
 import useData, { useSingleData } from "./useData";
@@ -58,7 +58,7 @@ export const schemaEpisodes = z.object({
                     "image/png"
                 ].includes(file.type),
             { message: "Invalid image file type" }
-        ),
+        ).optional(),
     video: z
         .instanceof(File)
         .refine(
@@ -67,7 +67,7 @@ export const schemaEpisodes = z.object({
                     "video/mp4"
                 ].includes(file.type),
             { message: "Invalid video file type" }
-        ),
+        ).optional(),
 });
 
 export const schemaSeasons = z.object({
@@ -156,6 +156,7 @@ export const useEpisode = (serieId?: string, seasonNumber?: string, serieQuery?:
 );
 
 export const useSerieActions = () => {
+    const { serieId, seasonNumber } = useParams();
     const { updateActions } = useSerieStore();
     const { accessToken } = useUserStore();
     const [loading, setLoading] = useState(false);
@@ -165,7 +166,7 @@ export const useSerieActions = () => {
         setAlert("");
         setLoading(true);
         try {
-            await createDocument("/series", "series", payload, accessToken)
+            await createDocument("/series", payload, accessToken)
             updateActions(["create-serie"]);
             setLoading(false);
             setAlert("Series created successfully.");
@@ -188,9 +189,9 @@ export const useSerieActions = () => {
 
         try {
             await updateDocument("/series", serie._id, data, accessToken)
-            updateActions(["movie-update"]);
+            updateActions(["update-serie"]);
             setLoading(false);
-            setAlert("Movie updated successfully");
+            setAlert("Serie updated successfully");
         } catch (error: any) {
             setLoading(false);
             logActionError(error);
@@ -202,9 +203,9 @@ export const useSerieActions = () => {
         setLoading(true);
         try {
             await deleteDocument('/series', id, accessToken);
-            updateActions(['user-delete']);
+            updateActions(['delete-serie']);
             setLoading(false);
-            window.alert("User deleted successfully");
+            window.alert("Series deleted successfully");
         }
         catch (error: any) {
             logActionError(error);
@@ -212,28 +213,72 @@ export const useSerieActions = () => {
         }
     }
 
-    const handleSeasonCreate = (payload: FormSeason) => {
-        console.log(payload)
+    const handleSeasonCreate = async (payload: FormSeason) => {
+        setAlert("");
+        setLoading(true);
+        try {
+            await createDocument(`/series/${serieId}/seasons`, payload, accessToken)
+            updateActions(["create-season"]);
+            setLoading(false);
+            setAlert("Season created successfully.");
+        }
+        catch (error: any) {
+            logError(error, setAlert);
+            setLoading(false);
+        }
     }
 
     const handleSeasonUpdate = (payload: FormSeason, season: FetchSeasons) => {
         console.log(payload, season)
     }
 
-    const handleSeasonDelete = (season: FetchSeasons) => {
-        console.log(season)
+    const handleSeasonDelete = async (season: FetchSeasons) => {
+        setAlert("");
+        setLoading(true);
+        try {
+            await deleteDocument(`/series/${serieId}/seasons`, String(season.seasonNumber), accessToken);
+            updateActions(['delete-season']);
+            setLoading(false);
+            window.alert("Season deleted successfully");
+        }
+        catch (error: any) {
+            logActionError(error);
+            setLoading(false);
+        }
     }
 
-    const handleEpisodeCreate = (payload: FormEpisode) => {
-        console.log(payload)
+    const handleEpisodeCreate = async (payload: FormEpisode) => {
+        setAlert("");
+        setLoading(true);
+        try {
+            await createDocument(`/series/${serieId}/seasons/${seasonNumber}/episodes`, payload, accessToken)
+            updateActions(["create-episode"]);
+            setLoading(false);
+            setAlert("Episode created successfully.");
+        }
+        catch (error: any) {
+            logError(error, setAlert);
+            setLoading(false);
+        }
     }
 
     const handleEpisodeUpdate = (payload: FormEpisode, episode: FetchEpisodes) => {
         console.log(payload, episode)
     }
 
-    const handleEpisodeDelete = (episode: FetchEpisodes) => {
-        console.log(episode)
+    const handleEpisodeDelete = async (episode: FetchEpisodes) => {
+        setAlert("");
+        setLoading(true);
+        try {
+            await deleteDocument(`/series/${serieId}/seasons/${seasonNumber}/episodes`, String(episode.episodeNumber), accessToken);
+            updateActions(['delete-season']);
+            setLoading(false);
+            window.alert("Season deleted successfully");
+        }
+        catch (error: any) {
+            logActionError(error);
+            setLoading(false);
+        }
     }
 
     return {
