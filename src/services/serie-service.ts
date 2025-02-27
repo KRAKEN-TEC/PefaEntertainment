@@ -78,15 +78,6 @@ export async function createDocument(endpoint: string, payload: any, accessToken
     if (payload.video) await uploadFile(payload.video, endpoint, mediaId, accessToken);
 }
 
-export async function deleteDocument(endpoint: string, id: string, accessToken: string | null) {
-    await apiPefa.delete(`${endpoint}/${id}`, {
-        headers: {
-            Authorization: `${accessToken}`,
-            "Content-Type": "multipart/form-data"
-        }
-    })
-}
-
 export async function updateDocument(endpoint: string, id: string, data: any, accessToken: string | null) {
     await apiPefa.put(`${endpoint}/${id}`, data, {
         headers: {
@@ -94,4 +85,13 @@ export async function updateDocument(endpoint: string, id: string, data: any, ac
             "Content-Type": "application/json", // set content type to json
         },
     });
+}
+
+export async function deleteDocument(endpoint: string, id: string, accessToken: string | null) {
+    await apiPefa.delete(`${endpoint}/${id}`, {
+        headers: {
+            Authorization: `${accessToken}`,
+            "Content-Type": "multipart/form-data"
+        }
+    })
 }
