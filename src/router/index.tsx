@@ -8,7 +8,8 @@ import SeriePanel from "@/pages/SeriePanel";
 import SerieTable from "@/components/admin/SerieTable";
 import SeasonTable from "@/components/admin/SeasonTable";
 import EpisodeTable from "@/components/admin/EpisodeTable";
-import Test from "@/components/admin/Test";
+import TestSeries from "@/components/admin/TestSeries";
+import TestMovies from "@/components/admin/TestMovies";
 
 import App from "../App";
 import Layout from "@/pages/layout/Layout";
@@ -72,8 +73,12 @@ const router = createBrowserRouter([
         element: <SeriesPage />,
       },
       {
-        path: "test",
-        element: <Test />,
+        path: "test-series",
+        element: <TestSeries />,
+      },
+      {
+        path: "test-movies",
+        element: <TestMovies />,
       }
     ],
   },
