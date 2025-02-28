@@ -54,25 +54,23 @@ export const schemaMovie = z.object({
 export type FormMovie = z.infer<typeof schemaMovie>;
 
 export interface MovieQuery {
-  page: number;
-  genres: FetchGenres;
-  search: string;
-  ordering: string;
+  page?: number;
+  genres?: FetchGenres;
+  search?: string;
+  ordering?: string;
 }
 
-export const useMovie = (movieQuery?: MovieQuery) =>
-  useData<FetchMovies>(
-    "/movies",
-    {
-      params: {
-        page: movieQuery?.page,
-        genres: movieQuery?.genres,
-        search: movieQuery?.search,
-        ordering: movieQuery?.ordering,
-      },
+export const useMovie = (movieQuery?: MovieQuery) => useData<FetchMovies>("/movies",
+  {
+    params: {
+      page: movieQuery?.page,
+      genres: movieQuery?.genres,
+      search: movieQuery?.search,
+      ordering: movieQuery?.ordering,
     },
-    [movieQuery]
-  );
+  },
+  [movieQuery]
+);
 
 export const useMovieActions = () => {
   const { updateActions } = useMovieStore();
