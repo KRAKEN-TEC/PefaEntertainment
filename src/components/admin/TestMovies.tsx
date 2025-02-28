@@ -1,14 +1,7 @@
 import { useMovie } from "@/hooks/useMovie"
 
-const queryObj = {
-  page: 1,
-  search: "",
-  ordering: "-title"
-};
-
-
 export default function TestMovies() {
-  const { data: movies, loading, error } = useMovie(queryObj);
+  const { data: movies, loading, error } = useMovie();
 
   return (
     <>
