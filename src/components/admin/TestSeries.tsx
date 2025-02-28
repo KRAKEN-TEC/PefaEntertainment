@@ -1,22 +1,15 @@
 
 import { useEpisodes, useSeasons, useSeries, useSingleSeason, useSingleSerie, useSingleEpisode } from '@/hooks/useSerie';
 
-const queryObj = {
-  page: 1,
-  search: "",
-  ordering: "",
-  genres: { _id: "", name: "" },
-};
-
 function TestSeries() {
 
-  const { data: series } = useSeries(queryObj);
+  const { data: series } = useSeries();
   const { data: serie } = useSingleSerie("attack-on-titan");
 
-  const { data: seasons } = useSeasons("attack-on-titan", queryObj);
+  const { data: seasons } = useSeasons("attack-on-titan",);
   const { data: season } = useSingleSeason("attack-on-titan", "1")
 
-  const { data: episodes } = useEpisodes("attack-on-titan", "1", queryObj)
+  const { data: episodes } = useEpisodes("attack-on-titan", "1",)
   const { data: episode, loading, error } = useSingleEpisode("attack-on-titan", "1", "1")
 
   return (
