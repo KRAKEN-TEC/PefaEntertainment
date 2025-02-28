@@ -31,6 +31,7 @@ export interface FetchSeasons {
 export interface FetchSeries {
     _id: string;
     title: string;
+    slug: string;
     genres: FetchGenres[];
     seasons: FetchSeasons[];
     poster_url: string;
@@ -113,10 +114,10 @@ export type FormSeason = z.infer<typeof schemaSeasons>;
 export type FormSerie = z.infer<typeof schemaSeries>;
 
 export interface SerieQuery {
-    page?: number,
-    genres?: FetchGenres,
-    search?: string,
-    ordering?: string,
+    page: number,
+    genres: FetchGenres,
+    search: string,
+    ordering: string,
 }
 
 export const useSingleSerie = (serieSlug?: string) => useSingleData<FetchSeries>(`/series/${serieSlug}`);

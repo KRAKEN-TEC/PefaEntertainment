@@ -54,10 +54,10 @@ export const schemaMovie = z.object({
 export type FormMovie = z.infer<typeof schemaMovie>;
 
 export interface MovieQuery {
-  page?: number;
-  genres?: FetchGenres;
-  search?: string;
-  ordering?: string;
+  page: number;
+  genres: FetchGenres;
+  search: string;
+  ordering: string;
 }
 
 export const useMovie = (movieQuery?: MovieQuery) => useData<FetchMovies>("/movies",

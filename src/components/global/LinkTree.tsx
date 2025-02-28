@@ -2,7 +2,7 @@ import { Breadcrumb } from "@chakra-ui/react"
 import { useParams } from "react-router-dom";
 
 const LinkTree = () => {
-  const { serieId, seasonNumber } = useParams();
+  const { serieSlug, seasonNumber } = useParams();
 
   return (
     <Breadcrumb.Root>
@@ -10,11 +10,11 @@ const LinkTree = () => {
         <Breadcrumb.Item>
           <Breadcrumb.Link href="/admin/serie-panel/series">Series</Breadcrumb.Link>
         </Breadcrumb.Item>
-        {serieId &&
+        {serieSlug &&
           <>
             <Breadcrumb.Separator />
             <Breadcrumb.Item>
-              <Breadcrumb.Link href={`/admin/serie-panel/series/${serieId}`}>Seasons</Breadcrumb.Link>
+              <Breadcrumb.Link href={`/admin/serie-panel/series/${serieSlug}/seasons`}>Seasons</Breadcrumb.Link>
             </Breadcrumb.Item>
           </>
         }
