@@ -1,11 +1,5 @@
 import apiPefa from "./api-pefa";
-
-function replaceSpacesWithUnderscore(input: string) {
-    if (input.includes(" ")) {
-        return input.replace(/ /g, "_");
-    }
-    return input;
-}
+import replaceSpacesWithUnderscore from "@/helper/replace-spaces-with-underscore";
 
 export const uploadFile = async (file: File, endpoint: string, mediaId: string, accessToken?: string | null) => {
     // PARAMETERS
