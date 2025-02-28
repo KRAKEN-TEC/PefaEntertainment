@@ -4,10 +4,14 @@ import Player from "video.js/dist/types/player";
 import videojs from "video.js";
 import VideoPlayer from "@/helper/VideoPlayer";
 import ForMovie from "./ForMovie";
-import ForSeries from "./ForSeries";
+import { useMovieStore } from "@/context/useMovieStore";
 
 export default function WatchingVideo() {
   const playerRef = useRef<Player | null>(null);
+  const { id } = useParams();
+  const index = id?.split("$")[0];
+  const { moviesStore } = useMovieStore();
+  const movie = moviesStore[index];
 
   const handlePlayerReady = (player: Player) => {
     playerRef.current = player;
@@ -24,20 +28,19 @@ export default function WatchingVideo() {
 
   return (
     <div>
-      {/* <div>
-        {deatilData && (
+      <div>
+        {movie && (
           <VideoPlayer
-            posterUrl={deatilData.poster_url}
-            videoUrl={deatilData.video_url}
+            posterUrl={movie.poster_url}
+            videoUrl={movie.video_url}
             onReady={handlePlayerReady}
           />
         )}
       </div>
 
       <div>
-        {!deatilData?.seasons && <ForMovie detailData={deatilData} />}
-        {deatilData?.seasons && <ForSeries detailData={deatilData} />}
-      </div> */}
+        <ForMovie detailData={movie} />
+      </div>
     </div>
   );
 }

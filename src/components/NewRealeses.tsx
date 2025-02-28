@@ -137,16 +137,13 @@ export default function NewRealeses() {
 
         <div className="NR-movie-grid">
           {displayedData &&
-            displayedData.map((item, index) => (
+            displayedData.map((item) => (
               <div
                 className="NR-movie-box"
                 ref={NR_movie_box}
                 key={item._id}
                 onClick={() => {
-                  const type = item.hasOwnProperty("seasons")
-                    ? "series"
-                    : "movie";
-                  callNav(`${index}$${type}`);
+                  callNav(item.slug, selectedCategory);
                 }}
                 style={{
                   backgroundImage: `url(${item.poster_url})`,
@@ -158,10 +155,11 @@ export default function NewRealeses() {
                 <div className="overlay">
                   <h3>{item.title}</h3>
                   <ul>
-                    {item.genres.map((genre: { _id: string; name: string }, index: number) => (
-                      index < 3 &&
-                      genreLi(genre.name.toUpperCase(), genre._id)
-                    ))}
+                    {item.genres.map(
+                      (genre: { _id: string; name: string }, index: number) =>
+                        index < 3 &&
+                        genreLi(genre.name.toUpperCase(), genre._id)
+                    )}
                   </ul>
                 </div>
               </div>
