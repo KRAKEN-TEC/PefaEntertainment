@@ -4,7 +4,8 @@ import { useEpisodes, useSeasons, useSeries, useSingleSeason, useSingleSerie, us
 const queryObj = {
   page: 1,
   search: "",
-  ordering: ""
+  ordering: "",
+  genres: { _id: "", name: "" },
 };
 
 function TestSeries() {

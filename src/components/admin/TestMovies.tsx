@@ -3,7 +3,8 @@ import { useMovie } from "@/hooks/useMovie"
 const queryObj = {
   page: 1,
   search: "",
-  ordering: "-title"
+  ordering: "-title",
+  genres: { _id: "", name: "" },
 };
 
 
