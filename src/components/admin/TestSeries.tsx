@@ -1,27 +1,28 @@
 
 import { useEpisodes, useSeasons, useSeries, useSingleSeason, useSingleSerie, useSingleEpisode } from '@/hooks/useSerie';
 
-function Test() {
-  const { data: series } = useSeries();
-  const { data: serie } = useSingleSerie("67be56c81c83a35fcb4cf2e2");
-  const { data: seasons } = useSeasons("67be56c81c83a35fcb4cf2e2");
-  const { data: season } = useSingleSeason("67be56c81c83a35fcb4cf2e2", "1")
-  const { data: episodes } = useEpisodes("67be56c81c83a35fcb4cf2e2", "1")
-  const { data: episode, loading, error } = useSingleEpisode("67be56c81c83a35fcb4cf2e2", "1", "1")
+const queryObj = {
+  page: 1,
+  search: "",
+  ordering: ""
+};
 
-  console.log(episodes)
-  // useEffect(() => {
-  //   apiPefa.get("/series/67be56c81c83a35fcb4cf2e2")
-  //     .then((response) => {
-  //       console.log(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching series:", error);
-  //     });
-  // }, []);
+function TestSeries() {
+
+  const { data: series } = useSeries(queryObj);
+  const { data: serie } = useSingleSerie("attack-on-titan");
+
+  const { data: seasons } = useSeasons("attack-on-titan", queryObj);
+  const { data: season } = useSingleSeason("attack-on-titan", "1")
+
+  const { data: episodes } = useEpisodes("attack-on-titan", "1", queryObj)
+  const { data: episode, loading, error } = useSingleEpisode("attack-on-titan", "1", "1")
 
   return (
     <>
+      {loading && <p>Loading</p>}
+      {error && <p>{error}</p>}
+
       <h1>Series</h1>
       {series &&
         <ul>
@@ -81,12 +82,8 @@ function Test() {
           <li>{episode.title}</li>
         </ul>
       }
-
-      {error && <p>{error}</p>}
-
-      {loading && <p>Loading</p>}
     </>
   )
 }
 
-export default Test
+export default TestSeries

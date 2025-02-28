@@ -135,10 +135,10 @@ export const AddSeason = () => {
 };
 
 const SeasonTable = () => {
-  const { serieId } = useParams();
+  const { serieSlug } = useParams();
   const { serieQuery } = useSerieStore();
-  const { data: seasons, error, loading } = useSeasons(serieId, serieQuery);
-
+  const { data: seasons, error, loading } = useSeasons(serieSlug, serieQuery);
+  console.log(seasons)
   return (
     <>
       {seasons &&
@@ -167,7 +167,7 @@ const SeasonTable = () => {
                   <TableCell>{season.seasonNumber}</TableCell>
                   <TableCell>{season.title}</TableCell>
                   <TableCell>
-                    <NavLink to={`seasons/${season.seasonNumber}`}>
+                    <NavLink to={`${season.seasonNumber}/episodes`}>
                       <Button className="button-action">{season.episodes.length}</Button>
                     </NavLink>
                   </TableCell>

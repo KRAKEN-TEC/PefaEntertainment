@@ -1,25 +1,26 @@
 
-import { DialogFooter, Text, Box, GridItem, Button, Fieldset, HStack, Table, TableBody, TableCell, TableColumnHeader, TableHeader, TableRoot, TableRow, Spinner, Stack } from "@chakra-ui/react";
+import { DialogFooter, Text, Box, GridItem, Button, Fieldset, HStack, Table, TableBody, TableCell, TableColumnHeader, TableHeader, TableRoot, TableRow, Spinner, Stack, Spacer } from "@chakra-ui/react";
 import { useForm, UseFormSetValue, FieldErrors, UseFormRegister } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Field } from "@/components/ui/field";
 
 import { useMovie, useMovieActions, FormMovie, FetchMovies, schemaMovie } from "@/hooks/useMovie";
+import { UserLogin, UserLogout } from "@/pages/TeamPanel";
 import { useGenre } from "@/hooks/useGenre";
 import { useMovieStore } from "@/context/useMovieStore";
 import { useUserStore } from "@/context/useUserStore";
+import { DialogActionBox } from "@/components/global/DialogBox";
 import SortSelector from "@/components/global/SortSelector";
 import AlertMessage from "@/components/global/AlertMessage";
-import SearchInput from "@/components/global/SearchInput";
 import MultipleSelector from "@/components/global/MultipleSelector";
 import DialogBox from "@/components/global/DialogBox";
-import { DialogActionBox } from "@/components/global/DialogBox";
 import GenreField from "@/components/global/GenreField";
 import MovieField from "@/components/global/MovieField";
 import MovieUpdateField from "@/components/global/MovieUpdateField";
 import AddGenre from "@/components/global/AddGenre";
 import MovieGenreUpdateField from "@/components/global/MovieGenreUpdateField";
 import AdminNavLink from "@/components/global/AdminNavLink";
+import AdminSearchInput from "@/components/admin/AdminSearchInput";
 
 interface MovieUpdateProps {
   children: React.ReactNode;
@@ -35,6 +36,12 @@ interface OtherFieldsProps {
   register: UseFormRegister<FormMovie>;
   errors: FieldErrors<FormMovie>;
 }
+
+const movieSortArray = [
+  { value: "uploadDate", label: "Upload Date" },
+  { value: "rating", label: "Rating" },
+  { value: "releasedDate", label: "Released Date" },
+]
 
 // MOVIE ACTIONS AND LIST
 const MovieUpdateForm = ({ movie, children }: MovieUpdateProps) => {
@@ -221,7 +228,7 @@ const AddMovie = () => {
   };
 
   return (
-    <DialogBox dialogTitle="Movie Form" buttonTitle="Add Movie">
+    <DialogBox dialogTitle="Movie Form" buttonTitle="Add Movies">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Fieldset.Root>
           <Fieldset.HelperText>
@@ -254,7 +261,15 @@ function MoviePanel() {
       {/* NAV */}
       <GridItem area="nav">
         <Stack direction={{ base: "row", md: "row", sm: "row" }} justifyContent={"flex-start"} paddingBottom={3}>
+
           <AdminNavLink />
+
+          <Spacer />
+
+          <SortSelector sortArray={movieSortArray} selectedSort={movieQuery.ordering} onClick={(ordering) => setMovieQuery({ ...movieQuery, ordering })} />
+          <MultipleSelector labelName="name" placeholderName="Genre" data={genres} onValueChange={(selected: any) => setMovieQuery({ ...movieQuery, genres: selected })} />
+          <AdminSearchInput placeholderName="movies" onSubmit={(payload) => setMovieQuery({ ...movieQuery, search: payload.searchName })} />
+
           {accessToken ? (
             <>
               <AddMovie />
@@ -263,7 +278,7 @@ function MoviePanel() {
           ) : (
             <>
               <Button onClick={() => window.alert("Please login to perform this action")} >
-                Add Movie
+                Add Movies
               </Button>
               <Button onClick={() => window.alert("Please login to perform this action")} >
                 Add Genre
@@ -271,9 +286,12 @@ function MoviePanel() {
             </>
           )}
 
-          <SortSelector selectedSort={movieQuery.ordering} onClick={(ordering) => setMovieQuery({ ...movieQuery, ordering })} />
-          <MultipleSelector labelName="name" placeholderName="Genre" data={genres} onValueChange={(selected: any) => setMovieQuery({ ...movieQuery, genres: selected })} />
-          <SearchInput placeholderName="movies" onSubmit={(payload) => setMovieQuery({ ...movieQuery, search: payload.searchName })} />
+          {accessToken ? (
+            <UserLogout>Log Out</UserLogout>
+          ) : (
+            <UserLogin>Log In</UserLogin>
+          )}
+
         </Stack>
       </GridItem>
 

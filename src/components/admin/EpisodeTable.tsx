@@ -155,9 +155,9 @@ export const AddEpisode = () => {
 
 
 const EpisodeTable = () => {
-  const { serieId, seasonNumber } = useParams();
+  const { serieSlug, seasonNumber } = useParams();
   const { serieQuery } = useSerieStore();
-  const { data: episodes, error, loading } = useEpisodes(serieId, seasonNumber, serieQuery);
+  const { data: episodes, error, loading } = useEpisodes(serieSlug, seasonNumber, serieQuery);
 
   return (
     <>
