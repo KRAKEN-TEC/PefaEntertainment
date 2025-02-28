@@ -5,13 +5,18 @@ import Overview from "@/components/detailData/Overview";
 import Watch from "@/components/detailData/Watch";
 import "./CSS/DetailPage.css";
 import { useMovieStore } from "@/context/useMovieStore";
-import { FetchSeries, useSingleSeason } from "@/hooks/useSerie";
+import {
+  FetchEpisodes,
+  FetchSeasons,
+  FetchSeries,
+  useEpisodes,
+  useSeasons,
+} from "@/hooks/useSerie";
 import { useSerieStore } from "@/context/useSerieStore";
 import useNavDetail from "@/hooks/useNavDetail";
 
 export default function DetailPage() {
   const { id: rawId, seasonNumber } = useParams();
-  const navigate = useNavigate();
   const [id, type] = rawId?.split("$") || ["", ""];
   const [videoData, setVideoData] = useState<FetchMovies | FetchSeries | null>(
     null
@@ -19,8 +24,13 @@ export default function DetailPage() {
   const { moviesStore } = useMovieStore();
   const { seriesStore } = useSerieStore();
   const [activeTab, setActiveTab] = useState<string>("overview");
-  const selectedSeason = seasonNumber ? parseInt(seasonNumber) : 1;
+  const [selectedSeason, setSelectedSeason] = useState<number>(
+    seasonNumber ? parseInt(seasonNumber) : 1
+  );
   const { callNavForSeason } = useNavDetail();
+
+  const { data: seriesSeasons } = useSeasons(id); // ✅ Use hook at top level
+  const { data: seriesEp } = useEpisodes(id, String(selectedSeason)); // ✅ Use hook at top level
 
   useEffect(() => {
     if (!id || !type) return;
@@ -34,8 +44,9 @@ export default function DetailPage() {
 
   const isSeries = type === "series";
 
-  // Fetch selected season when user selects it
-  const { data: seasonData } = useSingleSeason(id, selectedSeason);
+  const watchEvent = () => {
+    setActiveTab("watch");
+  };
 
   return (
     <div className="s-con">
@@ -64,7 +75,7 @@ export default function DetailPage() {
 
           <div className="tabs">
             <button onClick={() => setActiveTab("overview")}>OVERVIEW</button>
-            <button onClick={() => setActiveTab("watch")}>WATCH</button>
+            <button onClick={() => watchEvent()}>WATCH</button>
           </div>
         </div>
       </div>
@@ -77,31 +88,31 @@ export default function DetailPage() {
             {isSeries ? (
               <>
                 <div className="seasons">
-                  {videoData?.seasons?.map((season) => (
+                  {seriesSeasons?.map((season) => (
                     <button
                       key={season._id}
                       className={`season-btn ${
                         selectedSeason === season.seasonNumber ? "active" : ""
                       }`}
                       onClick={() => {
-                        callNavForSeason(id, season.seasonNumber);
+                        setSelectedSeason(season.seasonNumber);
                       }}
                     >
                       Season {season.seasonNumber}
                     </button>
                   ))}
                 </div>
-                ;
-                {seasonData && (
+
+                {seriesEp && (
                   <div className="episodes-list">
-                    {seasonData.episodes.map((episode) => (
+                    {seriesEp.map((episode) => (
                       <Watch detailData={episode} key={episode._id} />
                     ))}
                   </div>
                 )}
               </>
             ) : (
-              <Watch detailData={videoData} key={videoData._id} />
+              <Watch detailData={videoData} key={videoData?._id} />
             )}
           </div>
         )}
