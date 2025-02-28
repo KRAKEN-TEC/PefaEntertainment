@@ -1,5 +1,4 @@
-
-import { GridItem, Button, Stack } from "@chakra-ui/react";
+import { GridItem, Button, Stack, Spacer } from "@chakra-ui/react";
 import { Outlet, useParams } from "react-router";
 
 import { useGenre } from "@/hooks/useGenre";
@@ -9,15 +8,31 @@ import { AddSeason } from "@/components/admin/SeasonTable";
 import { AddEpisode } from "@/components/admin/EpisodeTable";
 import { AddSerie } from "@/components/admin/SerieTable";
 import SortSelector from "@/components/global/SortSelector";
-import SearchInput from "@/components/global/SearchInput";
 import MultipleSelector from "@/components/global/MultipleSelector";
 import AddGenre from "@/components/global/AddGenre";
 import AdminNavLink from "@/components/global/AdminNavLink";
 import LinkTree from "@/components/global/LinkTree";
+import AdminSearchInput from "@/components/admin/AdminSearchInput";
+import { UserLogin, UserLogout } from "./TeamPanel";
+
+const SerieSortArray = [
+  { value: "rating", label: "Rating" },
+  { value: "releasedDate", label: "Released Date" },
+  { value: "uploadDate", label: "Upload Date" },
+];
+
+const SeasonSortArray = [
+  { value: "seasonNumber", label: "Season Number" },
+];
+
+const EpisodeSortArray = [
+  { value: "episodeNumber", label: "Episode Number" },
+  { value: "releasedDate", label: "Released Date" },
+]
 
 function SeriePanel() {
   const { serieQuery, setSerieQuery } = useSerieStore();
-  const { serieId, seasonNumber } = useParams();
+  const { serieSlug, seasonNumber } = useParams();
   const { accessToken } = useUserStore();
   const { data: genres } = useGenre();
 
@@ -30,41 +45,55 @@ function SeriePanel() {
           {/* LINKS */}
           <AdminNavLink />
 
+          <Spacer />
+
+          {/* SORT SEARCH FILTER */}
+          <SortSelector
+            sortArray={!serieSlug ? SerieSortArray : !seasonNumber ? SeasonSortArray : EpisodeSortArray}
+            selectedSort={serieQuery.ordering}
+            onClick={(ordering) => setSerieQuery({ ...serieQuery, ordering })}
+          />
+
+          {!serieSlug &&
+            <MultipleSelector
+              labelName="name"
+              placeholderName="Genre"
+              data={genres}
+              onValueChange={(selected: any) => setSerieQuery({ ...serieQuery, genres: selected })}
+            />
+          }
+
+          <AdminSearchInput
+            placeholderName={!serieSlug ? "series" : !seasonNumber ? "seasons" : "episodes"}
+            onSubmit={(payload) => setSerieQuery({ ...serieQuery, search: payload.searchName })}
+          />
+
           {/* ADD */}
           {accessToken ? (
             <>
-              {!serieId ? <AddSerie /> : !seasonNumber ? <AddSeason /> : <AddEpisode />}
-              {!serieId && <AddGenre />}
+              {!serieSlug ? <AddSerie /> : !seasonNumber ? <AddSeason /> : <AddEpisode />}
+              {!serieSlug && <AddGenre />}
             </>
           ) : (
             <>
               <Button onClick={() => window.alert("Please login to perform this action")}>
-                Add Series
+                {!serieSlug ? "Add Series" : !seasonNumber ? "Add Season" : "Add Episode"}
               </Button>
-              <Button onClick={() => window.alert("Please login to perform this action")}>
-                Add Genre
-              </Button>
+              {!serieSlug &&
+                <Button onClick={() => window.alert("Please login to perform this action")}>
+                  Add Genre
+                </Button>
+              }
             </>
           )}
 
-          {/* SORT SEARCH FILTER */}
-          <SortSelector selectedSort={serieQuery.ordering}
-            onClick={(ordering) => setSerieQuery({ ...serieQuery, ordering })}
-          />
-          {!serieId && <MultipleSelector labelName="name" placeholderName="Genre" data={genres}
-            onValueChange={(selected: any) => setSerieQuery({ ...serieQuery, genres: selected })}
-          />}
-          {!serieId ?
-            <SearchInput placeholderName="series"
-              onSubmit={(payload) => setSerieQuery({ ...serieQuery, search: payload.searchName })}
-            /> : !seasonNumber ?
-              <SearchInput placeholderName="seasons"
-                onSubmit={(payload) => setSerieQuery({ ...serieQuery, search: payload.searchName })}
-              /> :
-              <SearchInput placeholderName="episodes"
-                onSubmit={(payload) => setSerieQuery({ ...serieQuery, search: payload.searchName })}
-              />
-          }
+          {/* LOGIN LOGOUT */}
+          {accessToken ? (
+            <UserLogout>Log Out</UserLogout>
+          ) : (
+            <UserLogin>Log In</UserLogin>
+          )}
+
         </Stack>
       </GridItem>
 

@@ -11,18 +11,12 @@ import { TbChevronDown } from "react-icons/tb";
 interface Props {
   onClick: (order: string) => void;
   selectedSort: string;
+  sortArray: { value: string, label: string }[]
 }
 
-function SortSelector({ onClick, selectedSort }: Props) {
-  const sortOrder = [
-    { value: "rating", label: "Rating" },
-    { value: "releasedDate", label: "Released Date" },
-    { value: "uploadDate", label: "Upload Date" },
-    { value: "seasonNumber", label: "Season Number" },
-  ];
-
+function SortSelector({ sortArray, onClick, selectedSort }: Props) {
   // currentSort for "Order by: <currentSort>"
-  let currentSort = sortOrder.find((sort) => sort.value === selectedSort || "-" + sort.value === selectedSort)?.label || "Relevance";
+  let currentSort = sortArray.find((sort) => sort.value === selectedSort || "-" + sort.value === selectedSort)?.label || "Relevance";
 
   if (["title", "-title"].includes(selectedSort)) {
     currentSort = "Title";
@@ -48,7 +42,7 @@ function SortSelector({ onClick, selectedSort }: Props) {
         </MenuRoot>
 
         {/* OTHERS */}
-        {sortOrder.map((sort) => (
+        {sortArray.map((sort) => (
           <MenuRoot positioning={{ placement: "right-start", gutter: 2 }} key={sort.value}>
             <MenuTriggerItem value="sort.value">{sort.label}</MenuTriggerItem>
             <MenuContent>

@@ -196,14 +196,14 @@ export default function SerieTable() {
               {series.map((serie) => (
                 <TableRow key={serie._id}>
                   <TableCell>{serie.title}</TableCell>
-                  <TableCell>{serie.genres.map((genre) => genre.name).join(", ")}</TableCell>
+                  <TableCell>{serie.genres.map(genre => genre.name).join(", ")}</TableCell>
                   <TableCell>{serie.rating}</TableCell>
                   <TableCell>
-                    <NavLink to={`${serie._id}`}>
+                    <NavLink to={`${serie.slug}/seasons`}>
                       <Button className="button-action">{serie.seasons.length}</Button>
                     </NavLink>
                   </TableCell>
-                  <TableCell>{serie.seasons.reduce((total, season) => total + season.episodes.length, 0)}</TableCell>
+                  <TableCell>{serie.seasons.length}</TableCell>
                   <TableCell>{serie.isOnGoing == true ? "yes" : "no"}</TableCell>
                   <TableCell>{serie.releasedDate.split("T")[0]}</TableCell>
                   <TableCell>{serie.translator}</TableCell>

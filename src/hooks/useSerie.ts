@@ -31,6 +31,7 @@ export interface FetchSeasons {
 export interface FetchSeries {
     _id: string;
     title: string;
+    slug: string;
     genres: FetchGenres[];
     seasons: FetchSeasons[];
     poster_url: string;
@@ -119,6 +120,10 @@ export interface SerieQuery {
     ordering: string,
 }
 
+export const useSingleSerie = (serieSlug?: string) => useSingleData<FetchSeries>(`/series/${serieSlug}`);
+export const useSingleSeason = (serieSlug?: string, seasonNumber?: string) => useSingleData<FetchSeasons>(`/series/${serieSlug}/seasons/${seasonNumber}`)
+export const useSingleEpisode = (serieSlug?: string, seasonNumber?: string, episodeNumber?: string) => useSingleData<FetchSeasons>(`/series/${serieSlug}/seasons/${seasonNumber}/episodes/${episodeNumber}`)
+
 export const useSeries = (serieQuery?: SerieQuery) => useData<FetchSeries>('/series',
     {
         params: {
@@ -131,15 +136,7 @@ export const useSeries = (serieQuery?: SerieQuery) => useData<FetchSeries>('/ser
     [serieQuery]
 )
 
-export const useSingleSerie = (serieId?: string) => useSingleData<FetchSeries>(`/series/${serieId}`);
-
-// export const useSeasons = (serieId: string) => useData<FetchSeasons>(`/series/${serieId}/seasons`)
-export const useSingleSeason = (serieId?: string, seasonNumber?: string) => useSingleData<FetchSeasons>(`/series/${serieId}/seasons/${seasonNumber}`)
-
-export const useSingleEpisode = (serieId?: string, seasonNumber?: string, episodeNumber?: string) => useSingleData<FetchSeasons>(`/series/${serieId}/seasons/${seasonNumber}/episodes/${episodeNumber}`)
-
-
-export const useSeasons = (serieId?: string, serieQuery?: SerieQuery) => useData<FetchSeasons>(`/series/${serieId}/seasons`,
+export const useSeasons = (serieSlug?: string, serieQuery?: SerieQuery) => useData<FetchSeasons>(`/series/${serieSlug}/seasons`,
     {
         params: {
             page: serieQuery?.page,
@@ -151,7 +148,7 @@ export const useSeasons = (serieId?: string, serieQuery?: SerieQuery) => useData
     [serieQuery]
 );
 
-export const useEpisodes = (serieId?: string, seasonNumber?: string, serieQuery?: SerieQuery) => useData<FetchEpisodes>(`/series/${serieId}/seasons/${seasonNumber}/episodes`,
+export const useEpisodes = (serieSlug?: string, seasonNumber?: string, serieQuery?: SerieQuery) => useData<FetchEpisodes>(`/series/${serieSlug}/seasons/${seasonNumber}/episodes`,
     {
         params: {
             page: serieQuery?.page,
@@ -164,7 +161,7 @@ export const useEpisodes = (serieId?: string, seasonNumber?: string, serieQuery?
 );
 
 export const useSerieActions = () => {
-    const { serieId, seasonNumber } = useParams();
+    const { serieSlug, seasonNumber } = useParams();
     const { updateActions } = useSerieStore();
     const { accessToken } = useUserStore();
     const [loading, setLoading] = useState(false);
@@ -225,7 +222,7 @@ export const useSerieActions = () => {
         setAlert("");
         setLoading(true);
         try {
-            await createDocument(`/series/${serieId}/seasons`, payload, accessToken)
+            await createDocument(`/series/${serieSlug}/seasons`, payload, accessToken)
             updateActions(["create-season"]);
             setLoading(false);
             setAlert("Season created successfully.");
@@ -244,7 +241,7 @@ export const useSerieActions = () => {
         setAlert("");
         setLoading(true);
         try {
-            await deleteDocument(`/series/${serieId}/seasons`, String(season.seasonNumber), accessToken);
+            await deleteDocument(`/series/${serieSlug}/seasons`, String(season.seasonNumber), accessToken);
             updateActions(['delete-season']);
             setLoading(false);
             window.alert("Season deleted successfully");
@@ -259,7 +256,7 @@ export const useSerieActions = () => {
         setAlert("");
         setLoading(true);
         try {
-            await createDocument(`/series/${serieId}/seasons/${seasonNumber}/episodes`, payload, accessToken)
+            await createDocument(`/series/${serieSlug}/seasons/${seasonNumber}/episodes`, payload, accessToken)
             updateActions(["create-episode"]);
             setLoading(false);
             setAlert("Episode created successfully.");
@@ -278,7 +275,7 @@ export const useSerieActions = () => {
         setAlert("");
         setLoading(true);
         try {
-            await deleteDocument(`/series/${serieId}/seasons/${seasonNumber}/episodes`, String(episode.episodeNumber), accessToken);
+            await deleteDocument(`/series/${serieSlug}/seasons/${seasonNumber}/episodes`, String(episode.episodeNumber), accessToken);
             updateActions(['delete-season']);
             setLoading(false);
             window.alert("Season deleted successfully");

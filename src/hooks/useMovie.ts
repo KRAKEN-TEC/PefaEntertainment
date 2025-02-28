@@ -7,10 +7,12 @@ import { useState } from "react";
 import { FetchGenres } from "./useGenre";
 import useData from "./useData";
 import apiPefa from "@/services/api-pefa";
+import generateSlug from "@/helper/generate-slug";
 
 export interface FetchMovies {
   _id: string;
   title: string;
+  slug: string;
   genres: FetchGenres[];
   poster_url: string;
   video_url: string;
@@ -60,25 +62,81 @@ export interface MovieQuery {
   ordering: string;
 }
 
-export const useMovie = (movieQuery?: MovieQuery) =>
-  useData<FetchMovies>(
-    "/movies",
-    {
-      params: {
-        page: movieQuery?.page,
-        genres: movieQuery?.genres,
-        search: movieQuery?.search,
-        ordering: movieQuery?.ordering,
-      },
+export const useMovie = (movieQuery?: MovieQuery) => useData<FetchMovies>("/movies",
+  {
+    params: {
+      page: movieQuery?.page,
+      genres: movieQuery?.genres,
+      search: movieQuery?.search,
+      ordering: movieQuery?.ordering,
     },
-    [movieQuery]
-  );
+  },
+  [movieQuery]
+);
 
 export const useMovieActions = () => {
   const { updateActions } = useMovieStore();
   const { accessToken } = useUserStore();
   const [loading, setLoading] = useState(false);
   const [alert, setAlert] = useState<string>("");
+
+  const handleCreate = async (payload: FormMovie) => {
+    setAlert(""); // Reset the alert
+    setLoading(true);
+
+    const slug = generateSlug(payload.title)
+    try {
+      // Get the pre-signed URL from the backend
+      const presigned_poster = await apiPefa.post("/presigned-url/post-url", {
+        key: `movies/${slug}/images/${payload.poster.name}`,
+        type: payload.poster.type,
+      });
+      const presigned_video = await apiPefa.post("/presigned-url/post-url", {
+        key: `movies/${slug}/videos/${payload.video.name}`,
+        type: payload.video.type,
+      });
+
+      // send the payload to the backend
+      const { poster, video, ...rest } = payload; // Separate the poster file from the payload
+      await apiPefa.post(
+        `/movies`,
+        {
+          ...rest,
+          posterKey: `movies/${slug}/images/${payload.poster.name}`,
+          videoKey: `movies/${slug}/videos/${payload.video.name}`,
+        },
+        {
+          headers: {
+            Authorization: `${accessToken}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      // Update the actions in the store
+      updateActions(["movie-post"]);
+      setAlert("Movie posted successfully");
+      setLoading(false);
+
+      // Upload the file to S3 using the pre-signed URL after the movie is successfully posted
+      await fetch(presigned_poster.data.url, {
+        method: "PUT",
+        headers: { "Content-Type": payload.poster.type },
+        body: payload.poster,
+      });
+
+      // Upload the file to S3 using the pre-signed URL after the movie is successfully posted
+      await fetch(presigned_video.data.url, {
+        method: "PUT",
+        headers: { "Content-Type": payload.video.type },
+        body: payload.video,
+      });
+    }
+    catch (error: any) {
+      logError(error, setAlert);
+      setLoading(false);
+    }
+  };
 
   const handleUpdate = async (payload: FormMovie, movie: FetchMovies) => {
     setAlert("");
@@ -110,12 +168,12 @@ export const useMovieActions = () => {
     setAlert("");
     setLoading(true);
     try {
-      const poster_key = movie.poster_url.split("com/")[1];
+      const poster_key = movie.poster_url.split("net/")[1];
       const presigned_poster = await apiPefa.post("/presigned-url/delete-url", {
         KEY: poster_key,
       });
 
-      const video_key = movie.video_url.split("com/")[1];
+      const video_key = movie.video_url.split("net/")[1];
       const presigned_video = await apiPefa.post("/presigned-url/delete-url", {
         KEY: video_key,
       });
@@ -148,68 +206,5 @@ export const useMovieActions = () => {
     }
   };
 
-  const handleCreate = async (payload: FormMovie) => {
-    setAlert(""); // Reset the alert
-    setLoading(true);
-    try {
-      // Get the pre-signed URL from the backend
-      const presigned_poster = await apiPefa.post("/presigned-url/post-url", {
-        name: payload.poster.name,
-        type: payload.poster.type,
-      });
-      const presigned_video = await apiPefa.post("/presigned-url/post-url", {
-        name: payload.video.name,
-        type: payload.video.type,
-      });
-
-      // send the payload to the backend
-      const { poster, video, ...rest } = payload; // Separate the poster file from the payload
-      await apiPefa.post(
-        `/movies`,
-        {
-          ...rest,
-          posterName: payload.poster.name,
-          videoName: payload.video.name,
-        },
-        {
-          headers: {
-            Authorization: `${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      // Upload the file to S3 using the pre-signed URL after the movie is successfully posted
-      await fetch(presigned_poster.data.url, {
-        method: "PUT",
-        headers: { "Content-Type": payload.poster.type },
-        body: payload.poster,
-      });
-
-      // Upload the file to S3 using the pre-signed URL after the movie is successfully posted
-      await fetch(presigned_video.data.url, {
-        method: "PUT",
-        headers: { "Content-Type": payload.video.type },
-        body: payload.video,
-      });
-
-      // Update the actions in the store
-      updateActions(["movie-post"]);
-      setAlert("Movie posted successfully");
-      setLoading(false);
-    } catch (error: any) {
-      // Handle the error
-      logError(error, setAlert);
-      setLoading(false);
-    }
-  };
-
-  return {
-    accessToken,
-    loading,
-    alert,
-    handleDelete,
-    handleUpdate,
-    handleCreate,
-  };
+  return { accessToken, loading, alert, handleDelete, handleUpdate, handleCreate, };
 };

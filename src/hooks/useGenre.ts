@@ -8,7 +8,7 @@ import useData from "./useData"
 import apiPefa from "@/services/api-pefa";
 
 // TYPE AND INTERFACE
-export interface FetchGenres {
+export type FetchGenres = {
     "_id": string,
     "name": string,
 }

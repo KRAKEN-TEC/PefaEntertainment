@@ -1,58 +1,20 @@
 import { useRef, useState } from "react";
-import {
-  Text,
-  Box,
-  GridItem,
-  Input,
-  Button,
-  Fieldset,
-  HStack,
-  Table,
-  TableBody,
-  TableCell,
-  TableColumnHeader,
-  TableHeader,
-  TableRoot,
-  TableRow,
-  Spinner,
-  Stack,
-} from "@chakra-ui/react";
+import { Text, Box, GridItem, Input, Button, Fieldset, HStack, Table, TableBody, TableCell, TableColumnHeader, TableHeader, TableRoot, TableRow, Spinner, Stack, Spacer, } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { Field } from "@/components/ui/field";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  DialogBody,
-  DialogCloseTrigger,
-  DialogContent,
-  DialogHeader,
-  DialogRoot,
-  DialogTitle,
-  DialogTrigger,
-  DialogFooter,
-} from "@/components/ui/dialog";
+import { DialogBody, DialogCloseTrigger, DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, DialogFooter, } from "@/components/ui/dialog";
 
-import {
-  useUser,
-  useUserActions,
-  FormUser,
-  FetchUser,
-  schemaUser,
-  userQuery,
-} from "@/hooks/useUser";
+import { useUser, useUserActions, FormUser, FetchUser, schemaUser, userQuery, } from "@/hooks/useUser";
 import { useUserStore } from "@/context/useUserStore";
 import AlertMessage from "@/components/global/AlertMessage";
 import MultipleSelector from "@/components/global/MultipleSelector";
-import SearchInput from "@/components/global/SearchInput";
 import AdminNavLink from "@/components/global/AdminNavLink";
+import AdminSearchInput from "@/components/admin/AdminSearchInput";
 
 // USER ACTION AND LIST
-
 const UserUpdateForm = ({ user }: { user: FetchUser }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FetchUser>();
+  const { register, handleSubmit, formState: { errors }, } = useForm<FetchUser>();
   const { alert, handleUpdate } = useUserActions();
 
   const onSubmit = (payload: FetchUser) => {
@@ -73,51 +35,23 @@ const UserUpdateForm = ({ user }: { user: FetchUser }) => {
 
           <Fieldset.Content>
             <Field label="Name">
-              <Input
-                id="name"
-                {...register("name")}
-                type="text"
-                placeholder={`${user.name}`}
-              />
-              {errors.name?.message && (
-                <p className="text-danger">{errors.name?.message}</p>
-              )}
+              <Input id="name"  {...register("name")} type="text" placeholder={`${user.name}`} />
+              {errors.name?.message && (<p className="text-danger">{errors.name?.message}</p>)}
             </Field>
 
             <Field label="Email">
-              <Input
-                id="email"
-                {...register("email")}
-                type="email"
-                placeholder={`${user.email}`}
-              />
-              {errors.email?.message && (
-                <p className="text-danger">{errors.email?.message}</p>
-              )}
+              <Input id="email" {...register("email")} type="email" placeholder={`${user.email}`} />
+              {errors.email?.message && (<p className="text-danger">{errors.email?.message}</p>)}
             </Field>
 
             <Field label="Phone Number">
-              <Input
-                id="phone"
-                {...register("phone")}
-                type="phone"
-                placeholder={`${user.phone}`}
-              />
-              {errors.phone?.message && (
-                <p className="text-danger">{errors.phone?.message}</p>
-              )}
+              <Input id="phone" {...register("phone")} type="phone" placeholder={`${user.phone}`} />
+              {errors.phone?.message && (<p className="text-danger">{errors.phone?.message}</p>)}
             </Field>
 
             <Field label="Password">
-              <Input
-                id="password"
-                {...register("password")}
-                type="password"
-                placeholder="(leave blank if not change)"
-              />
-              {errors.password?.message && (
-                <p className="text-danger">{errors.password?.message}</p>
-              )}
+              <Input id="password" {...register("password")} type="password" placeholder="(leave blank if not change)" />
+              {errors.password?.message && (<p className="text-danger">{errors.password?.message}</p>)}
             </Field>
           </Fieldset.Content>
 
@@ -130,20 +64,10 @@ const UserUpdateForm = ({ user }: { user: FetchUser }) => {
   );
 };
 
-const UserUpdate = ({
-  children,
-  user,
-}: {
-  children: React.ReactNode;
-  user: FetchUser;
-}) => {
+const UserUpdate = ({ children, user, }: { children: React.ReactNode; user: FetchUser; }) => {
   const ref = useRef<HTMLInputElement>(null);
   return (
-    <DialogRoot
-      initialFocusEl={() => ref.current}
-      scrollBehavior="inside"
-      placement={"top"}
-    >
+    <DialogRoot initialFocusEl={() => ref.current} scrollBehavior="inside" placement={"top"} >
       <DialogTrigger asChild>
         <Button variant="plain" _hover={{ color: "cyan" }} color="blue">
           {children}
@@ -176,31 +100,16 @@ const UserAction = ({ user }: { user: FetchUser }) => {
       {accessToken ? (
         <HStack>
           <UserUpdate user={user}>Edit</UserUpdate>
-          <Button
-            variant="plain"
-            _hover={{ color: "cyan" }}
-            color="red"
-            onClick={onClick}
-          >
+          <Button variant="plain" _hover={{ color: "cyan" }} color="red" onClick={onClick} >
             Delete
           </Button>
         </HStack>
       ) : (
         <HStack>
-          <Button
-            variant="plain"
-            color="gray"
-            _hover={{ textDecoration: "underline" }}
-            onClick={() => window.alert("You need to login first")}
-          >
+          <Button variant="plain" color="gray" _hover={{ textDecoration: "underline" }} onClick={() => window.alert("You need to login first")} >
             Edit
           </Button>
-          <Button
-            variant="plain"
-            color="gray"
-            _hover={{ textDecoration: "underline" }}
-            onClick={() => window.alert("You need to login first")}
-          >
+          <Button variant="plain" color="gray" _hover={{ textDecoration: "underline" }} onClick={() => window.alert("You need to login first")}  >
             Delete
           </Button>
         </HStack>
@@ -241,34 +150,20 @@ const UserList = ({ userQuery }: { userQuery: userQuery }) => {
         </TableRoot>
       </Table.ScrollArea>
 
-      {error && (
-        <Text fontSize="6xl" textAlign="center" mt="20vh">
-          {error}
-        </Text>
-      )}
+      {error && <Text fontSize="6xl" textAlign="center" mt="20vh">   {error}</Text>}
 
-      {loading && (
-        <Box
-          display={"flex"}
-          justifyContent={"center"}
-          alignItems="center"
-          height="50vh"
-        >
+      {loading &&
+        <Box display={"flex"} justifyContent={"center"} alignItems="center" height="50vh" >
           <Spinner size="xl" />
         </Box>
-      )}
+      }
     </>
   );
 };
 
 // ADD USER
-
 const UserForm = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FormUser>({ resolver: zodResolver(schemaUser) });
+  const { register, handleSubmit, formState: { errors } } = useForm<FormUser>({ resolver: zodResolver(schemaUser) });
   const { alert, loading, handleRegister } = useUserActions();
 
   const onSubmit = (payload: FormUser) => {
@@ -288,51 +183,23 @@ const UserForm = () => {
           </Stack>
           <Fieldset.Content>
             <Field label="Name">
-              <Input
-                id="name"
-                {...register("name", { required: true })}
-                type="text"
-                placeholder="name"
-              />
-              {errors.name?.message && (
-                <p className="text-danger">{errors.name?.message}</p>
-              )}
+              <Input id="name" {...register("name", { required: true })} type="text" placeholder="name" />
+              {errors.name?.message && (<p className="text-danger">{errors.name?.message}</p>)}
             </Field>
 
             <Field label="Email">
-              <Input
-                id="email"
-                {...register("email", { required: true })}
-                type="email"
-                placeholder="example@gmail.com"
-              />
-              {errors.email?.message && (
-                <p className="text-danger">{errors.email?.message}</p>
-              )}
+              <Input id="email" {...register("email", { required: true })} type="email" placeholder="example@gmail.com" />
+              {errors.email?.message && <p className="text-danger">{errors.email?.message}</p>}
             </Field>
 
             <Field label="Phone">
-              <Input
-                id="phone"
-                {...register("phone", { required: true })}
-                type="phone"
-                placeholder="Can be empty"
-              />
-              {errors.phone?.message && (
-                <p className="text-danger">{errors.phone?.message}</p>
-              )}
+              <Input id="phone" {...register("phone", { required: true })} type="phone" placeholder="Can be empty" />
+              {errors.phone?.message && <p className="text-danger">{errors.phone?.message}</p>}
             </Field>
 
             <Field label="Password">
-              <Input
-                id="password"
-                {...register("password", { required: true })}
-                type="password"
-                placeholder="Abcdefg123*..."
-              />
-              {errors.password?.message && (
-                <p className="text-danger">{errors.password?.message}</p>
-              )}
+              <Input id="password" {...register("password", { required: true })} type="password" placeholder="Abcdefg123*..." />
+              {errors.password?.message && <p className="text-danger">{errors.password?.message}</p>}
             </Field>
           </Fieldset.Content>
 
@@ -341,6 +208,7 @@ const UserForm = () => {
           ) : (
             <Button type="submit">Register</Button>
           )}
+
         </Fieldset.Root>
       </form>
     </>
@@ -350,11 +218,7 @@ const UserForm = () => {
 const AddUser = ({ children }: { children: React.ReactNode }) => {
   const ref = useRef<HTMLInputElement>(null);
   return (
-    <DialogRoot
-      initialFocusEl={() => ref.current}
-      scrollBehavior="inside"
-      placement={"top"}
-    >
+    <DialogRoot initialFocusEl={() => ref.current} scrollBehavior="inside" placement={"top"} >
       <DialogTrigger asChild>
         <Button>{children}</Button>
       </DialogTrigger>
@@ -373,8 +237,7 @@ const AddUser = ({ children }: { children: React.ReactNode }) => {
 };
 
 // LOG IN AND LOG OUT
-
-const UserLogout = ({ children }: { children: React.ReactNode }) => {
+export const UserLogout = ({ children }: { children: React.ReactNode }) => {
   const { handleLogout } = useUserActions();
   return (
     <>
@@ -388,12 +251,7 @@ const UserLogout = ({ children }: { children: React.ReactNode }) => {
 };
 
 const LoginForm = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<FetchUser>();
-
+  const { register, handleSubmit, formState: { errors } } = useForm<FetchUser>();
   const { alert, handleLogin } = useUserActions();
 
   const onSubmit = async (payload: FetchUser) => {
@@ -415,27 +273,13 @@ const LoginForm = () => {
           </Stack>
           <Fieldset.Content>
             <Field label="Email">
-              <Input
-                id="email"
-                {...register("email", { required: true })}
-                type="email"
-                placeholder="email"
-              />
-              {errors.email?.message && (
-                <p className="text-danger">{errors.email?.message}</p>
-              )}
+              <Input id="email" {...register("email", { required: true })} type="email" placeholder="email" />
+              {errors.email?.message && <p className="text-danger">{errors.email?.message}</p>}
             </Field>
 
             <Field label="Password">
-              <Input
-                id="password"
-                {...register("password", { required: true })}
-                type="password"
-                placeholder="password"
-              />
-              {errors.password?.message && (
-                <p className="text-danger">{errors.password?.message}</p>
-              )}
+              <Input id="password"{...register("password", { required: true })} type="password" placeholder="password" />
+              {errors.password?.message && <p className="text-danger">{errors.password?.message}</p>}
             </Field>
           </Fieldset.Content>
           <Button type="submit">Log In</Button>
@@ -445,16 +289,12 @@ const LoginForm = () => {
   );
 };
 
-const UserLogin = ({ children }: { children: React.ReactNode }) => {
+export const UserLogin = ({ children }: { children: React.ReactNode }) => {
   const ref = useRef<HTMLInputElement>(null);
   return (
-    <DialogRoot
-      initialFocusEl={() => ref.current}
-      scrollBehavior="inside"
-      placement={"top"}
-    >
+    <DialogRoot initialFocusEl={() => ref.current} scrollBehavior="inside" placement={"top"}>
       <DialogTrigger asChild>
-        <Button>{children}</Button>
+        <Button colorPalette={"blue"} variant={"subtle"}>{children}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogCloseTrigger />
@@ -486,26 +326,33 @@ function TeamPanel() {
       {/* NAV */}
       <GridItem area="nav">
         <Stack direction={{ base: "row", md: "row", sm: "row" }} justifyContent={"flex-start"} paddingBottom={3} >
-
+          {/* ADMIN PANEL LINKS*/}
           <AdminNavLink />
 
+          <Spacer />
+
+          {/* SORT SEARCH FILTERS */}
+          <MultipleSelector
+            labelName="role"
+            placeholderName="Roles"
+            data={users}
+            onValueChange={(selected: any) => setUserQuery({ ...userQuery, roles: selected })}
+          />
+
+          <AdminSearchInput
+            placeholderName=" by email"
+            onSubmit={(payload) => setUserQuery({ ...userQuery, search: payload.searchName })}
+          />
+
+          {/* ADD MEMBERS */}
+          <AddUser>Add Team Member</AddUser>
+
+          {/* LOGIN LOGOUT */}
           {accessToken ? (
             <UserLogout>Log Out</UserLogout>
           ) : (
             <UserLogin>Log In</UserLogin>
           )}
-
-          <AddUser>Add Team Member</AddUser>
-
-          <MultipleSelector labelName="role" placeholderName="Roles" data={users}
-            onValueChange={(selected: any) =>
-              setUserQuery({ ...userQuery, roles: selected })}
-          />
-
-          <SearchInput placeholderName="users by email"
-            onSubmit={(payload) =>
-              setUserQuery({ ...userQuery, search: payload.searchName })}
-          />
 
         </Stack>
       </GridItem>
