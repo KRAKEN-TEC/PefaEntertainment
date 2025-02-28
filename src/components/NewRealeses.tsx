@@ -137,16 +137,13 @@ export default function NewRealeses() {
 
         <div className="NR-movie-grid">
           {displayedData &&
-            displayedData.map((item, index) => (
+            displayedData.map((item) => (
               <div
                 className="NR-movie-box"
                 ref={NR_movie_box}
                 key={item._id}
                 onClick={() => {
-                  const type = item.hasOwnProperty("seasons")
-                    ? "series"
-                    : "movie";
-                  callNav(`${item._id}$${type}`);
+                  callNav(item.slug, selectedCategory);
                 }}
                 style={{
                   backgroundImage: `url(${item.poster_url})`,

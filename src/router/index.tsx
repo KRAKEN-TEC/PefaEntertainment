@@ -22,10 +22,12 @@ import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import MoviesPage from "@/pages/MoviesPage";
 import SeriesPage from "@/pages/SeriesPage";
-import DetailPage from "@/pages/DetailPage";
 import AboutUs from "@/pages/AboutUs";
 import DetailPageLayout from "@/pages/layout/DetailPageLayout";
 import WatchingVideo from "@/components/WatchingVideo";
+import MovieDetail from "@/pages/MovieDetail";
+import SeriesDetail from "@/pages/SeriesDetail";
+import SeasonDetail from "@/components/SeasonDetail";
 
 const router = createBrowserRouter([
   {
@@ -84,21 +86,22 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "detail-page/:id",
+    path: "",
     element: <DetailPageLayout />,
     children: [
+      { path: "movie/:id", element: <MovieDetail /> },
       {
-        path: "",
-        element: <DetailPage />,
+        path: "series/:serieSlug/*",
+        element: <SeriesDetail />,
+        children: [
+          {
+            path: "seasons/:seasonNumber/episodes",
+            element: <SeasonDetail />,
+          },
+        ],
       },
-      {
-        path: "seasons/:seasonNumber",
-        element: <DetailPage />,
-      },
-      {
-        path: "watch",
-        element: <WatchingVideo />,
-      },
+
+      { path: "watch", element: <WatchingVideo /> },
     ],
   },
 
@@ -129,3 +132,78 @@ const router = createBrowserRouter([
 ]);
 
 export default router;
+
+{
+  /* <div
+        className="header"
+        style={{
+          backgroundImage: `url(${videoData?.poster_url})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          width: "100%",
+          height: "500px",
+        }}
+      >
+        <div className="details-overlay">
+          <h1>{videoData?.title}</h1>
+          <p>{videoData?.description}</p>
+          <div className="genres-box">
+            <ul>
+              {videoData?.genres.map((genre) => (
+                <li key={genre.name}>{genre.name}</li>
+              ))}
+            </ul>
+            <span>{videoData?.rating}</span>
+            {videoData?.isOnGoing && <span>Ongoing</span>}
+          </div>
+
+          <div className="tabs">
+            <button onClick={() => setActiveTab("overview")}>OVERVIEW</button>
+            <button onClick={() => setActiveTab("watch")}>WATCH</button>
+          </div>
+        </div>
+      </div>
+
+      <div className="tab-content">
+        {activeTab === "overview" && <Overview detailData={videoData} />}
+
+        {activeTab === "watch" && (
+          <div>
+            {type === "series" ? (
+              <>
+                <div className="seasons">
+                  {seriesSeasons?.map((season) => (
+                    <button
+                      key={season._id}
+                      className={`season-btn ${
+                        selectedSeason === season.seasonNumber ? "active" : ""
+                      }`}
+                      onClick={() => {
+                        setSelectedSeason(season.seasonNumber);
+                        callNavForSeason(id, season.seasonNumber);
+                      }}
+                    >
+                      Season {season.seasonNumber}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="episodes-list">
+                  {isLoading ? (
+                    <p>Loading episodes...</p>
+                  ) : seriesEp?.length > 0 ? (
+                    seriesEp.map((episode) => (
+                      <Watch detailData={episode} key={episode._id} />
+                    ))
+                  ) : (
+                    <p>No episodes available.</p>
+                  )}
+                </div>
+              </>
+            ) : (
+              <Watch detailData={videoData} key={videoData?._id} />
+            )}
+          </div>
+        )}
+      </div> */
+}

@@ -1,13 +1,13 @@
 import { stringSliceFrontOnly } from "@/helper/GlobalHelper";
 import Tag from "../ui/Global/Tag";
 
-export default function Overview({ detailData }: { detailData?: any }) {
+export default function Overview({ anyData }: { anyData?: any }) {
   return (
     <div className="detail-container">
       {/* Description */}
       <div>
         <Tag txt="Description" as="h2" />
-        <p>{detailData?.description}</p>
+        <p>{anyData?.description}</p>
       </div>
 
       {/* Series Details */}
@@ -15,14 +15,14 @@ export default function Overview({ detailData }: { detailData?: any }) {
         <Tag
           txt={
             "Release Date: " +
-            stringSliceFrontOnly(detailData?.releasedDate ?? "", "T")
+            stringSliceFrontOnly(anyData?.releasedDate ?? "", "T")
           }
           as="h3"
         />
-        <Tag txt={"Translator: " + (detailData?.translator ?? "")} as="h3" />
-        <Tag txt={"Translator: " + (detailData?.translator ?? "")} as="h3" />
-        <Tag txt={"Encoder: " + (detailData?.encoder ?? "")} as="h3" />
-        <Tag txt={"Studio: " + (detailData?.studio ?? "")} as="h3" />
+        <Tag txt={"Translator: " + (anyData.translator ?? "")} as="h3" />
+        <Tag txt={"Translator: " + (anyData?.translator ?? "")} as="h3" />
+        <Tag txt={"Encoder: " + (anyData?.encoder ?? "")} as="h3" />
+        <Tag txt={"Studio: " + (anyData?.studio ?? "")} as="h3" />
       </div>
     </div>
   );
