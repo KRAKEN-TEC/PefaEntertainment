@@ -5,7 +5,7 @@ import { useUserStore } from "@/context/useUserStore";
 import { useMovieStore } from "@/context/useMovieStore";
 import { useState } from "react";
 import { FetchGenres } from "./useGenre";
-import useData from "./useData";
+import useData, { useSingleData } from "./useData";
 import apiPefa from "@/services/api-pefa";
 import generateSlug from "@/helper/generate-slug";
 import replaceSpacesWithUnderscore from "@/helper/replace-spaces-with-underscore";
@@ -74,6 +74,8 @@ export const useMovie = (movieQuery?: MovieQuery) => useData<FetchMovies>("/movi
   },
   [movieQuery]
 );
+
+export const useSingleMovie = (id?: string) => useSingleData<FetchMovies>(`movies/${id}`);
 
 export const useMovieActions = () => {
   const { updateActions } = useMovieStore();
