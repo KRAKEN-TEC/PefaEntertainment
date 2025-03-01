@@ -11,6 +11,8 @@ import { FetchSeries, useSeries } from "@/hooks/useSerie";
 import "./CSS/NewRealses.css";
 import ButtonWithSVGIcon from "./ui/Global/ButtonWithSvgIcon";
 
+// Ko Oak Kar ၀င်မရေးရ
+
 export default function NewRealeses() {
   const NR_movie_container = useRef<HTMLDivElement | null>(null);
   const NR_movie_box = useRef<HTMLDivElement | null>(null);

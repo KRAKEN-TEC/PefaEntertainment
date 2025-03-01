@@ -8,9 +8,6 @@ import { useSerieStore } from "@/context/useSerieStore";
 import useData, { useSingleData } from "./useData";
 import { logError, logActionError } from "@/services/log-error";
 import { createDocument, deleteDocument, updateDocument } from "@/services/serie-service";
-import { userQuery } from "./useUser";
-
-
 
 export interface FetchEpisodes {
     _id: string;
@@ -124,7 +121,7 @@ export interface SerieQuery {
 
 export const useSingleSerie = (serieSlug?: string) => useSingleData<FetchSeries>(`/series/${serieSlug}`);
 export const useSingleSeason = (serieSlug?: string, seasonNumber?: string) => useSingleData<FetchSeasons>(`/series/${serieSlug}/seasons/${seasonNumber}`)
-export const useSingleEpisode = (serieSlug?: string, seasonNumber?: string, episodeNumber?: string) => useSingleData<FetchSeasons>(`/series/${serieSlug}/seasons/${seasonNumber}/episodes/${episodeNumber}`)
+export const useSingleEpisode = (serieSlug?: string, seasonNumber?: string, episodeNumber?: string) => useSingleData<FetchEpisodes>(`/series/${serieSlug}/seasons/${seasonNumber}/episodes/${episodeNumber}`)
 
 export const useSeries = (serieQuery?: SerieQuery) => useData<FetchSeries>('/series',
     {

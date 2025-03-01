@@ -1,11 +1,15 @@
 import { useState } from "react";
+import "../CSS/ForMovie.css";
 
-export default function ForSeries({ detailData }: { detailData?: any }) {
+// Ko Oak Kar ၀င်မရေးရ
+
+export default function ForMovie({ detailData }: { detailData?: any }) {
   const [showDownloadOptions, setShowDownloadOptions] = useState(false);
 
   const toggleDownloadOptions = () => {
     setShowDownloadOptions(!showDownloadOptions);
   };
+
   return (
     <div className="movie-container">
       <div className="episode-details">
@@ -24,18 +28,6 @@ export default function ForSeries({ detailData }: { detailData?: any }) {
               <button>360p</button>
             </div>
           )}
-        </div>
-      </div>
-      {/* Next Episode Section */}
-      <div className="next-episode">
-        <img src="/path-to-next-episode-thumbnail.jpg" alt="Next Episode" />
-        <div className="episode-info">
-          <h3>Episode 02 - Lorem Ipsum</h3>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua...
-          </p>
-          <span>28 Min 30 Sec</span>
         </div>
       </div>
     </div>

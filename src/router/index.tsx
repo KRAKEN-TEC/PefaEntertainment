@@ -15,19 +15,22 @@ import App from "../App";
 import Layout from "@/pages/layout/Layout";
 import AdminLayout from "@/pages/layout/AdminLayout";
 import Home from "@/pages/Home";
-import Search from "@/pages/Search";
-import Profile from "@/pages/Profile";
-import HowToDownload from "@/pages/HowToDownload";
-import Login from "@/pages/Login";
-import Register from "@/pages/Register";
-import MoviesPage from "@/pages/MoviesPage";
-import SeriesPage from "@/pages/SeriesPage";
-import AboutUs from "@/pages/AboutUs";
+import Search from "@/pages/HumburgerPage/Search";
+import Profile from "@/pages/HumburgerPage/Profile";
+import HowToDownload from "@/pages/HumburgerPage/HowToDownload";
+import Login from "@/pages/HumburgerPage/Login";
+import Register from "@/pages/HumburgerPage/Register";
+import MoviesPage from "@/pages/MoviePage/MoviesPage";
+import SeriesPage from "@/pages/SeriesPage/SeriesPage";
+import AboutUs from "@/pages/HumburgerPage/AboutUs";
 import DetailPageLayout from "@/pages/layout/DetailPageLayout";
-import WatchingVideo from "@/components/WatchingVideo";
-import MovieDetail from "@/pages/MovieDetail";
-import SeriesDetail from "@/pages/SeriesDetail";
-import Episodes from "@/components/Episodes";
+import MovieDetail from "@/pages/MoviePage/MovieDetail";
+import SeriesDetail from "@/pages/SeriesPage/SeriesDetail";
+import Episodes from "@/components/Series/Episodes";
+import WatchMovie from "@/components/Movie/WatchMovie";
+import WatchSerie from "@/components/Series/WatchSerie";
+
+// Ko Oak Kar ၀င်မရေးရ
 
 const router = createBrowserRouter([
   {
@@ -82,14 +85,6 @@ const router = createBrowserRouter([
         path: "test-movies",
         element: <TestMovies />,
       },
-      {
-        path: "movies/:id",
-        element: <MovieDetail />
-      },
-      {
-        path: "movies/:id/watch",
-        element: <WatchingVideo />,
-      },
     ],
   },
 
@@ -97,7 +92,12 @@ const router = createBrowserRouter([
     path: "",
     element: <DetailPageLayout />,
     children: [
-      { path: "movie/:id", element: <MovieDetail /> },
+      {
+        path: "movie/:id",
+        element: <MovieDetail />,
+      },
+      { path: "movie/:id/watch", element: <WatchMovie /> },
+
       {
         path: "series/:serieSlug/*",
         element: <SeriesDetail />,
@@ -108,8 +108,10 @@ const router = createBrowserRouter([
           },
         ],
       },
-
-      { path: "watch", element: <WatchingVideo /> },
+      {
+        path: "series/:serieSlug/seasons/:seasonNumber/episodes/:episodeNumber/watch",
+        element: <WatchSerie />,
+      },
     ],
   },
 

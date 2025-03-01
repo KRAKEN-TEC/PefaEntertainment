@@ -1,6 +1,8 @@
 import { FetchSeries, useSeries } from "@/hooks/useSerie";
-import "./CSS/Series.css";
+import "../CSS/Series.css";
 import useNavDetail from "@/hooks/useNavDetail";
+
+// Ko Oak Kar ၀င်မရေးရ
 
 export default function Series() {
   const { data: series } = useSeries();
@@ -21,22 +23,28 @@ export default function Series() {
 
       <div className="series-scroll-container">
         <div className="series-grid">
-          {series && randomSeries.map((s) => (
-            <div className="series-box" key={s._id} onClick={() => navSerieDetail(s.slug)} >
-              <img src={s.poster_url} />
-              <div>
-                <div className="series-text">
-                  <h3>{s.title}</h3>
-                  <span>{s.description}</span>
-                  <ul>
-                    {s.genres.map((g) => (<li key={g._id}>{g.name}</li>))}
-                  </ul>
+          {series &&
+            randomSeries.map((s) => (
+              <div
+                className="series-box"
+                key={s._id}
+                onClick={() => navSerieDetail(s.slug)}
+              >
+                <img src={s.poster_url} />
+                <div>
+                  <div className="series-text">
+                    <h3>{s.title}</h3>
+                    <span>{s.description}</span>
+                    <ul>
+                      {s.genres.map((g) => (
+                        <li key={g._id}>{g.name}</li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
-
       </div>
     </div>
   );
