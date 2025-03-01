@@ -1,9 +1,10 @@
-
 import Overview from "@/components/detailData/Overview";
 import { useSingleMovie } from "@/hooks/useMovie";
 import { useParams } from "react-router";
 import { useState } from "react";
 import WatchingBox from "@/components/detailData/WatchingBox";
+
+// Ko Oak Kar ၀င်မရေးရ
 
 export default function MovieDetail() {
   const { id } = useParams();
@@ -49,7 +50,7 @@ export default function MovieDetail() {
             {activeTab === "overview" && <Overview anyData={movie} />}
 
             {activeTab === "watch" && (
-              <WatchingBox detailData={movie} key={movie._id} />
+              <WatchingBox detailData={movie} key={movie?._id} />
             )}
           </div>
         </div>

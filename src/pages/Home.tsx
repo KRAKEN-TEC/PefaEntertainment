@@ -1,6 +1,6 @@
-import Movies from "@/components/Movies";
+import Movies from "@/components/Movie/Movie";
 import NewRealeses from "@/components/NewRealeses";
-import Series from "@/components/Series";
+import Series from "@/components/Series/Series";
 
 function Home() {
   return (

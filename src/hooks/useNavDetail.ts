@@ -8,14 +8,16 @@ const useNavDetail = () => {
   };
 
   const navMovieDetail = (id: string) => {
-    navigate("/movies/" + id)
+    navigate(`/movie/${id}` )
   }
 
   const navSerieDetail = (slug: string) => {
-    navigate("/series/" + slug + "/seasons/1/episodes")
+    navigate(`/series/${slug}` )
   }
 
   const callNav = (id: string, type: "movies" | "series") => {
+    console.log("callNav function called with:", { id, type });
+
     if (type === "movies") {
       navigate(`/movie/${id}`);
     } else {
@@ -23,19 +25,7 @@ const useNavDetail = () => {
     }
   };
 
-  const callNavForMoviesPage = (id: string) => {
-    navigate(`/detail-page/${id}`);
-  };
-
-  const callNavForSeriesPage = (id: string) => {
-    navigate(`/detail-page/${id}`);
-  };
-
-  const callNavForSeason = (serieSlug: any) => {
-    navigate(`/series/${serieSlug}/seasons/1`);
-  };
-
-  return { callNav, callNavForMoviesPage, callNavForSeriesPage, callNavForSeason, nav, navMovieDetail, navSerieDetail };
+  return { callNav, nav, navMovieDetail, navSerieDetail };
 };
 
 export default useNavDetail;

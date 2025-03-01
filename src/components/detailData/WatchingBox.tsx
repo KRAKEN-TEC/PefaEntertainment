@@ -17,7 +17,11 @@ export default function WatchingBox({ detailData }: { detailData?: any }) {
   };
 
   const handleVideoNav = () => {
-    navigate("watch"); // Navigate to watch page
+    if (detailData.episodeNumber) {
+      navigate(`${detailData.episodeNumber}/watch`);
+    } else {
+      navigate("watch");
+    }
   };
 
   return (

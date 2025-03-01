@@ -6,15 +6,16 @@ import ForMovie from "./ForMovie";
 import { useParams } from "react-router";
 import { useSingleMovie } from "@/hooks/useMovie";
 
-export default function WatchingVideo() {
-  const { id } = useParams()
+// Ko Oak Kar ၀င်မရေးရ
+
+export default function WatchMovie() {
+  const { id } = useParams();
   const playerRef = useRef<Player | null>(null);
-  const { data: movie } = useSingleMovie(id)
+  const { data: movie } = useSingleMovie(id);
 
   const handlePlayerReady = (player: Player) => {
     playerRef.current = player;
 
-    // You can handle player events here, for example:
     player.on("waiting", () => {
       videojs.log("player is waiting");
     });
@@ -23,6 +24,8 @@ export default function WatchingVideo() {
       videojs.log("player will dispose");
     });
   };
+
+  console.log(movie);
 
   return (
     <div>

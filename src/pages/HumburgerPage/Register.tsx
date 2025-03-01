@@ -1,7 +1,7 @@
 import { useState } from "react";
-import "./CSS/Register.css";
+import "../CSS/Register.css";
 import { useUserActions } from "@/hooks/useUser";
-import logo from "../assets/PEFA-black.svg";
+import logo from "@/assets/PEFA-black.svg";
 
 export default function Register() {
   const [form, setForm] = useState({
@@ -21,7 +21,6 @@ export default function Register() {
       [name]: type === "checkbox" ? checked : value,
     }));
   };
-
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
