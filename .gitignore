@@ -26,3 +26,4 @@ dist-ssr
 /.dockerignore
 /Dockerfile
 /package-lock.json
+/src/services/api-pefa.ts
