@@ -13,3 +13,9 @@
 .details-nav p {
     font-size: medium;
 }
+
+.details-nav{
+    color: white;
+    position: relative;
+    z-index: 1;
+}
