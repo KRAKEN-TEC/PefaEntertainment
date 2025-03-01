@@ -1,17 +1,15 @@
 import { useRef } from "react";
-import { data, useParams } from "react-router";
 import Player from "video.js/dist/types/player";
 import videojs from "video.js";
 import VideoPlayer from "@/helper/VideoPlayer";
 import ForMovie from "./ForMovie";
-import { useMovieStore } from "@/context/useMovieStore";
+import { useParams } from "react-router";
+import { useSingleMovie } from "@/hooks/useMovie";
 
 export default function WatchingVideo() {
+  const { id } = useParams()
   const playerRef = useRef<Player | null>(null);
-  const { id } = useParams();
-  const index = id?.split("$")[0];
-  const { moviesStore } = useMovieStore();
-  const movie = moviesStore[index];
+  const { data: movie } = useSingleMovie(id)
 
   const handlePlayerReady = (player: Player) => {
     playerRef.current = player;

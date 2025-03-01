@@ -209,5 +209,4 @@ const EpisodeTable = () => {
   )
 }
 
-
 export default EpisodeTable

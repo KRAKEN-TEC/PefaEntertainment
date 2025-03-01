@@ -5,9 +5,10 @@ import { useUserStore } from "@/context/useUserStore";
 import { useMovieStore } from "@/context/useMovieStore";
 import { useState } from "react";
 import { FetchGenres } from "./useGenre";
-import useData from "./useData";
+import useData, { useSingleData } from "./useData";
 import apiPefa from "@/services/api-pefa";
 import generateSlug from "@/helper/generate-slug";
+import replaceSpacesWithUnderscore from "@/helper/replace-spaces-with-underscore";
 
 export interface FetchMovies {
   _id: string;
@@ -74,6 +75,8 @@ export const useMovie = (movieQuery?: MovieQuery) => useData<FetchMovies>("/movi
   [movieQuery]
 );
 
+export const useSingleMovie = (id?: string) => useSingleData<FetchMovies>(`movies/${id}`);
+
 export const useMovieActions = () => {
   const { updateActions } = useMovieStore();
   const { accessToken } = useUserStore();
@@ -88,11 +91,11 @@ export const useMovieActions = () => {
     try {
       // Get the pre-signed URL from the backend
       const presigned_poster = await apiPefa.post("/presigned-url/post-url", {
-        key: `movies/${slug}/images/${payload.poster.name}`,
+        key: `movies/${slug}/images/${replaceSpacesWithUnderscore(payload.poster.name)}`,
         type: payload.poster.type,
       });
       const presigned_video = await apiPefa.post("/presigned-url/post-url", {
-        key: `movies/${slug}/videos/${payload.video.name}`,
+        key: `movies/${slug}/videos/${replaceSpacesWithUnderscore(payload.video.name)}`,
         type: payload.video.type,
       });
 

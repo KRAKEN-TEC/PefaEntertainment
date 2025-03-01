@@ -147,25 +147,20 @@ export const useSeasons = (serieSlug?: string, serieQuery?: SerieQuery) => useDa
             ordering: serieQuery?.ordering
         }
     },
-    [serieQuery]
+    [serieQuery, serieSlug]
 );
 
-export const useEpisodes = (serieSlug?: string, seasonNumber?: string, serieQuery?: SerieQuery) => {
-    return useData<FetchEpisodes>(
-        `/series/${serieSlug}/seasons/${seasonNumber}/episodes`,
-        {
-            params: {
-                page: serieQuery?.page,
-                genres: serieQuery?.genres,
-                search: serieQuery?.search,
-                ordering: serieQuery?.ordering,
-            },
-        },
-        [serieSlug, seasonNumber] // ✅ Fetch when slug or seasonNumber changes
-    );
-};
-
-
+export const useEpisodes = (serieSlug?: string, seasonNumber?: string, serieQuery?: SerieQuery) => useData<FetchEpisodes>(`/series/${serieSlug}/seasons/${seasonNumber}/episodes`,
+    {
+        params: {
+            page: serieQuery?.page,
+            genres: serieQuery?.genres,
+            search: serieQuery?.search,
+            ordering: serieQuery?.ordering
+        }
+    },
+    [serieQuery, seasonNumber, serieSlug]
+);
 
 export const useSerieActions = () => {
     const { serieSlug, seasonNumber } = useParams();
