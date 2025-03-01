@@ -29,7 +29,7 @@ export default function SeriesDetail() {
       <h1>{serie?.title}</h1>
       <ul>
         {seasons.map((season) => (
-          <li>
+          <li key={season.seasonNumber}>
             <Link
               to={`/series/${serieSlug}/seasons/${season.seasonNumber}/episodes`}
             >

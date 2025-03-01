@@ -8,6 +8,9 @@ import { useSerieStore } from "@/context/useSerieStore";
 import useData, { useSingleData } from "./useData";
 import { logError, logActionError } from "@/services/log-error";
 import { createDocument, deleteDocument, updateDocument } from "@/services/serie-service";
+import { userQuery } from "./useUser";
+
+
 
 export interface FetchEpisodes {
     _id: string;
@@ -147,17 +150,22 @@ export const useSeasons = (serieSlug?: string, serieQuery?: SerieQuery) => useDa
     [serieQuery]
 );
 
-export const useEpisodes = (serieSlug?: string, seasonNumber?: string, serieQuery?: SerieQuery) => useData<FetchEpisodes>(`/series/${serieSlug}/seasons/${seasonNumber}/episodes`,
-    {
-        params: {
-            page: serieQuery?.page,
-            genres: serieQuery?.genres,
-            search: serieQuery?.search,
-            ordering: serieQuery?.ordering
-        }
-    },
-    [serieQuery]
-);
+export const useEpisodes = (serieSlug?: string, seasonNumber?: string, serieQuery?: SerieQuery) => {
+    return useData<FetchEpisodes>(
+        `/series/${serieSlug}/seasons/${seasonNumber}/episodes`,
+        {
+            params: {
+                page: serieQuery?.page,
+                genres: serieQuery?.genres,
+                search: serieQuery?.search,
+                ordering: serieQuery?.ordering,
+            },
+        },
+        [serieSlug, seasonNumber] // ✅ Fetch when slug or seasonNumber changes
+    );
+};
+
+
 
 export const useSerieActions = () => {
     const { serieSlug, seasonNumber } = useParams();

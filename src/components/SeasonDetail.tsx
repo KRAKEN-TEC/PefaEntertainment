@@ -1,16 +1,30 @@
 import { useEpisodes } from "@/hooks/useSerie";
 import { useParams } from "react-router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-export default function SerieDetail() {
-  const { serieSlug, seasonNumber } = useParams();
-  const { data: episodes } = useEpisodes(serieSlug, seasonNumber);
+export default function SeasonDetail() {
+  const { seasonNumber, serieSlug } = useParams();
+  const {
+    data: episodes,
+    loading,
+    refetch,
+  } = useEpisodes(serieSlug, seasonNumber);
+
+  useEffect(() => {
+    if (seasonNumber) {
+      refetch(); // ✅ Refetch episodes when seasonNumber changes
+    }
+  }, [seasonNumber, refetch]);
 
   return (
     <ul>
-      {episodes.map((e) => (
-        <li id={e._id}>{e.title}</li>
-      ))}
+      {loading ? (
+        <p>Loading episodes...</p>
+      ) : episodes?.length > 0 ? (
+        episodes.map((e) => <li key={e._id}>{e.title}</li>)
+      ) : (
+        <p>No episodes available.</p>
+      )}
     </ul>
   );
 }
