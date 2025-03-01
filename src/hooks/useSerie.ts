@@ -144,7 +144,7 @@ export const useSeasons = (serieSlug?: string, serieQuery?: SerieQuery) => useDa
             ordering: serieQuery?.ordering
         }
     },
-    [serieQuery]
+    [serieQuery, serieSlug]
 );
 
 export const useEpisodes = (serieSlug?: string, seasonNumber?: string, serieQuery?: SerieQuery) => useData<FetchEpisodes>(`/series/${serieSlug}/seasons/${seasonNumber}/episodes`,
@@ -156,7 +156,7 @@ export const useEpisodes = (serieSlug?: string, seasonNumber?: string, serieQuer
             ordering: serieQuery?.ordering
         }
     },
-    [serieQuery]
+    [serieQuery, seasonNumber, serieSlug]
 );
 
 export const useSerieActions = () => {

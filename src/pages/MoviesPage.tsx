@@ -1,47 +1,29 @@
 import { useMovie } from "@/hooks/useMovie";
 import "./CSS/MoviesPage.css";
 import useNavDetail from "@/hooks/useNavDetail";
-import { genreLi } from "@/components/global/genreLi";
-import { useMovieStore } from "@/context/useMovieStore";
-import { FetchMovies } from "@/hooks/useMovie";
-import { useEffect } from "react";
 
 export default function MoviesPage() {
   const { data: movies } = useMovie();
-  const { callNavForMoviesPage } = useNavDetail();
-  const { moviesStore, setMovieStore } = useMovieStore();
-
-  const navigate = () => {
-    console.log("Hello");
-  };
-
-  useEffect(() => {
-    if (movies && JSON.stringify(moviesStore) !== JSON.stringify(movies)) {
-      setMovieStore(movies as FetchMovies[]);
-    }
-  }, [movies]);
+  const { navMovieDetail } = useNavDetail();
 
   return (
     <div className="MP-section">
       <h2>Movies</h2>
       <div className="MP-scroll-container">
         <div className="MP-grid">
-          {moviesStore &&
-            moviesStore.map((movie, index) => (
+          {movies &&
+            movies.map((movie) => (
               <div
                 className="MP-box"
                 key={movie._id}
-                onClick={() => callNavForMoviesPage(`${movie._id}$movie`)}
+                onClick={() => navMovieDetail(`${movie._id}`)}
               >
                 <img src={movie.poster_url} />
                 <div className="mp-text">
                   <h3>{movie.title}</h3>
                   <span>{movie.description}</span>
                   <ul>
-                    {movie.genres.map(
-                      (g, index) =>
-                        index < 3 && genreLi(g.name.toUpperCase(), g._id)
-                    )}
+                    {movie.genres.map(genre => <li key={genre._id}>{genre.name}</li>)}
                   </ul>
                 </div>
               </div>
