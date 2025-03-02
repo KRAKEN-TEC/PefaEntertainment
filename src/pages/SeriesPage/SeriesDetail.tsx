@@ -2,6 +2,7 @@ import { Outlet, useNavigate, useParams } from "react-router";
 import { useSingleSerie } from "@/hooks/useSerie";
 import { useState } from "react";
 import Overview from "@/components/detailData/Overview";
+import "../CSS/DetailPage.css";
 
 // Ko Oak Kar ၀င်မရေးရ
 

@@ -3,6 +3,7 @@ import { useSingleMovie } from "@/hooks/useMovie";
 import { useParams } from "react-router";
 import { useState } from "react";
 import WatchingBox from "@/components/detailData/WatchingBox";
+import "../CSS/DetailPage.css";
 
 // Ko Oak Kar ၀င်မရေးရ
 
