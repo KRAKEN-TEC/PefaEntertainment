@@ -33,7 +33,6 @@ const EpisodeUpdate = ({ children, episode }: EpisodeUpdateProps) => {
     <>
       <DialogActionBox dialogTitle="Serie Update Form" buttonTitle={`${children}`}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <EpisodeUpdateField label="Episode Number" payloadKey="episodeNumber" fetchKey="episodeNumber" register={register} errors={errors} episode={episode} />
           <EpisodeUpdateField label="Title" payloadKey="title" fetchKey="title" register={register} errors={errors} episode={episode} />
           <EpisodeUpdateField label="Description" payloadKey="description" fetchKey="description" register={register} errors={errors} episode={episode} />
           {alert && <AlertMessage message={alert} />}

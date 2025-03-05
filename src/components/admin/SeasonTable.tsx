@@ -27,6 +27,7 @@ const SeasonUpdate = ({ children, season }: SerieUpdateProps) => {
   const { alert, handleSeasonUpdate } = useSerieActions();
 
   const onSubmit = (payload: FormSeason) => {
+    console.log(payload)
     handleSeasonUpdate(payload, season);
   };
 
@@ -34,7 +35,6 @@ const SeasonUpdate = ({ children, season }: SerieUpdateProps) => {
     <>
       <DialogActionBox dialogTitle="Serie Update Form" buttonTitle={`${children}`}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <SeasonUpdateField label="Season Number" payloadKey="seasonNumber" fetchKey="seasonNumber" register={register} errors={errors} season={season} />
           <SeasonUpdateField label="Title" payloadKey="title" fetchKey="title" register={register} errors={errors} season={season} />
           <SeasonUpdateField label="Description" payloadKey="description" fetchKey="description" register={register} errors={errors} season={season} />
           {alert && <AlertMessage message={alert} />}

@@ -172,8 +172,8 @@ export const useSerieActions = () => {
         setAlert("");
         setLoading(true);
         try {
-            await createDocument("/series", payload, accessToken);
             if (payload.poster) await uploadS3File(payload.poster, "/series", generateSlug(payload.title), accessToken)
+            await createDocument("/series", payload, accessToken);
             updateActions(["create-serie"]);
             setLoading(false);
             setAlert("Series created successfully.");
@@ -209,8 +209,8 @@ export const useSerieActions = () => {
         setAlert("");
         setLoading(true);
         try {
-            await deleteDocument('/series', serie.slug, accessToken);
             if (serie.poster_url) await deleteS3File(serie.poster_url);
+            await deleteDocument('/series', serie.slug, accessToken);
             updateActions(['delete-serie']);
             setLoading(false);
             window.alert("Series deleted successfully");
@@ -225,8 +225,8 @@ export const useSerieActions = () => {
         setAlert("");
         setLoading(true);
         try {
-            await createDocument(seasonEndPoint, payload, accessToken)
             if (payload.poster) await uploadS3File(payload.poster, seasonEndPoint, payload.seasonNumber, accessToken)
+            await createDocument(seasonEndPoint, payload, accessToken)
             updateActions(["create-season"]);
             setLoading(false);
             setAlert("Season created successfully.");
@@ -260,8 +260,8 @@ export const useSerieActions = () => {
         setAlert("");
         setLoading(true);
         try {
-            await deleteDocument(seasonEndPoint, season.seasonNumber, accessToken);
             if (season.poster_url) await deleteS3File(season.poster_url);
+            await deleteDocument(seasonEndPoint, season.seasonNumber, accessToken);
             updateActions(['delete-season']);
             setLoading(false);
             window.alert("Season deleted successfully");
@@ -277,11 +277,11 @@ export const useSerieActions = () => {
         setLoading(true);
         try {
             await createDocument(episodeEndPoint, payload, accessToken)
+            await uploadS3File(payload.poster, episodeEndPoint, payload.episodeNumber, accessToken)
             updateActions(["create"]);
             setLoading(false);
-            setAlert("Episode created successfully.");
+            setAlert("Episode created successfully! Your episode is now uploading.");
 
-            await uploadS3File(payload.poster, episodeEndPoint, payload.episodeNumber, accessToken)
             await uploadS3File(payload.video, episodeEndPoint, payload.episodeNumber, accessToken)
             updateActions(["ready"])
         }
@@ -314,9 +314,9 @@ export const useSerieActions = () => {
         setAlert("");
         setLoading(true);
         try {
-            await deleteDocument(episodeEndPoint, episode.episodeNumber, accessToken);
             await deleteS3File(episode.poster_url)
             await deleteS3File(episode.video_url)
+            await deleteDocument(episodeEndPoint, episode.episodeNumber, accessToken);
             updateActions(['delete-episode']);
             setLoading(false);
             window.alert("Season deleted successfully");
