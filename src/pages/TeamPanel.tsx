@@ -11,6 +11,7 @@ import AlertMessage from "@/components/global/AlertMessage";
 import MultipleSelector from "@/components/global/MultipleSelector";
 import AdminNavLink from "@/components/global/AdminNavLink";
 import AdminSearchInput from "@/components/admin/AdminSearchInput";
+import DarkMode from "@/components/DarkMode";
 
 // USER ACTION AND LIST
 const UserUpdateForm = ({ user }: { user: FetchUser }) => {
@@ -354,6 +355,7 @@ function TeamPanel() {
             <UserLogin>Log In</UserLogin>
           )}
 
+          <DarkMode />
         </Stack>
       </GridItem>
 

@@ -14,6 +14,7 @@ import AdminNavLink from "@/components/global/AdminNavLink";
 import LinkTree from "@/components/global/LinkTree";
 import AdminSearchInput from "@/components/admin/AdminSearchInput";
 import { UserLogin, UserLogout } from "./TeamPanel";
+import DarkMode from "@/components/DarkMode";
 
 const SerieSortArray = [
   { value: "rating", label: "Rating" },
@@ -94,6 +95,7 @@ function SeriePanel() {
             <UserLogin>Log In</UserLogin>
           )}
 
+          <DarkMode />
         </Stack>
       </GridItem>
 

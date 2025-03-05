@@ -21,6 +21,7 @@ import AddGenre from "@/components/global/AddGenre";
 import MovieGenreUpdateField from "@/components/global/MovieGenreUpdateField";
 import AdminNavLink from "@/components/global/AdminNavLink";
 import AdminSearchInput from "@/components/admin/AdminSearchInput";
+import DarkMode from "@/components/DarkMode";
 
 interface MovieUpdateProps {
   children: React.ReactNode;
@@ -292,6 +293,7 @@ function MoviePanel() {
             <UserLogin>Log In</UserLogin>
           )}
 
+          <DarkMode />
         </Stack>
       </GridItem>
 

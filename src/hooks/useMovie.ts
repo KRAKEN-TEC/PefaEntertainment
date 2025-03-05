@@ -86,27 +86,28 @@ export const useMovieActions = () => {
   const handleCreate = async (payload: FormMovie) => {
     setAlert(""); // Reset the alert
     setLoading(true);
-
     const slug = generateSlug(payload.title)
+    const posterKey = `movies/${slug}/images/${replaceSpacesWithUnderscore(payload.poster.name)}`
+    const videoKey = `movies/${slug}/videos/${replaceSpacesWithUnderscore(payload.video.name)}`
+
     try {
       // Get the pre-signed URL from the backend
       const presigned_poster = await apiPefa.post("/presigned-url/post-url", {
-        key: `movies/${slug}/images/${replaceSpacesWithUnderscore(payload.poster.name)}`,
+        key: posterKey,
         type: payload.poster.type,
       });
       const presigned_video = await apiPefa.post("/presigned-url/post-url", {
-        key: `movies/${slug}/videos/${replaceSpacesWithUnderscore(payload.video.name)}`,
+        key: videoKey,
         type: payload.video.type,
       });
 
       // send the payload to the backend
       const { poster, video, ...rest } = payload; // Separate the poster file from the payload
-      await apiPefa.post(
-        `/movies`,
+      await apiPefa.post(`/movies`,
         {
           ...rest,
-          posterKey: `movies/${slug}/images/${payload.poster.name}`,
-          videoKey: `movies/${slug}/videos/${payload.video.name}`,
+          posterKey: posterKey,
+          videoKey: videoKey,
         },
         {
           headers: {
