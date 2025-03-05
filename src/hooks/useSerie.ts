@@ -172,8 +172,8 @@ export const useSerieActions = () => {
         setAlert("");
         setLoading(true);
         try {
-            if (payload.poster) await uploadS3File(payload.poster, "/series", generateSlug(payload.title), accessToken)
             await createDocument("/series", payload, accessToken);
+            if (payload.poster) await uploadS3File(payload.poster, "/series", generateSlug(payload.title), accessToken)
             updateActions(["create-serie"]);
             setLoading(false);
             setAlert("Series created successfully.");
@@ -225,8 +225,8 @@ export const useSerieActions = () => {
         setAlert("");
         setLoading(true);
         try {
-            if (payload.poster) await uploadS3File(payload.poster, seasonEndPoint, payload.seasonNumber, accessToken)
             await createDocument(seasonEndPoint, payload, accessToken)
+            if (payload.poster) await uploadS3File(payload.poster, seasonEndPoint, payload.seasonNumber, accessToken)
             updateActions(["create-season"]);
             setLoading(false);
             setAlert("Season created successfully.");

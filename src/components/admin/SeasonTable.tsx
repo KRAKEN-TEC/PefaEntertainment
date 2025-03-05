@@ -27,7 +27,6 @@ const SeasonUpdate = ({ children, season }: SerieUpdateProps) => {
   const { alert, handleSeasonUpdate } = useSerieActions();
 
   const onSubmit = (payload: FormSeason) => {
-    console.log(payload)
     handleSeasonUpdate(payload, season);
   };
 
@@ -61,9 +60,11 @@ const SeasonAction = ({ season }: { season: FetchSeasons }) => {
           <SeasonUpdate season={season}>
             Edit
           </SeasonUpdate>
-          <Button className="button-action red" onClick={onClick} >
-            Delete
-          </Button>
+          {season.episodes.length === 0 &&
+            <Button className="button-action red" onClick={onClick} >
+              Delete
+            </Button>
+          }
         </HStack>
       ) : (
         <HStack>

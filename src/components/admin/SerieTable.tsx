@@ -100,9 +100,11 @@ const SerieAction = ({ serie }: { serie: FetchSeries }) => {
           <SerieUpdate serie={serie}>
             Edit
           </SerieUpdate>
-          <Button className="button-action red" onClick={onClick} >
-            Delete
-          </Button>
+          {serie.seasons.length === 0 &&
+            <Button className="button-action red" onClick={onClick} >
+              Delete
+            </Button>
+          }
         </HStack>
       ) : (
         <HStack>
