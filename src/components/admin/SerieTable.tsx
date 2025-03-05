@@ -91,7 +91,7 @@ const SerieAction = ({ serie }: { serie: FetchSeries }) => {
   const { accessToken, handleSerieDelete } = useSerieActions();
 
   const onClick = () => {
-    handleSerieDelete(serie._id);
+    handleSerieDelete(serie);
   };
 
   return (
@@ -174,7 +174,7 @@ export default function SerieTable() {
   return (
     <>
       {series &&
-        <Table.ScrollArea height={series?.length ? "560px" : "auto"}>
+        <Table.ScrollArea height={series.length ? "560px" : "auto"}>
           <TableRoot stickyHeader>
             <TableHeader>
               <TableRow>
@@ -218,6 +218,8 @@ export default function SerieTable() {
           </TableRoot>
         </Table.ScrollArea>
       }
+
+      {series.length === 0 && (<Text fontSize="6xl" textAlign="center" mt="20vh">No Series Yet</Text>)}
 
       {error && (<Text fontSize="6xl" textAlign="center" mt="20vh">{error}</Text>)}
 

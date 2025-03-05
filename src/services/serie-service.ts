@@ -1,5 +1,5 @@
 import apiPefa from "./api-pefa";
-import replaceSpacesWithUnderscore from "@/helper/replace-spaces-with-underscore";
+import replaceSpacesWithUnderscore from "@/services/replace-spaces-with-underscore";
 
 export const uploadS3File = async (file: File, endpoint: string, mediaId: string | number, accessToken?: string | null) => {
     // PARAMETERS
@@ -71,7 +71,7 @@ export async function createDocument(endpoint: string, payload: any, accessToken
     };
 
     // CREATE DOCUMENT
-    await apiPefa.post(endpoint, data, {
+    return await apiPefa.post(endpoint, data, {
         headers: {
             Authorization: `${accessToken}`,
             "Content-Type": "application/json",

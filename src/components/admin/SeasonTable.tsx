@@ -138,11 +138,11 @@ const SeasonTable = () => {
   const { serieSlug } = useParams();
   const { serieQuery } = useSerieStore();
   const { data: seasons, error, loading } = useSeasons(serieSlug, serieQuery);
-  console.log(seasons)
+
   return (
     <>
       {seasons &&
-        <Table.ScrollArea height={seasons ? "560px" : "auto"}>
+        <Table.ScrollArea height={seasons.length ? "560px" : "auto"}>
           <TableRoot stickyHeader>
             <Table.ColumnGroup>
               <Table.Column htmlWidth="10%" />
@@ -181,6 +181,8 @@ const SeasonTable = () => {
           </TableRoot>
         </Table.ScrollArea>
       }
+
+      {seasons.length === 0 && (<Text fontSize="6xl" textAlign="center" mt="20vh">No Season Yet</Text>)}
 
       {error && (<Text fontSize="6xl" textAlign="center" mt="20vh">{error}</Text>)}
 

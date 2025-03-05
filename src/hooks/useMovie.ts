@@ -7,8 +7,7 @@ import { useState } from "react";
 import { FetchGenres } from "./useGenre";
 import useData, { useSingleData } from "./useData";
 import apiPefa from "@/services/api-pefa";
-import generateSlug from "@/helper/generate-slug";
-import replaceSpacesWithUnderscore from "@/helper/replace-spaces-with-underscore";
+import { createDocument, uploadS3File } from "@/services/serie-service";
 
 export interface FetchMovies {
   _id: string;
@@ -86,55 +85,19 @@ export const useMovieActions = () => {
   const handleCreate = async (payload: FormMovie) => {
     setAlert(""); // Reset the alert
     setLoading(true);
-    const slug = generateSlug(payload.title)
-    const posterKey = `movies/${slug}/images/${replaceSpacesWithUnderscore(payload.poster.name)}`
-    const videoKey = `movies/${slug}/videos/${replaceSpacesWithUnderscore(payload.video.name)}`
 
     try {
-      // Get the pre-signed URL from the backend
-      const presigned_poster = await apiPefa.post("/presigned-url/post-url", {
-        key: posterKey,
-        type: payload.poster.type,
-      });
-      const presigned_video = await apiPefa.post("/presigned-url/post-url", {
-        key: videoKey,
-        type: payload.video.type,
-      });
-
-      // send the payload to the backend
-      const { poster, video, ...rest } = payload; // Separate the poster file from the payload
-      await apiPefa.post(`/movies`,
-        {
-          ...rest,
-          posterKey: posterKey,
-          videoKey: videoKey,
-        },
-        {
-          headers: {
-            Authorization: `${accessToken}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      // Update the actions in the store
-      updateActions(["movie-post"]);
-      setAlert("Movie posted successfully");
+      // CREATE DOCUMENT IN DATABASE
+      const response = await createDocument('/movies', payload, accessToken);
+      updateActions(["create"]);
+      setAlert("Movie created successfully! Your movie is now uploading");
       setLoading(false);
 
-      // Upload the file to S3 using the pre-signed URL after the movie is successfully posted
-      await fetch(presigned_poster.data.url, {
-        method: "PUT",
-        headers: { "Content-Type": payload.poster.type },
-        body: payload.poster,
-      });
+      // UPLOAD TO S3
+      await uploadS3File(payload.poster, '/movies', response.data._id, accessToken);
+      await uploadS3File(payload.video, '/movies', response.data._id, accessToken);
+      updateActions(["ready"]);
 
-      // Upload the file to S3 using the pre-signed URL after the movie is successfully posted
-      await fetch(presigned_video.data.url, {
-        method: "PUT",
-        headers: { "Content-Type": payload.video.type },
-        body: payload.video,
-      });
     }
     catch (error: any) {
       logError(error, setAlert);
@@ -159,7 +122,7 @@ export const useMovieActions = () => {
           "Content-Type": "application/json", // set content type to json
         },
       });
-      updateActions(["movie-update"]);
+      updateActions(["put"]);
       setLoading(false);
       setAlert("Movie updated successfully");
     } catch (error: any) {
@@ -172,16 +135,18 @@ export const useMovieActions = () => {
     setAlert("");
     setLoading(true);
     try {
-      const poster_key = movie.poster_url.split("net/")[1];
+      const posterKey = movie.poster_url.split("net/")[1];
+      const videoKey = movie.video_url.split("net/")[1];
+
       const presigned_poster = await apiPefa.post("/presigned-url/delete-url", {
-        KEY: poster_key,
+        key: posterKey,
       });
 
-      const video_key = movie.video_url.split("net/")[1];
       const presigned_video = await apiPefa.post("/presigned-url/delete-url", {
-        KEY: video_key,
+        key: videoKey,
       });
 
+      // DELETE DOCUMENT FROM S3
       await apiPefa.delete(`/movies/${movie._id}`, {
         headers: {
           Authorization: `${accessToken}`,
@@ -189,22 +154,23 @@ export const useMovieActions = () => {
         },
       });
 
-      // await fetch (url, {method: 'DELETE'})
-      // Delete the file from S3 using the pre-signed URL after the movie is successfully deleted
+
+      // DELETE FILES FROM S3
       await fetch(presigned_poster.data.url, {
         method: "DELETE",
       });
 
-      // Delete the file from S3 using the pre-signed URL after the movie is successfully deleted
+
       await fetch(presigned_video.data.url, {
         method: "DELETE",
       });
 
-      // Update the actions in the store
-      updateActions(["movie-delete"]);
+      // UPDATE ACTIONS IN STORE
+      updateActions(["delete"]);
       setLoading(false);
       setAlert("Movie deleted successfully");
-    } catch (error: any) {
+    }
+    catch (error: any) {
       setLoading(false);
       logActionError(error);
     }

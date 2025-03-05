@@ -122,7 +122,7 @@ const MovieList = () => {
 
           <TableBody>
             {movies.map((movie) => (
-              <TableRow key={movie._id}>
+              <TableRow key={movie._id} color={movie.video_url === "pending" ? "gray" : ""}>
                 <TableCell>{movie.title}</TableCell>
                 <TableCell>
                   {movie.genres.map((genre) => genre.name).join(", ")}
@@ -132,12 +132,15 @@ const MovieList = () => {
                 <TableCell>{movie.translator}</TableCell>
                 <TableCell>{movie.encoder}</TableCell>
                 <TableCell>{movie.studio}</TableCell>
-                <TableCell>
-                  <MovieAction movie={movie} />
-                </TableCell>
+                {movie.video_url !== "pending" &&
+                  <TableCell>
+                    <MovieAction movie={movie} />
+                  </TableCell>
+                }
               </TableRow>
             ))}
           </TableBody>
+
         </TableRoot>
       </Table.ScrollArea>
 

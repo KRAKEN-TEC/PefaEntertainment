@@ -8,7 +8,7 @@ import { useSerieStore } from "@/context/useSerieStore";
 import useData, { useSingleData } from "./useData";
 import { logError, logActionError } from "@/services/log-error";
 import { createDocument, deleteDocument, deleteS3File, updateDocument, uploadS3File } from "@/services/serie-service";
-import generateSlug from "@/helper/generate-slug";
+import generateSlug from "@/services/generate-slug";
 
 export interface FetchEpisodes {
     _id: string;
@@ -277,13 +277,13 @@ export const useSerieActions = () => {
         setLoading(true);
         try {
             await createDocument(episodeEndPoint, payload, accessToken)
-
-            updateActions(["create-episode"]);
+            updateActions(["create"]);
             setLoading(false);
             setAlert("Episode created successfully.");
 
             await uploadS3File(payload.poster, episodeEndPoint, payload.episodeNumber, accessToken)
             await uploadS3File(payload.video, episodeEndPoint, payload.episodeNumber, accessToken)
+            updateActions(["ready"])
         }
         catch (error: any) {
             logError(error, setAlert);

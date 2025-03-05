@@ -162,7 +162,7 @@ const EpisodeTable = () => {
   return (
     <>
       {episodes &&
-        <Table.ScrollArea height={episodes ? "560px" : "auto"}>
+        <Table.ScrollArea height={episodes.length ? "560px" : "auto"}>
           <TableRoot stickyHeader>
             <Table.ColumnGroup>
               <Table.Column htmlWidth="10%" />
@@ -183,20 +183,24 @@ const EpisodeTable = () => {
 
             <TableBody>
               {episodes.map((episode) => (
-                <TableRow key={episode._id}>
+                <TableRow key={episode._id} color={episode.video_url === "pending" ? "gray" : ""}>
                   <TableCell>{episode.episodeNumber}</TableCell>
                   <TableCell>{episode.title}</TableCell>
                   <TableCell>{episode.releasedDate.split('T')[0]}</TableCell>
                   <TableCell>{episode.description}</TableCell>
-                  <TableCell>
-                    <EpisodeAction episode={episode} />
-                  </TableCell>
+                  {episode.video_url !== "pending" &&
+                    <TableCell>
+                      <EpisodeAction episode={episode} />
+                    </TableCell>
+                  }
                 </TableRow>
               ))}
             </TableBody>
           </TableRoot>
         </Table.ScrollArea>
       }
+
+      {episodes.length === 0 && (<Text fontSize="6xl" textAlign="center" mt="20vh">No Episode Yet</Text>)}
 
       {error && (<Text fontSize="6xl" textAlign="center" mt="20vh">{error}</Text>)}
 
