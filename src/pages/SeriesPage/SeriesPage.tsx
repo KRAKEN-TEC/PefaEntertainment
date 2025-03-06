@@ -1,6 +1,7 @@
 import "../CSS/SeriesPage.css";
 import { useSeries } from "@/hooks/useSerie";
 import useNavDetail from "@/hooks/useNavDetail";
+import { genreLi } from "@/components/global/genreLi";
 
 // Ko Oak Kar ၀င်မရေးရ
 
@@ -25,8 +26,9 @@ export default function SeriesPage() {
                 <h3>{serie.title}</h3>
                 <span>{serie.description}</span>
                 <ul>
-                  {serie.genres.map((genre) => (
-                    <li key={genre._id}>{genre.name}</li>
+                  {serie.genres.map((genre, index) => (
+                    index < 3 &&
+                    genreLi(genre.name.toUpperCase(), genre._id)
                   ))}
                 </ul>
               </div>

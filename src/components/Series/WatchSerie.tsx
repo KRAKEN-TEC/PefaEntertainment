@@ -5,6 +5,7 @@ import VideoPlayer from "@/helper/VideoPlayer";
 import { useParams } from "react-router";
 import { useSingleEpisode } from "@/hooks/useSerie";
 import ForSeries from "./ForSeries";
+import "../CSS/WatchMovie.css";
 
 // Ko Oak Kar ၀င်မရေးရ
 
@@ -32,8 +33,8 @@ export default function WatchSerie() {
   console.log(episode);
 
   return (
-    <div>
-      <div>
+    <div className="watch-section">
+      <div className="watch-container">
         {episode && (
           <VideoPlayer
             posterUrl={episode.poster_url}

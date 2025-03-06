@@ -39,7 +39,7 @@ export default function SeriesDetail() {
                   <div className="genres-box">
                     <ul>
                       {serie.genres.map((genre) => (
-                        <li key={genre.name}>{genre.name}</li>
+                        <li key={genre.name}>{genre.name.toUpperCase()}</li>
                       ))}
                     </ul>
                     <span>{serie.rating}</span>
@@ -54,26 +54,28 @@ export default function SeriesDetail() {
                   </div>
                 </div>
 
-                <div className="tab-content">
-                  {activeTab === "overview" && <Overview anyData={serie} />}
 
-                  {activeTab === "watch" && (
-                    <div>
-                      {serie.seasons.map((s) => (
-                        <button
-                          key={s.seasonNumber}
-                          onClick={() =>
-                            navigate(
-                              `/series/${serieSlug}/seasons/${s.seasonNumber}/episodes`
-                            )
-                          }
-                        >
-                          {s.title}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
+              </div>
+              <div className="tab-content">
+                {activeTab === "overview" && <Overview anyData={serie} />}
+
+                {activeTab === "watch" && (
+                  <div className="seasons-container">
+                    {serie.seasons.map((s) => (
+                      <button
+                        className="season-btn"
+                        key={s.seasonNumber}
+                        onClick={() =>
+                          navigate(
+                            `/series/${serieSlug}/seasons/${s.seasonNumber}/episodes`
+                          )
+                        }
+                      >
+                        {s.title}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
 

@@ -32,7 +32,7 @@ export default function MovieDetail() {
               <div className="genres-box">
                 <ul>
                   {movie.genres.map((genre) => (
-                    <li key={genre.name}>{genre.name}</li>
+                    <li key={genre._id}>{genre.name.toUpperCase()}</li>
                   ))}
                 </ul>
                 <span>{movie.rating}</span>

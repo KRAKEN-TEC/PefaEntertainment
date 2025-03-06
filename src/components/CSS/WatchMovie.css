@@ -1,0 +1,19 @@
+.watch-section{
+    margin-top: -10px;
+    height: 720px;
+}
+.watch-container{
+    height: 100%;
+}
+.VideoPlayer{
+    height: 100%;
+}
+
+.vjs_video_1573-dimensions.vjs-fluid:not(.vjs-audio-only-mode){
+    padding-top: 0px!important;
+}
+
+.vjs-fluid:not(.vjs-audio-only-mode){
+    height: 100%!important;
+    padding-top: 0px!important;
+}
