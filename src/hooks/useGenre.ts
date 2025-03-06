@@ -44,6 +44,7 @@ export const useGenreActions = () => {
             updateActions(["create-genre"]);
             setLoading(false);
             setAlert("Genre created successfully.");
+            setTimeout(() => setAlert(""), 3000);
         }
         catch (error: any) {
             logError(error, setAlert);

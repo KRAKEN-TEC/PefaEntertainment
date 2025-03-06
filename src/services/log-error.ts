@@ -1,7 +1,6 @@
 // error-handle.ts
 
 export const logError = (error: any, setAlert: React.Dispatch<React.SetStateAction<string>>) => {
-    console.log(error)
     switch (error.status) {
         case 400:
         case 404:

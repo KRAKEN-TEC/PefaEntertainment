@@ -96,6 +96,7 @@ export const useUserActions = () => {
             logError(error, setAlert);
             setLoading(false);
         }
+        setTimeout(() => setAlert(""), 3000);
     }
 
     // LOGOUT
@@ -129,10 +130,11 @@ export const useUserActions = () => {
             logError(error, setAlert);
             setLoading(false);
         }
+        setTimeout(() => setAlert(""), 3000);
     }
 
     // UPDATE
-    const handleUpdate = async (payload: FetchUser, id: string) => {
+    const handleUpdate = async (payload: FormUser, id: string) => {
         setAlert("");
         setLoading(true);
         try {
@@ -151,6 +153,7 @@ export const useUserActions = () => {
             logActionError(error);
             setLoading(false);
         }
+        setTimeout(() => setAlert(""), 3000);
     };
 
     // DELETE
@@ -173,6 +176,7 @@ export const useUserActions = () => {
             logActionError(error);
             setLoading(false);
         }
+        setTimeout(() => setAlert(""), 3000);
     };
 
     return { accessToken, loading, alert, handleLogin, handleLogout, handleRegister, handleDelete, handleUpdate };

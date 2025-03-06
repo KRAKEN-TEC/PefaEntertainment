@@ -42,6 +42,7 @@ export const useRoleActions = () => {
             updateActions(["create-role"]);
             setLoading(false);
             setAlert("Role created successfully.");
+            setTimeout(() => setAlert(""), 3000);
         }
         catch (error: any) {
             logError(error, setAlert);

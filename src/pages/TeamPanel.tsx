@@ -13,8 +13,10 @@ import MultipleSelector from "@/components/global/MultipleSelector";
 import AdminNavLink from "@/components/global/AdminNavLink";
 import AdminSearchInput from "@/components/admin/AdminSearchInput";
 import DarkMode from "@/components/DarkMode";
-
+import AddRole from "@/components/global/AddRole";
+import RoleUpdateField from "@/components/global/RoleUpdateField";
 // USER ACTION AND LIST
+
 const UserUpdateForm = ({ user }: { user: FetchUser }) => {
   const { register, handleSubmit, formState: { errors }, } = useForm<FetchUser>();
   const { alert, handleUpdate } = useUserActions();
@@ -89,6 +91,45 @@ const UserUpdate = ({ children, user, }: { children: React.ReactNode; user: Fetc
   );
 };
 
+const UpdateUserRole = ({ children, user, }: { children: React.ReactNode; user: FetchUser }) => {
+  const { register, handleSubmit, formState: { errors }, } = useForm<FormUser>();
+  const { alert, handleUpdate } = useUserActions();
+  const ref = useRef<HTMLInputElement>(null);
+
+  const onSubmit = (payload: FormUser) => {
+    handleUpdate(payload, user._id);
+  };
+
+  return (
+    <DialogRoot initialFocusEl={() => ref.current} scrollBehavior="inside" placement={"top"} size={"lg"}>
+      <DialogTrigger asChild>
+        <Button variant="plain" _hover={{ color: "cyan" }} color="blue">
+          {children}
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogCloseTrigger />
+        <DialogHeader>
+          <DialogTitle>Assing Role</DialogTitle>
+          <DialogCloseTrigger />
+        </DialogHeader>
+        <DialogBody>
+          {alert && <AlertMessage message={alert} />}
+
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Fieldset.Root>
+              <RoleUpdateField register={register} errors={errors} document={user} />
+              <DialogFooter>
+                <Button type="submit">Assign</Button>
+              </DialogFooter>
+            </Fieldset.Root>
+          </form>
+        </DialogBody>
+      </DialogContent>
+    </DialogRoot>
+  )
+}
+
 const UserAction = ({ user }: { user: FetchUser }) => {
   const { accessToken, handleDelete } = useUserActions();
 
@@ -102,6 +143,7 @@ const UserAction = ({ user }: { user: FetchUser }) => {
       {accessToken ? (
         <HStack>
           <UserUpdate user={user}>Edit</UserUpdate>
+          <UpdateUserRole user={user}>Role</UpdateUserRole>
           <Button variant="plain" _hover={{ color: "cyan" }} color="red" onClick={onClick} >
             Delete
           </Button>
@@ -345,7 +387,10 @@ function TeamPanel() {
           />
 
           {/* ADD MEMBERS */}
-          <AddUser>Add Team Member</AddUser>
+          <AddUser>Member Register</AddUser>
+
+          {/* ROLES */}
+          <AddRole />
 
           {/* LOGIN LOGOUT */}
           {accessToken ? (
