@@ -7,6 +7,7 @@ import { DialogBody, DialogCloseTrigger, DialogContent, DialogHeader, DialogRoot
 
 import { useUser, useUserActions, FormUser, FetchUser, schemaUser, userQuery, } from "@/hooks/useUser";
 import { useUserStore } from "@/context/useUserStore";
+import { useRole } from "@/hooks/useRole";
 import AlertMessage from "@/components/global/AlertMessage";
 import MultipleSelector from "@/components/global/MultipleSelector";
 import AdminNavLink from "@/components/global/AdminNavLink";
@@ -141,7 +142,7 @@ const UserList = ({ userQuery }: { userQuery: userQuery }) => {
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.phone}</TableCell>
-                <TableCell>{user.role}</TableCell>
+                <TableCell>{user.role.title}</TableCell>
                 <TableCell>
                   <UserAction user={user} />
                 </TableCell>
@@ -314,13 +315,7 @@ export const UserLogin = ({ children }: { children: React.ReactNode }) => {
 function TeamPanel() {
   const { accessToken } = useUserStore();
   const [userQuery, setUserQuery] = useState<userQuery>({} as userQuery);
-
-  const users = [
-    { _id: "admin", role: "Admin" },
-    { _id: "user", role: "User" },
-    { _id: "editor", role: "Editor" },
-    { _id: "moderator", role: "Moderator" },
-  ];
+  const { data: roles } = useRole();
 
   return (
     <>
@@ -334,10 +329,14 @@ function TeamPanel() {
 
           {/* SORT SEARCH FILTERS */}
           <MultipleSelector
-            labelName="role"
+            labelName="title"
             placeholderName="Roles"
-            data={users}
-            onValueChange={(selected: any) => setUserQuery({ ...userQuery, roles: selected })}
+            data={roles}
+            onValueChange={(selected: any) => {
+              console.log(selected)
+              setUserQuery({ ...userQuery, roleIds: selected })
+            }
+            }
           />
 
           <AdminSearchInput

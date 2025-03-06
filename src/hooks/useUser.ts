@@ -6,6 +6,10 @@ import { logError, logActionError } from "@/services/log-error";
 import { useUserStore } from "@/context/useUserStore";
 import apiPefa from "@/services/api-pefa";
 
+export type Role = {
+    "_id": string,
+    "title": string,
+}
 
 // TYPE AND INTERFACE
 export interface FetchUser {
@@ -14,7 +18,7 @@ export interface FetchUser {
     "email": string,
     "phone": string,
     "password": string,
-    "role": string,
+    "role": Role,
 }
 
 export interface UserLogin {
@@ -50,12 +54,14 @@ export const schemaUser = z.object({
             /[!@#$%^&*(),.?":{}|<>]/,
             "Password must contain at least one special character."
         ),
+    roleId: z.string().optional(),
+
 });
 
 export type FormUser = z.infer<typeof schemaUser>;
 
 export interface userQuery {
-    roles: string[],
+    roleIds: string[],
     search: string,
 }
 
@@ -63,7 +69,7 @@ export interface userQuery {
 export const useUser = (userQuery?: userQuery) => useData<FetchUser>("/users",
     {
         params: {
-            roles: userQuery?.roles,
+            roleIds: userQuery?.roleIds,
             search: userQuery?.search
         }
     },
