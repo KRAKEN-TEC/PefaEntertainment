@@ -4,7 +4,7 @@
     align-items: center;
     justify-content: center;
     gap: 10px; /* Replaces margin-left on p for better spacing */
-    margin: 0 0 20px 10px; /* Shorthand for margin-bottom and margin-left */
+    margin: 0 0 0 10px; /* Shorthand for margin-bottom and margin-left */
     background: none;
     border: none;
     cursor: pointer;
@@ -12,4 +12,11 @@
 
 .details-nav p {
     font-size: medium;
+}
+
+.details-nav{
+    color: white;
+    z-index: 1;
+    position: fixed;
+    top: 0;
 }

@@ -5,8 +5,7 @@ import VideoPlayer from "@/helper/VideoPlayer";
 import ForMovie from "./ForMovie";
 import { useParams } from "react-router";
 import { useSingleMovie } from "@/hooks/useMovie";
-
-// Ko Oak Kar ၀င်မရေးရ
+import "../CSS/WatchMovie.css";
 
 export default function WatchMovie() {
   const { id } = useParams();
@@ -30,8 +29,8 @@ export default function WatchMovie() {
   console.log(movie);
 
   return (
-    <div>
-      <div>
+    <div className="watch-section">
+      <div className="watch-container">
         {movie && (
           <VideoPlayer
             posterUrl={movie.poster_url}

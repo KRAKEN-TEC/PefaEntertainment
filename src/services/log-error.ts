@@ -6,7 +6,12 @@ export const logError = (error: any, setAlert: React.Dispatch<React.SetStateActi
         case 404:
         case 401:
         case 403:
-            setAlert(error.response.data.message);
+            if (error.response.data.error) {
+                setAlert(error.response.data.error)
+            }
+            else {
+                setAlert(error.response.data.message);
+            }
             break;
         case 500:
             if (error.response.data.message === "jwt malformed") {
@@ -29,7 +34,12 @@ export const logActionError = (error: any) => {
         case 400:
         case 401:
         case 403:
-            window.alert(error.response.data.message);
+            if (error.response.data.error) {
+                window.alert(error.response.data.error)
+            }
+            else {
+                window.alert(error.response.data.message);
+            }
             break;
         case 500:
             if (error.response.data.message === "jwt malformed") {

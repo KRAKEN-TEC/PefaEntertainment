@@ -1,6 +1,7 @@
 import { FetchSeries, useSeries } from "@/hooks/useSerie";
 import "../CSS/Series.css";
 import useNavDetail from "@/hooks/useNavDetail";
+import { genreLi } from "../global/genreLi";
 
 // Ko Oak Kar ၀င်မရေးရ
 
@@ -36,8 +37,8 @@ export default function Series() {
                     <h3>{s.title}</h3>
                     <span>{s.description}</span>
                     <ul>
-                      {s.genres.map((g) => (
-                        <li key={g._id}>{g.name}</li>
+                      {s.genres.map((g, index) => (
+                        index < 3 && genreLi(g.name.toUpperCase(), g._id)
                       ))}
                     </ul>
                   </div>

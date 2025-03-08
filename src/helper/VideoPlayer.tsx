@@ -1,7 +1,9 @@
 import React from "react";
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
+import "../components/CSS/WatchMovie.css"
 import Player from "video.js/dist/types/player";
+import { MdHeight } from "react-icons/md";
 
 // GUIDE =>>> https://videojs.com/guides/react/
 
@@ -89,8 +91,8 @@ const VideoPlayer = ({ posterUrl, videoUrl, onReady }: Props) => {
   }, [playerRef]);
 
   return (
-    <div data-vjs-player>
-      <div ref={videoRef} />
+    <div data-vjs-player style={{ height: "100%" }}>
+      <div style={{ height: "100%" }} ref={videoRef} />
     </div>
   );
 };

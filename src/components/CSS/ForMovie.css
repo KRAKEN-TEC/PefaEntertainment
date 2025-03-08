@@ -1,7 +1,6 @@
 /* Main container */
 .movie-container {
-    background-color: #181818;
-    color: white;
+    color: black;
     padding: 20px;
     border-radius: 8px;
     max-width: 800px;
@@ -10,7 +9,6 @@
   
   /* Episode details */
   .episode-details {
-    background: #222;
     padding: 20px;
     border-radius: 8px;
     margin-top: 10px;
@@ -23,35 +21,32 @@
   }
   
   .episode-details p {
-    font-size: 16px;
-    color: #ccc;
+    font-size: 16px;  
     line-height: 1.5;
   }
   
   /* Download button */
   .download-container {
     position: relative;
-    display: inline-block;
     margin-top: 10px;
+    display: flex;
+    flex-direction: row;
   }
   
   .download-button {
-    background: red;
-    color: white;
     padding: 10px 15px;
     border: none;
-    border-radius: 5px;
+    background-color: transparent;
     cursor: pointer;
-    font-weight: bold;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     transition: background 0.3s;
+  }
+  .download-button img{
+    width: 20px;
   }
   
   .download-button:hover {
-    background: darkred;
+    background: rgba(139, 0, 0, 0.242);
+    border-radius: 5px;
   }
   
   /* Download options dropdown */

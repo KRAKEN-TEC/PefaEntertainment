@@ -1,9 +1,8 @@
     /* Header Section */
-  .series-header {
+  .header {
     padding: 20px;
     position: relative;
     text-align: left;
-    z-index: -1; 
   }
 
   .details-overlay{
@@ -18,12 +17,7 @@
     justify-content: space-between;
   }
   
-  .series-header img {
-    width: 100%;
-    margin-bottom: 10px;
-  }
-  
-  .series-header h1 {
+  .header h1 {
     font-size: 24px;
     margin-bottom: 5px;
     margin-top: 313px;
@@ -31,7 +25,7 @@
     color: white;
   }
   
-  .series-header p {
+  .header p {
     font-size: 14px;
     color: white;
     max-width: 1000px;
@@ -39,7 +33,7 @@
     height: 300px;
   }
   
-  .series-header span {
+  .header span {
     display: block;
     font-size: 14px;
     margin-top: 20px;
@@ -66,7 +60,7 @@
     cursor: pointer;
     padding-bottom: 5px;
     border-bottom: 2px solid transparent;
-    transition: border-bottom 0.2s ease;
+    transition: border-bottom 0.1s ease-in;
   }
   
   .tabs button:hover,
@@ -124,26 +118,11 @@ text-align: center;
   .s-con{
     width: 100%;
     margin-left: -9px;
+    margin-top: -10px;
     padding-right: 17px;
-    margin-top: -81px;
     overflow: hidden;
   }
 /* Header Section */
-.header {
-  position: relative;
-  display: flex;
-  align-items: flex-end;
-  color: white;
-  padding: 40px;
-  border-radius: 10px;
-}
-
-.details-overlay {
-  background: rgba(0, 0, 0, 0.6);
-  padding: 20px;
-  border-radius: 10px;
-  width: 100%;
-}
 
 .details-overlay h1 {
   font-size: 28px;
@@ -155,49 +134,7 @@ text-align: center;
   line-height: 1.4;
   margin-bottom: 10px;
 }
-
-.genres-box {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 15px;
-}
-
-.genres-box ul {
-  display: flex;
-  gap: 10px;
-  list-style: none;
-  padding: 0;
-}
-
-.genres-box ul li {
-  background: #d32f2f;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
 /* Tabs (Overview, Watch, Episodes) */
-.tabs {
-  display: flex;
-  gap: 15px;
-  margin-top: 15px;
-}
-
-.tabs button {
-  background: transparent;
-  border: none;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-  padding-bottom: 5px;
-  transition: 0.3s;
-}
-
-.tabs button:hover,
-.tabs button:focus {
-  border-bottom: 2px solid white;
-}
 
 /* Seasons Buttons */
 .seasons {
@@ -265,3 +202,68 @@ text-align: center;
   font-size: 12px;
   color: #999;
 }
+
+.seasons-container{
+  display: flex;
+  gap: 20px;
+}
+.season-btn{
+  background-color: none;
+  color: #e85448;
+  border: none;
+  padding: 5px 15px;
+  cursor: pointer;
+  border-radius: 10px;
+  font-size: 14px;
+  border: 2px solid #e85448;
+  transition: all 0.3s;
+}
+
+.season-btn:active{
+  background-color: #e85448;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 20px;
+    margin-top: 200px;
+  }
+  .header p {
+    font-size: 12px;
+  }
+  .tabs {
+    gap: 10px;
+  }
+  .tab-content {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 18px;
+    margin-top: 340px;
+  }
+  .header p {
+    font-size: 12px;
+    width: 350px;
+  }
+  .tabs button {
+    font-size: 12px;
+  }
+  .tab-content {
+    padding: 10px;
+  }
+  .details-overlay ul {
+    justify-content: center;
+  }
+  .details-overlay li {
+    font-size: 10px;
+  }
+  .season-btn {
+    font-size: 10px;
+    padding: 8px 12px;
+  }
+}
+

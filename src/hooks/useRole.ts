@@ -2,48 +2,46 @@ import { useState } from "react";
 import z from "zod";
 
 import { logError } from "@/services/log-error";
-import { useMovieStore } from "@/context/useMovieStore";
 import { useUserStore } from "@/context/useUserStore";
 import useData from "./useData"
 import apiPefa from "@/services/api-pefa";
 
 // TYPE AND INTERFACE
-export type FetchGenres = {
+export type FetchRoles = {
     "_id": string,
-    "name": string,
+    "title": string,
 }
 
-export const schemaGenre = z.object({
-    name: z.string()
-        .min(3, "Genre name must be at least 3 characters long.")
-        .max(10, "Genre name must not exceed 10 characters.")
-        .regex(/^[a-z]+$/, "Genre name must be only small letters.") // Restricts to lowercase letters only
+export const schemaRole = z.object({
+    title: z.string()
+        .min(3, "Role title must be at least 3 characters long.")
+        .max(10, "Role title must not exceed 10 characters.")
+        .regex(/^[a-z]+$/, "Role title must be only small letters.") // Restricts to lowercase letters only
 });
 
-export type FormGenre = z.infer<typeof schemaGenre>;
+export type FormRole = z.infer<typeof schemaRole>;
 
 // FUNCTIONS
-export const useGenre = () => useData<FetchGenres>("/genres")
+export const useRole = () => useData<FetchRoles>("/roles")
 
-export const useGenreActions = () => {
-    const { updateActions } = useMovieStore();
-    const { accessToken } = useUserStore();
+export const useRoleActions = () => {
+    const { accessToken, updateActions } = useUserStore();
     const [loading, setLoading] = useState(false);
     const [alert, setAlert] = useState<string>("");
 
-    const handleCreate = async (payload: FormGenre) => {
+    const handleCreate = async (payload: FormRole) => {
         setAlert("");
         setLoading(true);
         try {
-            await apiPefa.post("/genres", payload, {
+            await apiPefa.post("/roles", payload, {
                 headers: {
                     Authorization: `${accessToken}`,
                     "Content-Type": "application/json"
                 }
             });
-            updateActions(["create-genre"]);
+            updateActions(["create-role"]);
             setLoading(false);
-            setAlert("Genre created successfully.");
+            setAlert("Role created successfully.");
             setTimeout(() => setAlert(""), 3000);
         }
         catch (error: any) {

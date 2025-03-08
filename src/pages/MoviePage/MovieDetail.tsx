@@ -3,6 +3,7 @@ import { useSingleMovie } from "@/hooks/useMovie";
 import { useParams } from "react-router";
 import { useState } from "react";
 import WatchingBox from "@/components/detailData/WatchingBox";
+import "../CSS/DetailPage.css";
 
 // Ko Oak Kar ၀င်မရေးရ
 
@@ -31,7 +32,7 @@ export default function MovieDetail() {
               <div className="genres-box">
                 <ul>
                   {movie.genres.map((genre) => (
-                    <li key={genre.name}>{genre.name}</li>
+                    <li key={genre._id}>{genre.name.toUpperCase()}</li>
                   ))}
                 </ul>
                 <span>{movie.rating}</span>

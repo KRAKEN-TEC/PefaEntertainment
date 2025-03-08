@@ -53,22 +53,24 @@ export default function NewRealeses() {
 
   return (
     <div className="NR-movie-section">
-      <h2>New Releases</h2>
+      <div className="NR-heading">
+        <h2>New Releases</h2>
 
-      {/* Category Filter Buttons */}
-      <div className="filter-buttons">
-        <button
-          className={selectedCategory === "movies" ? "active" : ""}
-          onClick={() => setSelectedCategory("movies")}
-        >
-          Movies
-        </button>
-        <button
-          className={selectedCategory === "series" ? "active" : ""}
-          onClick={() => setSelectedCategory("series")}
-        >
-          Series
-        </button>
+        {/* Category Filter Buttons */}
+        <div className="filter-buttons">
+          <button
+            className={selectedCategory === "movies" ? "active" : ""}
+            onClick={() => setSelectedCategory("movies")}
+          >
+            Movies
+          </button>
+          <button
+            className={selectedCategory === "series" ? "active" : ""}
+            onClick={() => setSelectedCategory("series")}
+          >
+            Series
+          </button>
+        </div>
       </div>
 
       <div className="NR-scroll-container" ref={NR_movie_container}>

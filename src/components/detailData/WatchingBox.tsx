@@ -2,6 +2,7 @@ import "../CSS/WatchingBox.css";
 import { useUserStore } from "@/context/useUserStore";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import download from "../../assets/download.svg";
 
 export default function WatchingBox({ detailData }: { detailData?: any }) {
   const [showPopup, setShowPopup] = useState(false);
@@ -25,27 +26,27 @@ export default function WatchingBox({ detailData }: { detailData?: any }) {
   };
 
   return (
-    <div className="episode-box" key={detailData?._id}>
+    <div className="episode-box" key={detailData?._id} >
       <img
         src={detailData?.poster_url}
         alt="Episode Thumbnail"
         className="episode-thumbnail"
+        onClick={handleVideoNav}
       />
       <div className="episode-info">
-        <h3>{detailData?.title}</h3>
-        <p className="episode-description">{detailData?.description}</p>
-        <button className="watch-button" onClick={handleVideoNav}>
-          Watch Now
-        </button>
+        <div className="ep-info-container" onClick={handleVideoNav}>
+          <h3>{detailData?.title}</h3>
+          <p className="episode-description">{detailData?.description}</p>
+        </div>
         <button className="download-btn" onClick={handleDownloadClick}>
-          Download
+          <img src={download} />
         </button>
         {/* Popup Modal for Login Prompt */}
         {showPopup && (
           <div className="popup">
             <div className="popup-content">
               <h3>Login Required</h3>
-              <p>You must log in to download this episode.</p>
+              <p>Please <a>Signup</a> to Downloads</p>
               <button
                 className="login-btn"
                 onClick={() => alert("Redirecting to login...")}
