@@ -1,12 +1,11 @@
 import { create } from "zustand";
 import { FetchMovies, MovieQuery } from "@/hooks/useMovie";
-import { FetchPefa } from "@/hooks/usePefa";
 
 export interface ActionSlice {
   movieQuery: MovieQuery;
   actions: string[];
   moviesStore: FetchMovies[];
-  setMovieQuery: (query: MovieQuery) => void;  
+  setMovieQuery: (query: MovieQuery) => void;
   setMovieStore: (movies: FetchMovies[]) => void;
   updateActions: (actions: string[]) => void;
   addAction: (action: string) => void;

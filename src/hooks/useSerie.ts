@@ -7,7 +7,8 @@ import { FetchGenres } from "./useGenre";
 import { useSerieStore } from "@/context/useSerieStore";
 import useData, { useSingleData } from "./useData";
 import { logError, logActionError } from "@/services/log-error";
-import { createDocument, deleteDocument, updateDocument } from "@/services/serie-service";
+import { createDocument, deleteDocument, deleteS3File, updateDocument, uploadS3File } from "@/services/serie-service";
+import generateSlug from "@/services/generate-slug";
 
 export interface FetchEpisodes {
     _id: string;
@@ -16,15 +17,16 @@ export interface FetchEpisodes {
     video_url: string;
     poster_url: string;
     releasedDate: string;
-    description: string;
+    description?: string;
 }
 
 export interface FetchSeasons {
     _id: string;
     title: string;
     seasonNumber: number;
+    poster_url?: string;
     episodes: FetchEpisodes[];
-    description: string;
+    description?: string;
 }
 
 export interface FetchSeries {
@@ -33,10 +35,10 @@ export interface FetchSeries {
     slug: string;
     genres: FetchGenres[];
     seasons: FetchSeasons[];
-    poster_url: string;
+    poster_url?: string;
     uploadDate: string;
     rating: number;
-    description: string;
+    description?: string;
     releasedDate: string;
     translator: string;
     encoder: string;
@@ -47,7 +49,7 @@ export interface FetchSeries {
 export const schemaEpisodes = z.object({
     title: z.string().min(1).max(255),
     episodeNumber: z.number({ invalid_type_error: "Episode number must be a number" }).min(1),
-    description: z.string().min(0).max(255).or(z.literal('')).optional(),
+    description: z.string().min(0).max(510).or(z.literal('')).optional(),
     releasedDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid. Fomat example: YYYY-MM-DD"),
     poster: z
         .instanceof(File)
@@ -58,7 +60,7 @@ export const schemaEpisodes = z.object({
                     "image/png"
                 ].includes(file.type),
             { message: "Invalid image file type" }
-        ).optional(),
+        ),
     video: z
         .instanceof(File)
         .refine(
@@ -67,13 +69,13 @@ export const schemaEpisodes = z.object({
                     "video/mp4"
                 ].includes(file.type),
             { message: "Invalid video file type" }
-        ).optional(),
+        ),
 });
 
 export const schemaSeasons = z.object({
     title: z.string().min(1).max(255),
     seasonNumber: z.number({ invalid_type_error: "Season number must be a number" }).min(1),
-    description: z.string().min(0).max(255).or(z.literal('')).optional(),
+    description: z.string().min(0).max(510).or(z.literal('')).optional(),
     poster: z
         .instanceof(File)
         .refine(
@@ -90,7 +92,7 @@ export const schemaSeries = z.object({
     title: z.string().min(1).max(255),
     genreIds: z.array(z.string().min(1)).min(1, { message: "You have to choose at least one genre" }),
     rating: z.number({ invalid_type_error: "Rating must be a number" }).min(0).max(10),
-    description: z.string().min(0).max(255).or(z.literal('')).optional(),
+    description: z.string().min(0).max(510).or(z.literal('')).optional(),
     releasedDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid. Fomat example: YYYY-MM-DD"),
     translator: z.string().min(1),
     encoder: z.string().min(1),
@@ -139,7 +141,6 @@ export const useSeasons = (serieSlug?: string, serieQuery?: SerieQuery) => useDa
     {
         params: {
             page: serieQuery?.page,
-            genres: serieQuery?.genres,
             search: serieQuery?.search,
             ordering: serieQuery?.ordering
         }
@@ -151,7 +152,6 @@ export const useEpisodes = (serieSlug?: string, seasonNumber?: string, serieQuer
     {
         params: {
             page: serieQuery?.page,
-            genres: serieQuery?.genres,
             search: serieQuery?.search,
             ordering: serieQuery?.ordering
         }
@@ -165,12 +165,15 @@ export const useSerieActions = () => {
     const { accessToken } = useUserStore();
     const [loading, setLoading] = useState(false);
     const [alert, setAlert] = useState<string>("");
+    const seasonEndPoint = `/series/${serieSlug}/seasons`
+    const episodeEndPoint = `/series/${serieSlug}/seasons/${seasonNumber}/episodes`
 
     const handleSerieCreate = async (payload: FormSerie) => {
         setAlert("");
         setLoading(true);
         try {
-            await createDocument("/series", payload, accessToken)
+            await createDocument("/series", payload, accessToken);
+            if (payload.poster) await uploadS3File(payload.poster, "/series", generateSlug(payload.title), accessToken)
             updateActions(["create-serie"]);
             setLoading(false);
             setAlert("Series created successfully.");
@@ -192,7 +195,7 @@ export const useSerieActions = () => {
         };
 
         try {
-            await updateDocument("/series", serie._id, data, accessToken)
+            await updateDocument("/series", serie.slug, data, accessToken)
             updateActions(["update-serie"]);
             setLoading(false);
             setAlert("Serie updated successfully");
@@ -202,11 +205,12 @@ export const useSerieActions = () => {
         }
     }
 
-    const handleSerieDelete = async (id: string) => {
+    const handleSerieDelete = async (serie: FetchSeries) => {
         setAlert("");
         setLoading(true);
         try {
-            await deleteDocument('/series', id, accessToken);
+            if (serie.poster_url) await deleteS3File(serie.poster_url);
+            await deleteDocument('/series', serie.slug, accessToken);
             updateActions(['delete-serie']);
             setLoading(false);
             window.alert("Series deleted successfully");
@@ -221,7 +225,8 @@ export const useSerieActions = () => {
         setAlert("");
         setLoading(true);
         try {
-            await createDocument(`/series/${serieSlug}/seasons`, payload, accessToken)
+            await createDocument(seasonEndPoint, payload, accessToken)
+            if (payload.poster) await uploadS3File(payload.poster, seasonEndPoint, payload.seasonNumber, accessToken)
             updateActions(["create-season"]);
             setLoading(false);
             setAlert("Season created successfully.");
@@ -232,15 +237,31 @@ export const useSerieActions = () => {
         }
     }
 
-    const handleSeasonUpdate = (payload: FormSeason, season: FetchSeasons) => {
-        console.log(payload, season)
+    const handleSeasonUpdate = async (payload: FormSeason, season: FetchSeasons) => {
+        setAlert("");
+        setLoading(true);
+
+        const data = {
+            ...payload,
+        };
+
+        try {
+            await updateDocument(seasonEndPoint, season.seasonNumber, data, accessToken)
+            updateActions(["update-season"]);
+            setLoading(false);
+            setAlert("Serie updated successfully");
+        } catch (error: any) {
+            setLoading(false);
+            logActionError(error);
+        }
     }
 
     const handleSeasonDelete = async (season: FetchSeasons) => {
         setAlert("");
         setLoading(true);
         try {
-            await deleteDocument(`/series/${serieSlug}/seasons`, String(season.seasonNumber), accessToken);
+            if (season.poster_url) await deleteS3File(season.poster_url);
+            await deleteDocument(seasonEndPoint, season.seasonNumber, accessToken);
             updateActions(['delete-season']);
             setLoading(false);
             window.alert("Season deleted successfully");
@@ -255,10 +276,14 @@ export const useSerieActions = () => {
         setAlert("");
         setLoading(true);
         try {
-            await createDocument(`/series/${serieSlug}/seasons/${seasonNumber}/episodes`, payload, accessToken)
-            updateActions(["create-episode"]);
+            await createDocument(episodeEndPoint, payload, accessToken)
+            await uploadS3File(payload.poster, episodeEndPoint, payload.episodeNumber, accessToken)
+            updateActions(["create"]);
             setLoading(false);
-            setAlert("Episode created successfully.");
+            setAlert("Episode created successfully! Your episode is now uploading.");
+
+            await uploadS3File(payload.video, episodeEndPoint, payload.episodeNumber, accessToken)
+            updateActions(["ready"])
         }
         catch (error: any) {
             logError(error, setAlert);
@@ -266,16 +291,33 @@ export const useSerieActions = () => {
         }
     }
 
-    const handleEpisodeUpdate = (payload: FormEpisode, episode: FetchEpisodes) => {
-        console.log(payload, episode)
+    const handleEpisodeUpdate = async (payload: FormEpisode, episode: FetchEpisodes) => {
+        setAlert("");
+        setLoading(true);
+
+        const data = {
+            ...payload,
+        };
+
+        try {
+            await updateDocument(episodeEndPoint, episode.episodeNumber, data, accessToken)
+            updateActions(["update-episode"]);
+            setLoading(false);
+            setAlert("Serie updated successfully");
+        } catch (error: any) {
+            setLoading(false);
+            logActionError(error);
+        }
     }
 
     const handleEpisodeDelete = async (episode: FetchEpisodes) => {
         setAlert("");
         setLoading(true);
         try {
-            await deleteDocument(`/series/${serieSlug}/seasons/${seasonNumber}/episodes`, String(episode.episodeNumber), accessToken);
-            updateActions(['delete-season']);
+            await deleteS3File(episode.poster_url)
+            await deleteS3File(episode.video_url)
+            await deleteDocument(episodeEndPoint, episode.episodeNumber, accessToken);
+            updateActions(['delete-episode']);
             setLoading(false);
             window.alert("Season deleted successfully");
         }
