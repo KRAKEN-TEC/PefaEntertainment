@@ -6,21 +6,19 @@
 /* series Grid Layout */
 .series-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   grid-auto-flow: column;
   gap: 20px;
-  width: max-content;
+  justify-content: center;
 }
 
 /* series Box with 3D Effect */
 .series-box {
-  width: 480px;
   border-radius: 10px;
   overflow: hidden;
   text-align: center;
-  /*box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);*/
   padding-bottom: 10px;
-  transition: transform 0.3s;
+  transition: transform 0.3s ease-in-out;
   perspective: 1000px;
 }
 
@@ -83,9 +81,10 @@
 }
 
 .series-title span{
-  margin-top: 25px;
+  margin-top: 10px;
   cursor: pointer;
 }
+
 /* ========== Responsive Design ========== */
 
 /* Tablets (768px and below) */
@@ -112,6 +111,7 @@
 @media screen and (max-width: 480px) {
   .series-grid {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-auto-flow: row;
   }
 
   .series-text {

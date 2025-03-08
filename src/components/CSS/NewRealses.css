@@ -3,6 +3,13 @@
   position: relative;
 }
 
+.NR-heading{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+
 /* Scroll Container */
 .NR-scroll-container {
   overflow-x: auto;
@@ -119,21 +126,68 @@
 
 .filter-buttons {
   display: flex;
-  gap: 10px;
+  gap: 5px;
   margin-bottom: 20px;
+  border-radius: 12px;
+  border: 2px solid #e85448;
 }
 
 .filter-buttons button {
-  background: #ccc;
   border: none;
-  padding: 10px 20px;
+  padding: 0px 10px;
   cursor: pointer;
-  font-size: 16px;
-  border-radius: 5px;
+  font-size: 12px;
+  background: none;
+  border-radius: 10px;
 }
 
 .filter-buttons button.active {
   background: #e85448;
   color: white;
+}
+
+@media screen and (max-width: 768px) {
+  .NR-movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+
+  .NR-movie-box {
+    width: 200px;
+  }
+
+  .overlay h3 {
+    font-size: 12px;
+  }
+
+  .overlay li {
+    font-size: x-small;
+  }
+  
+}
+
+@media screen and (max-width: 480px) {
+  .NR-movie-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+
+  .NR-movie-box {
+    width: 150px;
+    height: 300px;
+  }
+
+  .overlay h3 {
+    font-size: 10px;
+  }
+
+  .overlay li {
+    font-size: x-small;
+  }
+  .filter-buttons{
+    margin-bottom: 30px;
+  }
+  .filter-buttons button{
+    padding: 0px 5px;
+    font-size: 10px;
+  }
 }
 

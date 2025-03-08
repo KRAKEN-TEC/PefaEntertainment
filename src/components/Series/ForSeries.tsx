@@ -1,4 +1,5 @@
 import { useState } from "react";
+import download from "../../assets/download.svg";
 
 // Ko Oak Kar ၀င်မရေးရ
 
@@ -12,11 +13,12 @@ export default function ForSeries({ detailData }: { detailData?: any }) {
     <div className="movie-container">
       <div className="episode-details">
         <h2>{detailData?.title}</h2>
-        <p>{detailData?.description}</p>
+
 
         <div className="download-container">
+          <p>{detailData?.description}</p>
           <button className="download-button" onClick={toggleDownloadOptions}>
-            ⬇ 1080p
+            <img src={download} />
           </button>
           {showDownloadOptions && (
             <div className="download-options">
