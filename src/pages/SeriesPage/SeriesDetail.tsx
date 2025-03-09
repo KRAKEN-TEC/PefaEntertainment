@@ -4,17 +4,30 @@ import { useState } from "react";
 import Overview from "@/components/detailData/Overview";
 import "../CSS/DetailPage.css";
 
-// Ko Oak Kar ၀င်မရေးရ
-
 export default function SeriesDetail() {
   const { serieSlug } = useParams();
   const { data: serie } = useSingleSerie(serieSlug);
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<string>("overview");
+  const [activeSeason, setActiveSeason] = useState<number | null>(null);
 
-  const handleForOV = () => {
+  const handleOverviewClick = () => {
     setActiveTab("overview");
     navigate(`/series/${serieSlug}`);
+  };
+
+  const handleWatchClick = () => {
+    if (serie && serie.seasons.length > 0) {
+      setActiveTab("watch");
+      const firstSeason = serie.seasons[0].seasonNumber;
+      setActiveSeason(firstSeason);
+      navigate(`/series/${serieSlug}/seasons/${firstSeason}/episodes`);
+    }
+  };
+
+  const handleSeasonClick = (seasonNumber: number) => {
+    setActiveSeason(seasonNumber);
+    navigate(`/series/${serieSlug}/seasons/${seasonNumber}/episodes`);
   };
 
   return (
@@ -46,16 +59,13 @@ export default function SeriesDetail() {
                     <span>{serie.isOnGoing ? "Yes" : "No"}</span>
 
                     <div className="tabs">
-                      <button onClick={() => handleForOV()}>OVERVIEW</button>
-                      <button onClick={() => setActiveTab("watch")}>
-                        WATCH
-                      </button>
+                      <button onClick={handleOverviewClick}>OVERVIEW</button>
+                      <button onClick={handleWatchClick}>WATCH</button>
                     </div>
                   </div>
                 </div>
-
-
               </div>
+
               <div className="tab-content">
                 {activeTab === "overview" && <Overview anyData={serie} />}
 
@@ -63,13 +73,11 @@ export default function SeriesDetail() {
                   <div className="seasons-container">
                     {serie.seasons.map((s) => (
                       <button
-                        className="season-btn"
+                        className={`season-btn ${
+                          activeSeason === s.seasonNumber ? "active" : ""
+                        }`}
                         key={s.seasonNumber}
-                        onClick={() =>
-                          navigate(
-                            `/series/${serieSlug}/seasons/${s.seasonNumber}/episodes`
-                          )
-                        }
+                        onClick={() => handleSeasonClick(s.seasonNumber)}
                       >
                         {s.title}
                       </button>
@@ -79,7 +87,7 @@ export default function SeriesDetail() {
               </div>
             </div>
 
-            {/* DINAMICALLY MOUTS EPISODES */}
+            {/* DYNAMICALLY MOUNTS EPISODES */}
             <Outlet />
           </>
         )}

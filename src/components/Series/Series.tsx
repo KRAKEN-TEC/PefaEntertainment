@@ -3,8 +3,6 @@ import "../CSS/Series.css";
 import useNavDetail from "@/hooks/useNavDetail";
 import { genreLi } from "../global/genreLi";
 
-// Ko Oak Kar ၀င်မရေးရ
-
 export default function Series() {
   const { data: series } = useSeries();
   const { nav, navSerieDetail } = useNavDetail();
@@ -37,9 +35,10 @@ export default function Series() {
                     <h3>{s.title}</h3>
                     <span>{s.description}</span>
                     <ul>
-                      {s.genres.map((g, index) => (
-                        index < 3 && genreLi(g.name.toUpperCase(), g._id)
-                      ))}
+                      {s.genres.map(
+                        (g, index) =>
+                          index < 3 && genreLi(g.name.toUpperCase(), g._id)
+                      )}
                     </ul>
                   </div>
                 </div>

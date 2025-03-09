@@ -7,8 +7,6 @@ import { useSingleEpisode } from "@/hooks/useSerie";
 import ForSeries from "./ForSeries";
 import "../CSS/WatchMovie.css";
 
-// Ko Oak Kar ၀င်မရေးရ
-
 export default function WatchSerie() {
   const { serieSlug, seasonNumber, episodeNumber } = useParams();
   const playerRef = useRef<Player | null>(null);
