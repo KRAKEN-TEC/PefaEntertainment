@@ -1,23 +1,63 @@
-import { useMovie } from "@/hooks/useMovie";
+import { FetchMovies, useMovie } from "@/hooks/useMovie";
 import "../CSS/MoviesPage.css";
 import useNavDetail from "@/hooks/useNavDetail";
-
-// Ko Oak Kar ၀င်မရေးရ
+import { useMovieStore } from "@/context/useMovieStore";
+import { useEffect, useState } from "react";
 
 export default function MoviesPage() {
-  const { data: movies } = useMovie();
+  const { moviesStore, setMovieStore, movieQuery, setMovieQuery } =
+    useMovieStore();
+  const { data: movies } = useMovie(movieQuery);
   const { navMovieDetail } = useNavDetail();
+  useEffect(() => {
+    setMovieStore(movies as FetchMovies[]);
+  }, [movies]);
 
+  const [isFetching, setIsFetching] = useState(false);
+  const [debounceTimer, setDebounceTimer] = useState(null);
+
+  const handleScroll = () => {
+    if (isFetching) return;
+
+    const maxScrollY =
+      document.documentElement.scrollHeight - window.innerHeight;
+    const maxVal = (maxScrollY / 3) * 2;
+    const tolerance = 50;
+    if (window.scrollY >= maxVal - tolerance) {
+      setIsFetching(true);
+      setMovieQuery({ ...movieQuery, page: movieQuery.page + 1 });
+    }
+  };
+  useEffect(() => {
+    const handle = () => {
+      if (debounceTimer) clearTimeout(debounceTimer);
+      setDebounceTimer(setTimeout(handleScroll, 200));
+    };
+
+    window.addEventListener("scroll", handle);
+
+    return () => window.removeEventListener("scroll", handle);
+  }, [debounceTimer, isFetching, movieQuery, setMovieQuery]);
+
+  useEffect(() => {
+    if (!isFetching) return;
+
+    const loadDataTimeout = setTimeout(() => {
+      setIsFetching(false);
+    }, 1000);
+
+    return () => clearTimeout(loadDataTimeout);
+  }, [isFetching, movieQuery]);
   return (
     <div className="MP-section">
       <h2>Movies</h2>
       <div className="MP-scroll-container">
         <div className="MP-grid">
-          {movies &&
-            movies.map((movie) => (
+          {moviesStore &&
+            moviesStore.map((movie, index) => (
               <div
                 className="MP-box"
-                key={movie._id}
+                key={index}
                 onClick={() => navMovieDetail(`${movie.slug}`)}
               >
                 <img src={movie.poster_url} />

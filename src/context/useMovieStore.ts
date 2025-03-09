@@ -17,7 +17,9 @@ export const useMovieStore = create<ActionSlice>((set) => ({
   movieQuery: { page: 0 } as MovieQuery,
   moviesStore: [] as FetchMovies[],
   setMovieStore: (movies: FetchMovies[]) => {
-    set({ moviesStore: movies });
+    set((state) => ({
+      moviesStore: [...state.moviesStore, ...movies], // Combine old and new values
+    }));
   },
   setMovieQuery: (query) => set({ movieQuery: query }),
   updateActions: (actions) => {
