@@ -3,6 +3,7 @@
     padding: 20px;
     position: relative;
     text-align: left;
+    height: 500px;
   }
 
   .details-overlay{
@@ -224,10 +225,10 @@ text-align: center;
   color: white;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 768px) {
   .header h1 {
     font-size: 20px;
-    margin-top: 200px;
+    margin-top: 350px;
   }
   .header p {
     font-size: 12px;
@@ -240,13 +241,16 @@ text-align: center;
   }
 }
 
-@media (max-width: 480px) {
+@media screen and (max-width: 480px) {
+  .header {
+    height: 300px;
+  }
   .header h1 {
-    font-size: 18px;
-    margin-top: 340px;
+    font-size: 14px;
+    margin-top: 150px;
   }
   .header p {
-    font-size: 12px;
+    font-size: 10px;
     width: 350px;
   }
   .tabs button {
@@ -259,7 +263,7 @@ text-align: center;
     justify-content: center;
   }
   .details-overlay li {
-    font-size: 10px;
+    font-size: 8px;
   }
   .season-btn {
     font-size: 10px;

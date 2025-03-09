@@ -153,7 +153,6 @@ export default function NewRealeses() {
                   backgroundImage: `url(${item.poster_url})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
-                  height: "500px",
                 }}
               >
                 <div className="overlay">
