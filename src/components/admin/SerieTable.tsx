@@ -54,7 +54,7 @@ const FileField = ({ setValue, errors }: FileFieldsProps) => {
 
 
 const SerieUpdate = ({ children, serie }: SerieUpdate) => {
-  const { register, handleSubmit, setValue, formState: { errors }, } = useForm<FormSerie>();
+  const { register, handleSubmit, formState: { errors }, } = useForm<FormSerie>();
   const { alert, handleSerieUpdate } = useSerieActions();
 
   const onSubmit = (payload: FormSerie) => {
@@ -67,16 +67,15 @@ const SerieUpdate = ({ children, serie }: SerieUpdate) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <SerieUpdateField label="Title" payloadKey="title" fetchKey="title" register={register} errors={errors} serie={serie} />
           <SerieGenreUpdateField register={register} errors={errors} document={serie} />
+          <Field label="Is On Going">
+            <input {...register("isOnGoing")} type="checkbox" id="signal1" defaultChecked={serie.isOnGoing} />
+          </Field>
           <SerieUpdateField label="Rating" payloadKey="rating" fetchKey="rating" register={register} errors={errors} serie={serie} />
           <SerieUpdateField label="Description" payloadKey="description" fetchKey="description" register={register} errors={errors} serie={serie} />
           <SerieUpdateField label="Released Date" payloadKey="releasedDate" fetchKey="releasedDate" register={register} errors={errors} serie={serie} />
           <SerieUpdateField label="Translator" payloadKey="translator" fetchKey="translator" register={register} errors={errors} serie={serie} />
           <SerieUpdateField label="Encoder" payloadKey="encoder" fetchKey="encoder" register={register} errors={errors} serie={serie} />
           <SerieUpdateField label="Studio" payloadKey="studio" fetchKey="studio" register={register} errors={errors} serie={serie} />
-          <FileField setValue={setValue} errors={errors} />
-          <Field label="Is On Going">
-            <input {...register("isOnGoing")} type="checkbox" id="signal1" defaultChecked={serie.isOnGoing} />
-          </Field>
           {alert && <AlertMessage message={alert} />}
           <DialogFooter>
             <Button type="submit">Update</Button>
@@ -91,7 +90,7 @@ const SerieAction = ({ serie }: { serie: FetchSeries }) => {
   const { accessToken, handleSerieDelete } = useSerieActions();
 
   const onClick = () => {
-    handleSerieDelete(serie._id);
+    handleSerieDelete(serie);
   };
 
   return (
@@ -101,9 +100,11 @@ const SerieAction = ({ serie }: { serie: FetchSeries }) => {
           <SerieUpdate serie={serie}>
             Edit
           </SerieUpdate>
-          <Button className="button-action red" onClick={onClick} >
-            Delete
-          </Button>
+          {serie.seasons.length === 0 &&
+            <Button className="button-action red" onClick={onClick} >
+              Delete
+            </Button>
+          }
         </HStack>
       ) : (
         <HStack>
@@ -174,7 +175,7 @@ export default function SerieTable() {
   return (
     <>
       {series &&
-        <Table.ScrollArea height={series?.length ? "560px" : "auto"}>
+        <Table.ScrollArea height={series.length ? "560px" : "auto"}>
           <TableRoot stickyHeader>
             <TableHeader>
               <TableRow>
@@ -218,6 +219,8 @@ export default function SerieTable() {
           </TableRoot>
         </Table.ScrollArea>
       }
+
+      {series.length === 0 && (<Text fontSize="6xl" textAlign="center" mt="20vh">No Series Yet</Text>)}
 
       {error && (<Text fontSize="6xl" textAlign="center" mt="20vh">{error}</Text>)}
 

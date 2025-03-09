@@ -7,8 +7,6 @@ import { useParams } from "react-router";
 import { useSingleMovie } from "@/hooks/useMovie";
 import "../CSS/WatchMovie.css";
 
-// Ko Oak Kar ၀င်မရေးရ
-
 export default function WatchMovie() {
   const { id } = useParams();
   const playerRef = useRef<Player | null>(null);

@@ -54,7 +54,6 @@ function useData<T>(endpoint: string, requestConfig?: AxiosRequestConfig, dep?: 
                         }
                         break;
                     default:
-                        console.log(error)
                         setError("Error Status Code 500! An unexpected error occurred");
                 }
                 setLoading(false)

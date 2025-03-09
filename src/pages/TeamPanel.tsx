@@ -7,12 +7,16 @@ import { DialogBody, DialogCloseTrigger, DialogContent, DialogHeader, DialogRoot
 
 import { useUser, useUserActions, FormUser, FetchUser, schemaUser, userQuery, } from "@/hooks/useUser";
 import { useUserStore } from "@/context/useUserStore";
+import { useRole } from "@/hooks/useRole";
 import AlertMessage from "@/components/global/AlertMessage";
 import MultipleSelector from "@/components/global/MultipleSelector";
 import AdminNavLink from "@/components/global/AdminNavLink";
 import AdminSearchInput from "@/components/admin/AdminSearchInput";
-
+import DarkMode from "@/components/DarkMode";
+import AddRole from "@/components/global/AddRole";
+import RoleUpdateField from "@/components/global/RoleUpdateField";
 // USER ACTION AND LIST
+
 const UserUpdateForm = ({ user }: { user: FetchUser }) => {
   const { register, handleSubmit, formState: { errors }, } = useForm<FetchUser>();
   const { alert, handleUpdate } = useUserActions();
@@ -87,6 +91,45 @@ const UserUpdate = ({ children, user, }: { children: React.ReactNode; user: Fetc
   );
 };
 
+const UpdateUserRole = ({ children, user, }: { children: React.ReactNode; user: FetchUser }) => {
+  const { register, handleSubmit, formState: { errors }, } = useForm<FormUser>();
+  const { alert, handleUpdate } = useUserActions();
+  const ref = useRef<HTMLInputElement>(null);
+
+  const onSubmit = (payload: FormUser) => {
+    handleUpdate(payload, user._id);
+  };
+
+  return (
+    <DialogRoot initialFocusEl={() => ref.current} scrollBehavior="inside" placement={"top"} size={"lg"}>
+      <DialogTrigger asChild>
+        <Button variant="plain" _hover={{ color: "cyan" }} color="blue">
+          {children}
+        </Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogCloseTrigger />
+        <DialogHeader>
+          <DialogTitle>Assing Role</DialogTitle>
+          <DialogCloseTrigger />
+        </DialogHeader>
+        <DialogBody>
+          {alert && <AlertMessage message={alert} />}
+
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Fieldset.Root>
+              <RoleUpdateField register={register} errors={errors} document={user} />
+              <DialogFooter>
+                <Button type="submit">Assign</Button>
+              </DialogFooter>
+            </Fieldset.Root>
+          </form>
+        </DialogBody>
+      </DialogContent>
+    </DialogRoot>
+  )
+}
+
 const UserAction = ({ user }: { user: FetchUser }) => {
   const { accessToken, handleDelete } = useUserActions();
 
@@ -100,6 +143,7 @@ const UserAction = ({ user }: { user: FetchUser }) => {
       {accessToken ? (
         <HStack>
           <UserUpdate user={user}>Edit</UserUpdate>
+          <UpdateUserRole user={user}>Role</UpdateUserRole>
           <Button variant="plain" _hover={{ color: "cyan" }} color="red" onClick={onClick} >
             Delete
           </Button>
@@ -140,7 +184,7 @@ const UserList = ({ userQuery }: { userQuery: userQuery }) => {
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.email}</TableCell>
                 <TableCell>{user.phone}</TableCell>
-                <TableCell>{user.role}</TableCell>
+                <TableCell>{user.role.title}</TableCell>
                 <TableCell>
                   <UserAction user={user} />
                 </TableCell>
@@ -313,13 +357,7 @@ export const UserLogin = ({ children }: { children: React.ReactNode }) => {
 function TeamPanel() {
   const { accessToken } = useUserStore();
   const [userQuery, setUserQuery] = useState<userQuery>({} as userQuery);
-
-  const users = [
-    { _id: "admin", role: "Admin" },
-    { _id: "user", role: "User" },
-    { _id: "editor", role: "Editor" },
-    { _id: "moderator", role: "Moderator" },
-  ];
+  const { data: roles } = useRole();
 
   return (
     <>
@@ -333,10 +371,14 @@ function TeamPanel() {
 
           {/* SORT SEARCH FILTERS */}
           <MultipleSelector
-            labelName="role"
+            labelName="title"
             placeholderName="Roles"
-            data={users}
-            onValueChange={(selected: any) => setUserQuery({ ...userQuery, roles: selected })}
+            data={roles}
+            onValueChange={(selected: any) => {
+              console.log(selected)
+              setUserQuery({ ...userQuery, roleIds: selected })
+            }
+            }
           />
 
           <AdminSearchInput
@@ -345,7 +387,10 @@ function TeamPanel() {
           />
 
           {/* ADD MEMBERS */}
-          <AddUser>Add Team Member</AddUser>
+          <AddUser>Member Register</AddUser>
+
+          {/* ROLES */}
+          <AddRole />
 
           {/* LOGIN LOGOUT */}
           {accessToken ? (
@@ -354,6 +399,7 @@ function TeamPanel() {
             <UserLogin>Log In</UserLogin>
           )}
 
+          <DarkMode />
         </Stack>
       </GridItem>
 
