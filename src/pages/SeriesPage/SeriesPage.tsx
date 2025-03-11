@@ -2,11 +2,13 @@ import "../CSS/SeriesPage.css";
 import { useSeries } from "@/hooks/useSerie";
 import useNavDetail from "@/hooks/useNavDetail";
 import { genreLi } from "@/components/global/genreLi";
+import { useSerieStore } from "@/context/useSerieStore";
 
 // Ko Oak Kar ၀င်မရေးရ
 
 export default function SeriesPage() {
-  const { data: series } = useSeries();
+  const { serieQuery } = useSerieStore();
+  const { data: series } = useSeries(serieQuery);
   const { navSerieDetail } = useNavDetail();
 
   return (
