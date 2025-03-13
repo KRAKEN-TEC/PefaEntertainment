@@ -9,6 +9,7 @@ export default function MoviesPage() {
     useMovieStore();
   const { data: movies } = useMovie(movieQuery);
   const { navMovieDetail } = useNavDetail();
+
   useEffect(() => {
     setMovieStore(movies as FetchMovies[]);
   }, [movies]);
@@ -48,6 +49,7 @@ export default function MoviesPage() {
 
     return () => clearTimeout(loadDataTimeout);
   }, [isFetching, movieQuery]);
+
   return (
     <div className="MP-section">
       <h2>Movies</h2>
