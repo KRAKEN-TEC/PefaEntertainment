@@ -2,11 +2,13 @@ import { FetchMovies, useMovie } from "@/hooks/useMovie";
 import { genreLi } from "../global/genreLi";
 import "../CSS/Movies.css";
 import useNavDetail from "@/hooks/useNavDetail";
+import { useMovieStore } from "@/context/useMovieStore";
 
 // Ko Oak Kar ၀င်မရေးရ
 
 export default function Movies() {
-  const { data: movies } = useMovie();
+  const { movieQuery } = useMovieStore();
+  const { data: movies } = useMovie(movieQuery);
   const { nav, navMovieDetail } = useNavDetail();
 
   const getRandomMovies = (moviesStore: FetchMovies[], count = 3) => {

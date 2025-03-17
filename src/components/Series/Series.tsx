@@ -2,11 +2,11 @@ import { FetchSeries, useSeries } from "@/hooks/useSerie";
 import "../CSS/Series.css";
 import useNavDetail from "@/hooks/useNavDetail";
 import { genreLi } from "../global/genreLi";
-
-// Ko Oak Kar ၀င်မရေးရ
+import { useSerieStore } from "@/context/useSerieStore";
 
 export default function Series() {
-  const { data: series } = useSeries();
+  const { serieQuery } = useSerieStore();
+  const { data: series } = useSeries(serieQuery);
   const { nav, navSerieDetail } = useNavDetail();
 
   const getRandomSeries = (seriesStore: FetchSeries[], count = 3) => {
@@ -37,9 +37,10 @@ export default function Series() {
                     <h3>{s.title}</h3>
                     <span>{s.description}</span>
                     <ul>
-                      {s.genres.map((g, index) => (
-                        index < 3 && genreLi(g.name.toUpperCase(), g._id)
-                      ))}
+                      {s.genres.map(
+                        (g, index) =>
+                          index < 3 && genreLi(g.name.toUpperCase(), g._id)
+                      )}
                     </ul>
                   </div>
                 </div>

@@ -12,6 +12,8 @@ export default function WatchMovie() {
   const playerRef = useRef<Player | null>(null);
   const { data: movie } = useSingleMovie(id);
 
+  const adsUrl = "https://diva4ci7teqce.cloudfront.net/pefaAds.mp4";
+
   const handlePlayerReady = (player: Player) => {
     playerRef.current = player;
 

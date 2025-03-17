@@ -26,6 +26,11 @@
   align-items: center;
 }
 
+.dark {
+  background-color: rgb(19, 18, 18);
+  color: white;
+}
+
 /* Search Box */
 .searchBox input {
   border: 2px solid #e85448;
@@ -105,4 +110,5 @@
   .modeButton {
     padding: 8px;
   }
+  
 }
