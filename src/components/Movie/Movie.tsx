@@ -3,18 +3,21 @@ import { genreLi } from "../global/genreLi";
 import "../CSS/Movies.css";
 import useNavDetail from "@/hooks/useNavDetail";
 import { useMovieStore } from "@/context/useMovieStore";
+import { useEffect } from "react";
 
 // Ko Oak Kar ၀င်မရေးရ
 
 export default function Movies() {
-  const { movieQuery } = useMovieStore();
+  const { movieQuery, setMovieQuery } = useMovieStore();
   const { data: movies } = useMovie(movieQuery);
   const { nav, navMovieDetail } = useNavDetail();
-
   const getRandomMovies = (moviesStore: FetchMovies[], count = 3) => {
     return moviesStore.sort(() => Math.random() - 0.5).slice(0, count);
   };
 
+  useEffect(() => {
+    setMovieQuery({ ...movieQuery, page: 0, search: "" });
+  }, []);
   const randomMovies = getRandomMovies(movies);
 
   return (

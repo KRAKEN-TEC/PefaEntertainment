@@ -1,5 +1,5 @@
 import { FieldValues, useForm } from "react-hook-form";
-import "@/components/CSS/NavBar.css"
+import "@/components/CSS/NavBar.css";
 
 interface Props {
   onSubmit: (payload: FieldValues) => void;
@@ -14,9 +14,9 @@ function SearchInput({ onSubmit, placeholderName }: Props) {
       <input
         {...register("searchName")}
         placeholder={`Search ${placeholderName} ... `}
-      >
-      </input>
-    </form >
+      ></input>
+      <button onClick={handleSubmit(onSubmit)}>Click</button>
+    </form>
   );
 }
 
