@@ -1,11 +1,12 @@
 import Movies from "@/components/Movie/Movie";
 import NewRealeses from "@/components/NewRealeses";
 import Series from "@/components/Series/Series";
+import "./CSS/Home.css";
 
 function Home() {
   return (
     <>
-      <div className="home-container">
+      <div>
         <NewRealeses />
         <Movies />
         <Series />

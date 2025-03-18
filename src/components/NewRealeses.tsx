@@ -10,8 +10,7 @@ import { FetchMovies, useMovie } from "@/hooks/useMovie";
 import { FetchSeries, useSeries } from "@/hooks/useSerie";
 import "./CSS/NewRealses.css";
 import ButtonWithSVGIcon from "./ui/Global/ButtonWithSvgIcon";
-
-// Ko Oak Kar ၀င်မရေးရ
+import { useThemeStore } from "@/context/useThemeStore";
 
 export default function NewRealeses() {
   const NR_movie_container = useRef<HTMLDivElement | null>(null);
@@ -51,8 +50,10 @@ export default function NewRealeses() {
   const displayedData =
     selectedCategory === "movies" ? moviesStore : seriesStore;
 
+  const { dark } = useThemeStore();
+
   return (
-    <div className="NR-movie-section">
+    <div className={`NR-movie-section ${dark === true ? "light" : "dark"}`}>
       <div className="NR-heading">
         <h2>New Releases</h2>
 
@@ -153,7 +154,6 @@ export default function NewRealeses() {
                   backgroundImage: `url(${item.poster_url})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
-                  height: "500px",
                 }}
               >
                 <div className="overlay">

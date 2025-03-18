@@ -1,21 +1,9 @@
 import "../CSS/WatchingBox.css";
-import { useUserStore } from "@/context/useUserStore";
-import { useState } from "react";
 import { useNavigate } from "react-router";
-import download from "../../assets/download.svg";
+import Download from "../Download";
 
 export default function WatchingBox({ detailData }: { detailData?: any }) {
-  const [showPopup, setShowPopup] = useState(false);
-  const { accessToken } = useUserStore();
   const navigate = useNavigate();
-
-  const handleDownloadClick = () => {
-    if (!accessToken) {
-      setShowPopup(true);
-    } else {
-      console.log("Download");
-    }
-  };
 
   const handleVideoNav = () => {
     if (detailData.episodeNumber) {
@@ -26,7 +14,7 @@ export default function WatchingBox({ detailData }: { detailData?: any }) {
   };
 
   return (
-    <div className="episode-box" key={detailData?._id} >
+    <div className="episode-box" key={detailData?._id}>
       <img
         src={detailData?.poster_url}
         alt="Episode Thumbnail"
@@ -38,27 +26,8 @@ export default function WatchingBox({ detailData }: { detailData?: any }) {
           <h3>{detailData?.title}</h3>
           <p className="episode-description">{detailData?.description}</p>
         </div>
-        <button className="download-btn" onClick={handleDownloadClick}>
-          <img src={download} />
-        </button>
-        {/* Popup Modal for Login Prompt */}
-        {showPopup && (
-          <div className="popup">
-            <div className="popup-content">
-              <h3>Login Required</h3>
-              <p>Please <a>Signup</a> to Downloads</p>
-              <button
-                className="login-btn"
-                onClick={() => alert("Redirecting to login...")}
-              >
-                Login
-              </button>
-              <button className="close-btn" onClick={() => setShowPopup(false)}>
-                Close
-              </button>
-            </div>
-          </div>
-        )}
+
+        <Download detailData={detailData} />
       </div>
     </div>
   );

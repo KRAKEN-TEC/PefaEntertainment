@@ -5,8 +5,6 @@ import { genreLi } from "../global/genreLi";
 import { useSerieStore } from "@/context/useSerieStore";
 import { useEffect } from "react";
 
-// Ko Oak Kar ၀င်မရေးရ
-
 export default function Series() {
   const { serieQuery, setSerieQuery } = useSerieStore();
   const { data: series } = useSeries(serieQuery);

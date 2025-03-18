@@ -23,7 +23,6 @@ export default function MovieDetail() {
               backgroundSize: "cover",
               backgroundPosition: "center",
               width: "100%",
-              height: "500px",
             }}
           >
             <div className="details-overlay">

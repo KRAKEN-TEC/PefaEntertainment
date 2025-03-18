@@ -12,6 +12,8 @@
 
 .details-nav p {
     font-size: medium;
+    color: white;
+    
 }
 
 .details-nav{
@@ -19,4 +21,17 @@
     z-index: 1;
     position: fixed;
     top: 0;
+}
+
+@media screen and (max-width: 768px) {
+    .details-nav p{
+        font-size: small;
+    }
+}
+
+@media  screen and (max-width: 480px) {
+    .details-nav p{
+        font-size: small;
+    }
+    
 }
