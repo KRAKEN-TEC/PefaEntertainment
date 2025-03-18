@@ -6,6 +6,7 @@ interface SerieQueryStore {
   serieQuery: SerieQuery;
   seriesStore: FetchSeries[];
   setSeriesStore: (series: FetchSeries[]) => void;
+  setSeriesSearchStore: (series: FetchSeries[]) => void;
   setSerieQuery: (query: SerieQuery) => void;
   updateActions: (actions: string[]) => void;
   addAction: (action: string) => void;
@@ -17,7 +18,14 @@ export const useSerieStore = create<SerieQueryStore>((set) => ({
   serieQuery: { page: 0 } as SerieQuery,
   seriesStore: [] as FetchSeries[],
   setSeriesStore(series: FetchSeries[]) {
-    set({ seriesStore: series });
+    set((state) => ({
+      seriesStore: [...state.seriesStore, ...series],
+    }));
+  },
+  setSeriesSearchStore: (series: FetchSeries[]) => {
+    set(() => ({
+      seriesStore: [...series],
+    }));
   },
   setSerieQuery: (query) => set({ serieQuery: query }),
   updateActions: (actions) => {
