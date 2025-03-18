@@ -26,7 +26,7 @@ export default function MoviesPage() {
   }, [movies]);
 
   const [isFetching, setIsFetching] = useState(false);
-  const [debounceTimer, setDebounceTimer] = useState(null);
+  const [debounceTimer, setDebounceTimer] = useState<null | number>(null);
 
   const handleScroll = () => {
     if (isFetching) return;
