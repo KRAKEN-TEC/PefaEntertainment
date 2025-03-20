@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import { useState } from "react";
 import WatchingBox from "@/components/detailData/WatchingBox";
 import "../CSS/DetailPage.css";
+import { useThemeStore } from "@/context/useThemeStore";
 
 // Ko Oak Kar ၀င်မရေးရ
 
@@ -11,9 +12,10 @@ export default function MovieDetail() {
   const { id } = useParams();
   const { data: movie } = useSingleMovie(id);
   const [activeTab, setActiveTab] = useState<string>("overview");
+  const { dark } = useThemeStore();
 
   return (
-    <div className="movie-detail">
+    <div className={`movie-details ${dark === true ? "light" : "dark"}`}>
       {movie && (
         <div className="s-con">
           <div

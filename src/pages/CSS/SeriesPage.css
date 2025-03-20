@@ -6,10 +6,9 @@
 /* Movie Grid Layout */
 .SP-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-auto-flow: row;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   gap: 20px;
-  width: max-content;
+  justify-content: center;
 }
 
 /* Movie Box with 3D Effect */
@@ -70,5 +69,48 @@
   margin: 10px 0 0 20px;
   color: #e85448;
   display: inline-block;
-  padding: 4px 10px;
+  padding: 2px 5px;
+}
+
+/* Tablets (768px and below) */
+@media screen and (max-width: 768px) {
+  .sp-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  }
+
+  .SP-box {
+    width: 100%;
+  }
+
+  .SP-text {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .SP-text ul {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .SP-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+
+  .SP-text {
+    text-align: center;
+    font-size: 10px;
+    flex-direction: row;
+  }
+
+  .SP-text ul, .SP-text li{
+    justify-content: center;
+    font-size: 9px;
+  }
+
+  .SP-title {
+    flex-direction: row;
+    text-align: center;
+    font-size: 10px;
+  }
 }

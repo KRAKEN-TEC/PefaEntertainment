@@ -1,6 +1,7 @@
 import "./CSS/Dropdown.css";
 import { useState } from "react";
 import { Link } from "react-router";
+import { useThemeStore } from "@/context/useThemeStore";
 
 const Dropdown: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -8,6 +9,7 @@ const Dropdown: React.FC = () => {
   const hamburger = () => {
     setIsOpen(!isOpen);
   };
+  const { dark } = useThemeStore();
 
   return (
     <>

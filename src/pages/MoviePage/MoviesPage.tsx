@@ -3,6 +3,7 @@ import "../CSS/MoviesPage.css";
 import useNavDetail from "@/hooks/useNavDetail";
 import { useMovieStore } from "@/context/useMovieStore";
 import { useEffect, useState } from "react";
+import { useThemeStore } from "@/context/useThemeStore";
 
 export default function MoviesPage() {
   const { moviesStore, setMovieStore, movieQuery, setMovieQuery } =
@@ -16,6 +17,8 @@ export default function MoviesPage() {
 
   const [isFetching, setIsFetching] = useState(false);
   const [debounceTimer, setDebounceTimer] = useState(null);
+
+  const { dark } = useThemeStore();
 
   const handleScroll = () => {
     if (isFetching) return;
@@ -51,7 +54,7 @@ export default function MoviesPage() {
   }, [isFetching, movieQuery]);
 
   return (
-    <div className="MP-section">
+    <div className={`MP-section ${dark === true ? "light" : "dark"}`}>
       <h2>Movies</h2>
       <div className="MP-scroll-container">
         <div className="MP-grid">
@@ -68,7 +71,7 @@ export default function MoviesPage() {
                   <span>{movie.description}</span>
                   <ul>
                     {movie.genres.map((genre) => (
-                      <li key={genre._id}>{genre.name}</li>
+                      <li key={genre._id}>{genre.name.toUpperCase()}</li>
                     ))}
                   </ul>
                 </div>
