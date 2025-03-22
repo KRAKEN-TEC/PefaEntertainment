@@ -23,9 +23,8 @@ const Dropdown: React.FC = () => {
       </button>
 
       <div
-        className={`sidebar ${isOpen ? "sidebar-open" : ""} ${
-          dark === true ? "" : "darkBackgroundOnly"
-        }`}
+        className={`sidebar ${isOpen ? "sidebar-open" : ""} ${dark === true ? "" : "darkBackgroundOnly"
+          }`}
       >
         <ul
           className={`${dark === true ? "light" : "dark"}`}
@@ -184,7 +183,7 @@ const Dropdown: React.FC = () => {
           <li className="logout">
             <Link to="/">
               <p
-                className={`${dark === true ? "" : "darkTextColor"} textMargin`}
+                className={`textMargin`}
               >
                 Logout
               </p>

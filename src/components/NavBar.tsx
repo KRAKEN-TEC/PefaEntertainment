@@ -11,6 +11,10 @@ interface Props {
 export default function NavBar({ onSearch }: Props) {
   const { dark, setThemeStore } = useThemeStore();
 
+  const darkToBody = () => {
+    document.body.style.backgroundColor = dark === true ? "#131212" : "#fff";
+  }
+
   return (
     <div className={`mainbar ${dark === true ? "light" : "dark"}`}>
       {/* Left Side: Dropdown */}
@@ -29,7 +33,11 @@ export default function NavBar({ onSearch }: Props) {
             onSubmit={(event) => onSearch(event.searchName)}
           />
         </div>
-        <div className="modeButton" onClick={() => setThemeStore(!dark)}>
+        <div className="modeButton" onClick={() => {
+          setThemeStore(!dark)
+          darkToBody()
+        }}>
+
           {dark === true ? (
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -62,6 +70,6 @@ export default function NavBar({ onSearch }: Props) {
           )}
         </div>
       </div>
-    </div>
+    </div >
   );
 }
