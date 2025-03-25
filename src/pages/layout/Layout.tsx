@@ -6,13 +6,19 @@ import { Outlet } from "react-router";
 export default function Layout() {
   const { movieQuery, setMovieQuery } = useMovieStore();
   const { serieQuery, setSerieQuery } = useSerieStore();
-
   return (
     <div>
-      <NavBar onSearch={(search) => {
-        setMovieQuery({ ...movieQuery, search: search })
-        setSerieQuery({ ...serieQuery, search: search })
-      }} />
+      <NavBar
+        onSearch={(search) => {
+          if (search.length > 0) {
+            setMovieQuery({ ...movieQuery, page: 0, search: search });
+            setSerieQuery({ ...serieQuery, page: 0, search: search });
+          } else {
+            setMovieQuery({ ...movieQuery, page: 0, search: "" });
+            setSerieQuery({ ...serieQuery, page: 0, search: "" });
+          }
+        }}
+      />
       <Outlet />
     </div>
   );
