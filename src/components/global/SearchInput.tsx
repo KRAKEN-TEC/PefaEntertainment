@@ -15,7 +15,6 @@ function SearchInput({ onSubmit, placeholderName }: Props) {
         {...register("searchName")}
         placeholder={`Search ${placeholderName} ... `}
       ></input>
-      <button onClick={handleSubmit(onSubmit)}>Click</button>
     </form>
   );
 }
