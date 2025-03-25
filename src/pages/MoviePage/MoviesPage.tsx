@@ -6,17 +6,28 @@ import { useEffect, useState } from "react";
 import { useThemeStore } from "@/context/useThemeStore";
 
 export default function MoviesPage() {
-  const { moviesStore, setMovieStore, movieQuery, setMovieQuery } =
-    useMovieStore();
+  const {
+    moviesStore,
+    setMovieStore,
+    movieQuery,
+    setMovieQuery,
+    setMovieSearchStore,
+  } = useMovieStore();
   const { data: movies } = useMovie(movieQuery);
   const { navMovieDetail } = useNavDetail();
 
   useEffect(() => {
-    setMovieStore(movies as FetchMovies[]);
+    if (movieQuery.page === 0 && movieQuery.search === "") {
+      setMovieSearchStore(movies);
+      return;
+    }
+    movieQuery.search?.length > 0
+      ? setMovieSearchStore(movies)
+      : setMovieStore(movies as FetchMovies[]);
   }, [movies]);
 
   const [isFetching, setIsFetching] = useState(false);
-  const [debounceTimer, setDebounceTimer] = useState(null);
+  const [debounceTimer, setDebounceTimer] = useState<null | number>(null);
 
   const { dark } = useThemeStore();
 

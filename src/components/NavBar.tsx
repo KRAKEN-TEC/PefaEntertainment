@@ -30,7 +30,9 @@ export default function NavBar({ onSearch }: Props) {
         <div>
           <SearchInput
             placeholderName="movies"
-            onSubmit={(event) => onSearch(event.searchName)}
+            onSubmit={(event) => {
+              onSearch(event.searchName);
+            }}
           />
         </div>
         <div className="modeButton" onClick={() => {

@@ -7,6 +7,7 @@ export interface ActionSlice {
   moviesStore: FetchMovies[];
   setMovieQuery: (query: MovieQuery) => void;
   setMovieStore: (movies: FetchMovies[]) => void;
+  setMovieSearchStore: (movies: FetchMovies[]) => void;
   updateActions: (actions: string[]) => void;
   addAction: (action: string) => void;
   removeAction: (action: string) => void;
@@ -18,8 +19,11 @@ export const useMovieStore = create<ActionSlice>((set) => ({
   moviesStore: [] as FetchMovies[],
   setMovieStore: (movies: FetchMovies[]) => {
     set((state) => ({
-      moviesStore: [...state.moviesStore, ...movies], // Combine old and new values
+      moviesStore: [...state.moviesStore, ...movies],
     }));
+  },
+  setMovieSearchStore: (movies: FetchMovies[]) => {
+    set({ moviesStore: [...movies] });
   },
   setMovieQuery: (query) => set({ movieQuery: query }),
   updateActions: (actions) => {
