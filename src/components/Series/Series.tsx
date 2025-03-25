@@ -3,6 +3,7 @@ import "../CSS/Series.css";
 import useNavDetail from "@/hooks/useNavDetail";
 import { genreLi } from "../global/genreLi";
 import { useSerieStore } from "@/context/useSerieStore";
+import { useThemeStore } from "@/context/useThemeStore";
 import { useEffect } from "react";
 
 export default function Series() {
@@ -17,9 +18,10 @@ export default function Series() {
   };
 
   const randomSeries = getRandomSeries(series);
+  const { dark } = useThemeStore();
 
   return (
-    <div className="series-section">
+    <div className={`series-section ${dark === true ? "light" : "dark"}`}>
       <div className="series-title">
         <h2>Series</h2>
         <span onClick={() => nav("series")}>See more</span>

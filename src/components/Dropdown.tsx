@@ -1,6 +1,7 @@
 import "./CSS/Dropdown.css";
 import { useState } from "react";
 import { Link } from "react-router";
+import { useThemeStore } from "@/context/useThemeStore";
 
 const Dropdown: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -8,20 +9,27 @@ const Dropdown: React.FC = () => {
   const hamburger = () => {
     setIsOpen(!isOpen);
   };
+  const { dark } = useThemeStore();
 
   return (
     <>
       <button
-        className={`hamburgerContainer ${isOpen ? "isopened" : ""}`}
+        className={`hamburgerContainer ${isOpen ? "isopened" : ""} `}
         onClick={() => hamburger()}
       >
-        <div className={`line1 ${isOpen ? "degreeLine1" : ""}`}></div>
+        <div className={`line1 ${isOpen ? "degreeLine1" : ""} `}></div>
         <div className={`line2 ${isOpen ? "hideLine2" : ""}`}></div>
         <div className={`line3 ${isOpen ? "degreeLine3" : ""}`}></div>
       </button>
 
-      <div className={`sidebar ${isOpen ? "sidebar-open" : ""}`}>
-        <ul onClick={() => hamburger()}>
+      <div
+        className={`sidebar ${isOpen ? "sidebar-open" : ""} ${dark === true ? "" : "darkBackgroundOnly"
+          }`}
+      >
+        <ul
+          className={`${dark === true ? "light" : "dark"}`}
+          onClick={() => hamburger()}
+        >
           <li>
             <svg
               width="15"
@@ -35,7 +43,14 @@ const Dropdown: React.FC = () => {
                 fill="#E85448"
               />
             </svg>
-            <Link to="/">Home</Link>{" "}
+            <Link to="/">
+              <p
+                className={`${dark === true ? "" : "darkTextColor"} textMargin`}
+              >
+                {" "}
+                Home
+              </p>
+            </Link>{" "}
           </li>
           <li>
             <svg
@@ -50,7 +65,13 @@ const Dropdown: React.FC = () => {
                 fill="#E85448"
               />
             </svg>{" "}
-            <Link to="search">Search</Link>{" "}
+            <Link to="search">
+              <p
+                className={`${dark === true ? "" : "darkTextColor"} textMargin`}
+              >
+                Search
+              </p>
+            </Link>{" "}
           </li>
           <li>
             <svg
@@ -81,7 +102,13 @@ const Dropdown: React.FC = () => {
                 fill="#E85448"
               />
             </svg>{" "}
-            <Link to="aboutus"> About us</Link>
+            <Link to="aboutus">
+              <p
+                className={`${dark === true ? "" : "darkTextColor"} textMargin`}
+              >
+                About us
+              </p>
+            </Link>
           </li>
           <li>
             <svg
@@ -100,7 +127,13 @@ const Dropdown: React.FC = () => {
                 fill="#E85448"
               />
             </svg>{" "}
-            <Link to="howtodownload">How to download?</Link>
+            <Link to="howtodownload">
+              <p
+                className={`${dark === true ? "" : "darkTextColor"} textMargin`}
+              >
+                How to download?
+              </p>
+            </Link>
           </li>
           <li>
             <svg
@@ -117,29 +150,71 @@ const Dropdown: React.FC = () => {
                 fill="#E85448"
               />
             </svg>{" "}
-            <Link to="profile">Profile</Link>
+            <Link to="profile">
+              <p
+                className={`${dark === true ? "" : "darkTextColor"} textMargin`}
+              >
+                Profile
+              </p>
+            </Link>
           </li>
 
           <hr />
           <li>
             {" "}
-            <Link to="login">Login</Link>{" "}
+            <Link to="login">
+              <p
+                className={`${dark === true ? "" : "darkTextColor"} textMargin`}
+              >
+                Login
+              </p>
+            </Link>{" "}
           </li>
           <li>
             {" "}
-            <Link to="register">Register</Link>
+            <Link to="register">
+              <p
+                className={`${dark === true ? "" : "darkTextColor"} textMargin`}
+              >
+                Register
+              </p>
+            </Link>
           </li>
           <li className="logout">
-            <Link to="/">Logout</Link>
+            <Link to="/">
+              <p
+                className={`textMargin`}
+              >
+                Logout
+              </p>
+            </Link>
           </li>
           <li>
-            <Link to="admin/team-panel">Admin Panel</Link>
+            <Link to="admin/team-panel">
+              <p
+                className={`${dark === true ? "" : "darkTextColor"} textMargin`}
+              >
+                Admin Panel
+              </p>
+            </Link>
           </li>
           <li>
-            <Link to="test-series">Test Series</Link>
+            <Link to="test-series">
+              <p
+                className={`${dark === true ? "" : "darkTextColor"} textMargin`}
+              >
+                Test Series
+              </p>
+            </Link>
           </li>
           <li>
-            <Link to="test-movies">Test Movies</Link>
+            <Link to="test-movies">
+              <p
+                className={`${dark === true ? "" : "darkTextColor"} textMargin`}
+              >
+                Test Movies
+              </p>
+            </Link>
           </li>
         </ul>
       </div>

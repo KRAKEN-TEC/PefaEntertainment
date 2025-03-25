@@ -3,6 +3,7 @@ import { genreLi } from "../global/genreLi";
 import "../CSS/Movies.css";
 import useNavDetail from "@/hooks/useNavDetail";
 import { useMovieStore } from "@/context/useMovieStore";
+import { useThemeStore } from "@/context/useThemeStore";
 import { useEffect } from "react";
 
 // Ko Oak Kar ၀င်မရေးရ
@@ -19,9 +20,10 @@ export default function Movies() {
     setMovieQuery({ ...movieQuery, page: 0, search: "" });
   }, []);
   const randomMovies = getRandomMovies(movies);
+  const { dark } = useThemeStore();
 
   return (
-    <div className="movie-section">
+    <div className={`movie-section ${dark === true ? "light" : "dark"}`}>
       <div className="movie-title">
         <h2>Movies</h2>
         <span onClick={() => nav("movies")}>See more</span>

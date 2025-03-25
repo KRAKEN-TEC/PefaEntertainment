@@ -4,6 +4,7 @@ import useNavDetail from "@/hooks/useNavDetail";
 import { genreLi } from "@/components/global/genreLi";
 import { useSerieStore } from "@/context/useSerieStore";
 import { useEffect, useState } from "react";
+import { useThemeStore } from "@/context/useThemeStore";
 
 export default function SeriesPage() {
   const {
@@ -62,8 +63,10 @@ export default function SeriesPage() {
     return () => clearTimeout(loadDataTimeout);
   }, [isFetching, serieQuery]);
 
+  const { dark } = useThemeStore();
+
   return (
-    <div className="SP-section">
+    <div className={`SP-section ${dark === true ? "light" : "dark"}`}>
       <h2>Series</h2>
       <div className="SP-scroll-container"></div>
       <div className="SP-grid">

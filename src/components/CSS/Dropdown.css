@@ -9,6 +9,19 @@
   background: none;
 }
 
+.darkBackgroundOnly {
+  background-color: rgb(19, 18, 18) !important;
+}
+
+.darkTextColor {
+  color: white;
+  margin: 0;
+}
+
+.textMargin {
+  margin: 0;
+}
+
 /* Hamburger Lines */
 .line1,
 .line2,
