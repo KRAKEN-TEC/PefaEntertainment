@@ -2,9 +2,11 @@ import { FetchSeries, useSeries } from "@/hooks/useSerie";
 import "../CSS/Series.css";
 import useNavDetail from "@/hooks/useNavDetail";
 import { genreLi } from "../global/genreLi";
+import { useSerieStore } from "@/context/useSerieStore";
 
 export default function Series() {
-  const { data: series } = useSeries();
+  const { serieQuery } = useSerieStore();
+  const { data: series } = useSeries(serieQuery);
   const { nav, navSerieDetail } = useNavDetail();
 
   const getRandomSeries = (seriesStore: FetchSeries[], count = 3) => {
