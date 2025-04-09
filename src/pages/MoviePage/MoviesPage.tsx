@@ -64,6 +64,8 @@ export default function MoviesPage() {
     return () => clearTimeout(loadDataTimeout);
   }, [isFetching, movieQuery]);
 
+  console.log(movieQuery);
+
   return (
     <div className={`MP-section ${dark === true ? "light" : "dark"}`}>
       <h2>Movies</h2>

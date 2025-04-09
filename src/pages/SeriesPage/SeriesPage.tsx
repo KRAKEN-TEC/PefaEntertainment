@@ -63,7 +63,11 @@ export default function SeriesPage() {
     return () => clearTimeout(loadDataTimeout);
   }, [isFetching, serieQuery]);
 
+<<<<<<< HEAD
+  console.log(serieQuery);
+=======
   const { dark } = useThemeStore();
+>>>>>>> 2c1179bf06d62ce61bc88e1ba6450c477153b66c
 
   return (
     <div className={`SP-section ${dark === true ? "light" : "dark"}`}>
