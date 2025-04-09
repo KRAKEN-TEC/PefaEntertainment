@@ -101,6 +101,10 @@ li svg {
   font-weight: bold;
 }
 
+.selected {
+  color: red;
+}
+
 /* ========== Responsive Design ========== */
 
 /* Tablets (768px and below) */

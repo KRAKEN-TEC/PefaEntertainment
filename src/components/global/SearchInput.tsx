@@ -7,14 +7,19 @@ interface Props {
 }
 
 function SearchInput({ onSubmit, placeholderName }: Props) {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
+
+  const handleFormSubmit = (data: FieldValues) => {
+    onSubmit(data);
+    reset({ searchName: "" });
+  };
 
   return (
-    <form className="searchBox" onSubmit={handleSubmit(onSubmit)}>
+    <form className="searchBox" onSubmit={handleSubmit(handleFormSubmit)}>
       <input
         {...register("searchName")}
         placeholder={`Search ${placeholderName} ... `}
-      ></input>
+      />
     </form>
   );
 }
