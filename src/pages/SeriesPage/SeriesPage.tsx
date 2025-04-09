@@ -51,6 +51,8 @@ export default function SeriesPage() {
     return () => clearTimeout(loadDataTimeout);
   }, [isFetching, serieQuery]);
 
+  console.log(serieQuery);
+
   return (
     <div className="SP-section">
       <h2>Series</h2>
