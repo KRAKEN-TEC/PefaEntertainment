@@ -55,7 +55,7 @@ export default function NewRealeses() {
   return (
     <div className={`NR-movie-section ${dark === true ? "light" : "dark"}`}>
       <div className="NR-heading">
-        <h2>New Releases</h2>
+        <h2 style={{ userSelect: "none" }}>New Releases</h2>
 
         {/* Category Filter Buttons */}
         <div className="filter-buttons">
@@ -154,7 +154,6 @@ export default function NewRealeses() {
                   backgroundImage: `url(${item.poster_url})`,
                   backgroundSize: "cover",
                   backgroundPosition: "center",
-                  height: "500px",
                 }}
               >
                 <div className="overlay">

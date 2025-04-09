@@ -4,19 +4,31 @@ import useNavDetail from "@/hooks/useNavDetail";
 import { genreLi } from "@/components/global/genreLi";
 import { useSerieStore } from "@/context/useSerieStore";
 import { useEffect, useState } from "react";
+import { useThemeStore } from "@/context/useThemeStore";
 
 export default function SeriesPage() {
-  const { serieQuery, setSerieQuery, seriesStore, setSeriesStore } =
-    useSerieStore();
+  const {
+    serieQuery,
+    setSerieQuery,
+    seriesStore,
+    setSeriesStore,
+    setSeriesSearchStore,
+  } = useSerieStore();
   const { data: series } = useSeries(serieQuery);
   const { navSerieDetail } = useNavDetail();
 
   useEffect(() => {
-    setSeriesStore(series as FetchSeries[]);
+    if (serieQuery.page === 0 && serieQuery.search === "") {
+      setSeriesSearchStore(series);
+      return;
+    }
+    serieQuery.search?.length > 0
+      ? setSeriesSearchStore(series)
+      : setSeriesStore(series as FetchSeries[]);
   }, [series]);
-
+  console.log(seriesStore);
   const [isFetching, setIsFetching] = useState(false);
-  const [debounceTimer, setDebounceTimer] = useState(null);
+  const [debounceTimer, setDebounceTimer] = useState<null | number>(null);
 
   const handleScroll = () => {
     if (isFetching) return;
@@ -51,18 +63,23 @@ export default function SeriesPage() {
     return () => clearTimeout(loadDataTimeout);
   }, [isFetching, serieQuery]);
 
+<<<<<<< HEAD
   console.log(serieQuery);
+=======
+  const { dark } = useThemeStore();
+>>>>>>> 2c1179bf06d62ce61bc88e1ba6450c477153b66c
 
   return (
-    <div className="SP-section">
+    <div className={`SP-section ${dark === true ? "light" : "dark"}`}>
       <h2>Series</h2>
       <div className="SP-scroll-container"></div>
       <div className="SP-grid">
         {seriesStore &&
-          seriesStore.map((serie) => (
+          seriesStore.length > 0 &&
+          seriesStore.map((serie, index) => (
             <div
               className="SP-box"
-              key={serie._id}
+              key={index}
               onClick={() => navSerieDetail(serie.slug)}
             >
               <img src={serie.poster_url} />

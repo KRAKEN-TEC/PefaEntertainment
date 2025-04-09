@@ -3,6 +3,7 @@ import { useSingleSerie } from "@/hooks/useSerie";
 import { useState } from "react";
 import Overview from "@/components/detailData/Overview";
 import "../CSS/DetailPage.css";
+import { useThemeStore } from "@/context/useThemeStore";
 
 export default function SeriesDetail() {
   const { serieSlug } = useParams();
@@ -29,10 +30,11 @@ export default function SeriesDetail() {
     setActiveSeason(seasonNumber);
     navigate(`/series/${serieSlug}/seasons/${seasonNumber}/episodes`);
   };
+  const { dark } = useThemeStore();
 
   return (
     <>
-      <div className="serie-detail">
+      <div className={`series-details ${dark === true ? "light" : "dark"}`}>
         {serie && (
           <>
             <div className="s-con">
@@ -43,7 +45,6 @@ export default function SeriesDetail() {
                   backgroundSize: "cover",
                   backgroundPosition: "center",
                   width: "100%",
-                  height: "500px",
                 }}
               >
                 <div className="details-overlay">
@@ -73,9 +74,8 @@ export default function SeriesDetail() {
                   <div className="seasons-container">
                     {serie.seasons.map((s) => (
                       <button
-                        className={`season-btn ${
-                          activeSeason === s.seasonNumber ? "active" : ""
-                        }`}
+                        className={`season-btn ${activeSeason === s.seasonNumber ? "active" : ""
+                          }`}
                         key={s.seasonNumber}
                         onClick={() => handleSeasonClick(s.seasonNumber)}
                       >

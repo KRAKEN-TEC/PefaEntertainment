@@ -15,7 +15,8 @@
 .modeButton {
   border: 2px solid #e85448;
   border-radius: 10px;
-  height: 8px;
+  height: 20px;
+  padding: 10px;
   width: max-content;
   margin: 0 10px; /* Shorthand for left/right margin */
   cursor: pointer;
@@ -110,5 +111,4 @@
   .modeButton {
     padding: 8px;
   }
-  
 }

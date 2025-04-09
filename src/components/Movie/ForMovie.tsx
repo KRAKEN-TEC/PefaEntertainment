@@ -1,6 +1,7 @@
 import "../CSS/ForMovie.css";
 import Download from "../Download";
 
+
 export default function ForMovie({ detailData }: { detailData?: any }) {
   return (
     <div className="movie-container">
