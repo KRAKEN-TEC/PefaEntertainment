@@ -1,8 +1,9 @@
 import "../CSS/AboutUs.css";
-
+import { useThemeStore } from "@/context/useThemeStore";
 export default function AboutUs() {
+  const { dark } = useThemeStore();
   return (
-    <div className="about-container">
+    <div className={`about-container ${dark === true ? "light" : "dark"}`}>
       <section className="about-content">
         <h1>PEFA Entertainment</h1>
         <p>
