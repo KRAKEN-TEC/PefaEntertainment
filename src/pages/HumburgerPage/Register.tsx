@@ -12,7 +12,7 @@ export default function Register() {
     repeatPassword: "",
     agreeTerms: false,
   });
-  const { alert, loading, handleRegister } = useUserActions();
+  const { alert } = useUserActions();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;

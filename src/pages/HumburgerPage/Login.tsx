@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import "../CSS/Login.css";
-import { FetchUser, useUserActions } from "@/hooks/useUser";
+import { useUserActions } from "@/hooks/useUser";
 import logo from "@/assets/PEFA-black.svg";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { handleLogin, alert, loading } = useUserActions();
+  const { handleLogin, alert } = useUserActions();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

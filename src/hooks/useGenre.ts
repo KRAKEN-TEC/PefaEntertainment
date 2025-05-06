@@ -16,7 +16,7 @@ export type FetchGenres = {
 export const schemaGenre = z.object({
     name: z.string()
         .min(3, "Genre name must be at least 3 characters long.")
-        .max(10, "Genre name must not exceed 10 characters.")
+        .max(20, "Genre name must not exceed 20 characters.")
         .regex(/^[a-z]+$/, "Genre name must be only small letters.") // Restricts to lowercase letters only
 });
 

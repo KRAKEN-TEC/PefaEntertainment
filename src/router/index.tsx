@@ -77,14 +77,14 @@ const router = createBrowserRouter([
         path: "series",
         element: <SeriesPage />,
       },
-      {
-        path: "test-series",
-        element: <TestSeries />,
-      },
-      {
-        path: "test-movies",
-        element: <TestMovies />,
-      },
+      // {
+      //   path: "test-series",
+      //   element: <TestSeries />,
+      // },
+      // {
+      //   path: "test-movies",
+      //   element: <TestMovies />,
+      // },
     ],
   },
 

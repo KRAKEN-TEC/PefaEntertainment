@@ -28,9 +28,8 @@ const Dropdown: React.FC = () => {
       </button>
 
       <div
-        className={`sidebar ${isOpen ? "sidebar-open" : ""} ${
-          dark === true ? "" : "darkBackgroundOnly"
-        }`}
+        className={`sidebar ${isOpen ? "sidebar-open" : ""} ${dark === true ? "" : "darkBackgroundOnly"
+          }`}
       >
         <ul
           className={`${dark === true ? "light" : "dark"}`}
@@ -51,9 +50,8 @@ const Dropdown: React.FC = () => {
             </svg>
             <Link to="/" onClick={() => handleSelect("home")}>
               <p
-                className={`${
-                  dark === true ? "" : "darkTextColor"
-                } textMargin ${selected === "home" ? "selected" : ""}`}
+                className={`${dark === true ? "" : "darkTextColor"
+                  } textMargin ${selected === "home" ? "selected" : ""}`}
               >
                 {" "}
                 Home
@@ -112,9 +110,8 @@ const Dropdown: React.FC = () => {
             </svg>{" "}
             <Link to="aboutus" onClick={() => handleSelect("aboutUs")}>
               <p
-                className={`${
-                  dark === true ? "" : "darkTextColor"
-                } textMargin ${selected === "aboutUs" ? "selected" : ""}`}
+                className={`${dark === true ? "" : "darkTextColor"
+                  } textMargin ${selected === "aboutUs" ? "selected" : ""}`}
               >
                 About us
               </p>
@@ -139,9 +136,8 @@ const Dropdown: React.FC = () => {
             </svg>{" "}
             <Link to="howtodownload" onClick={() => handleSelect("download")}>
               <p
-                className={`${
-                  dark === true ? "" : "darkTextColor"
-                } textMargin ${selected === "download" ? "selected" : ""}`}
+                className={`${dark === true ? "" : "darkTextColor"
+                  } textMargin ${selected === "download" ? "selected" : ""}`}
               >
                 How to download?
               </p>
@@ -164,9 +160,8 @@ const Dropdown: React.FC = () => {
             </svg>{" "}
             <Link to="profile" onClick={() => handleSelect("profile")}>
               <p
-                className={`${
-                  dark === true ? "" : "darkTextColor"
-                } textMargin ${selected === "profile" ? "selected" : ""}`}
+                className={`${dark === true ? "" : "darkTextColor"
+                  } textMargin ${selected === "profile" ? "selected" : ""}`}
               >
                 Profile
               </p>
@@ -178,9 +173,8 @@ const Dropdown: React.FC = () => {
             {" "}
             <Link to="login" onClick={() => handleSelect("login")}>
               <p
-                className={`${
-                  dark === true ? "" : "darkTextColor"
-                } textMargin ${selected === "login" ? "selected" : ""}`}
+                className={`${dark === true ? "" : "darkTextColor"
+                  } textMargin ${selected === "login" ? "selected" : ""}`}
               >
                 Login
               </p>
@@ -190,9 +184,8 @@ const Dropdown: React.FC = () => {
             {" "}
             <Link to="register" onClick={() => handleSelect("register")}>
               <p
-                className={`${
-                  dark === true ? "" : "darkTextColor"
-                } textMargin ${selected === "register" ? "selected" : ""}`}
+                className={`${dark === true ? "" : "darkTextColor"
+                  } textMargin ${selected === "register" ? "selected" : ""}`}
               >
                 Register
               </p>
@@ -201,9 +194,8 @@ const Dropdown: React.FC = () => {
           <li>
             <Link to="/" onClick={() => handleSelect("logout")}>
               <p
-                className={`textMargin ${
-                  selected === "logout" ? "selected" : ""
-                }`}
+                className={`textMargin ${selected === "logout" ? "selected" : ""
+                  }`}
               >
                 Logout
               </p>
@@ -212,15 +204,14 @@ const Dropdown: React.FC = () => {
           <li>
             <Link to="admin/team-panel" onClick={() => handleSelect("admin")}>
               <p
-                className={`${
-                  dark === true ? "" : "darkTextColor"
-                } textMargin ${selected === "admin" ? "selected" : ""}`}
+                className={`${dark === true ? "" : "darkTextColor"
+                  } textMargin ${selected === "admin" ? "selected" : ""}`}
               >
                 Admin Panel
               </p>
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link to="test-series">
               <p
                 className={`${dark === true ? "" : "darkTextColor"} textMargin`}
@@ -237,7 +228,7 @@ const Dropdown: React.FC = () => {
                 Test Movies
               </p>
             </Link>
-          </li>
+          </li> */}
         </ul>
       </div>
     </>
