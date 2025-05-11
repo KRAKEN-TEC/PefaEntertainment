@@ -4,6 +4,7 @@ import { useState } from "react";
 import Overview from "@/components/detailData/Overview";
 import "../CSS/DetailPage.css";
 import { useThemeStore } from "@/context/useThemeStore";
+import { Color } from "@chakra-ui/react";
 
 export default function SeriesDetail() {
   const { serieSlug } = useParams();
@@ -56,8 +57,10 @@ export default function SeriesDetail() {
                         <li key={genre.name}>{genre.name.toUpperCase()}</li>
                       ))}
                     </ul>
-                    <span>{serie.rating}</span>
-                    <span>{serie.isOnGoing ? "Yes" : "No"}</span>
+                    <span style={{ color: 'yellow' }}>{serie.rating}</span>
+                    <span style={{ color: serie.isOnGoing ? "green" : "grey" }}>
+                      {serie.isOnGoing ? "On-going" : "Completed"}
+                    </span>
 
                     <div className="tabs">
                       <button onClick={handleOverviewClick}>OVERVIEW</button>
