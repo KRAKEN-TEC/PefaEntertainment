@@ -114,3 +114,12 @@
     font-size: 10px;
   }
 }
+
+@media screen and (max-width: 1440px) {
+  .SP-grid {
+    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+  }
+  .SP-box {
+    width: 100%;
+  }
+}
