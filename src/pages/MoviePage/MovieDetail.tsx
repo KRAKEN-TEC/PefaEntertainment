@@ -37,7 +37,7 @@ export default function MovieDetail() {
                       <li key={genre._id}>{genre.name.toUpperCase()}</li>
                     ))}
                   </ul>
-                  <span style={{ color: 'yellow' }}>{movie.rating}</span>
+                  <span style={{ color: 'yellow' }}>Rating : {movie.rating}</span>
                 </div>
 
                 <div className="tabs">
