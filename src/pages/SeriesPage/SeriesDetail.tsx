@@ -57,7 +57,7 @@ export default function SeriesDetail() {
                         <li key={genre.name}>{genre.name.toUpperCase()}</li>
                       ))}
                     </ul>
-                    <span style={{ color: 'yellow' }}>{serie.rating}</span>
+                    <span style={{ color: 'yellow' }}>Rating : {serie.rating}</span>
                     <span style={{ color: serie.isOnGoing ? "green" : "grey" }}>
                       {serie.isOnGoing ? "On-going" : "Completed"}
                     </span>
