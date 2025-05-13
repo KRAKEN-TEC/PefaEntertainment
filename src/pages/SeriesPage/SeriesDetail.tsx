@@ -4,7 +4,6 @@ import { useState } from "react";
 import Overview from "@/components/detailData/Overview";
 import "../CSS/DetailPage.css";
 import { useThemeStore } from "@/context/useThemeStore";
-import { Color } from "@chakra-ui/react";
 
 export default function SeriesDetail() {
   const { serieSlug } = useParams();

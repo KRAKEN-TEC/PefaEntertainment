@@ -8,8 +8,8 @@ import SeriePanel from "@/pages/SeriePanel";
 import SerieTable from "@/components/admin/SerieTable";
 import SeasonTable from "@/components/admin/SeasonTable";
 import EpisodeTable from "@/components/admin/EpisodeTable";
-import TestSeries from "@/components/admin/TestSeries";
-import TestMovies from "@/components/admin/TestMovies";
+// import TestSeries from "@/components/admin/TestSeries";
+// import TestMovies from "@/components/admin/TestMovies";
 
 import App from "../App";
 import Layout from "@/pages/layout/Layout";
