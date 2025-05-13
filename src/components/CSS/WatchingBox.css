@@ -64,11 +64,13 @@
     background-color: transparent;
     border: none;
     z-index: 100;
+    display: none;
   }
   .download-btn img{
     width: 25px;
     height: 25px;
     cursor: pointer;
+    display: none;
   }
 
   @keyframes fadeIn {
@@ -187,9 +189,11 @@
     }
     .download-btn{
       padding-top: 15px;
+      display: none;
     }
     .download-btn img{
         width: 15px;
         height: 15px;
+        display: none;
     }
 }

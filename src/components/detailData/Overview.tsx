@@ -1,5 +1,6 @@
 import { stringSliceFrontOnly } from "@/helper/GlobalHelper";
 import Tag from "../ui/Global/Tag";
+import "../CSS/Overview.css";
 
 export default function Overview({ anyData }: { anyData?: any }) {
   return (
@@ -14,15 +15,14 @@ export default function Overview({ anyData }: { anyData?: any }) {
       <div className="detail-info">
         <Tag
           txt={
-            "Release Date: " +
+            "Release Date : " +
             stringSliceFrontOnly(anyData?.releasedDate ?? "", "T")
           }
           as="h3"
         />
-        <Tag txt={"Translator: " + (anyData.translator ?? "")} as="h3" />
-        <Tag txt={"Translator: " + (anyData?.translator ?? "")} as="h3" />
-        <Tag txt={"Encoder: " + (anyData?.encoder ?? "")} as="h3" />
-        <Tag txt={"Studio: " + (anyData?.studio ?? "")} as="h3" />
+        <Tag txt={"Translator : " + (anyData.translator ?? "")} as="h3" />
+        <Tag txt={"Encoder : " + (anyData?.encoder ?? "")} as="h3" />
+        <Tag txt={"Studio : " + (anyData?.studio ?? "")} as="h3" />
       </div>
     </div>
   );

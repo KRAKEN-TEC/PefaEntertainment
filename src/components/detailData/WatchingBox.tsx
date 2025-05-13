@@ -27,7 +27,7 @@ export default function WatchingBox({ detailData }: { detailData?: any }) {
           <p className="episode-description">{detailData?.description}</p>
         </div>
 
-        <Download detailData={detailData} />
+        {/* <Download detailData={detailData} /> */}
       </div>
     </div>
   );
