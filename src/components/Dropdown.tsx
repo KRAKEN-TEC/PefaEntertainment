@@ -191,7 +191,7 @@ const Dropdown: React.FC = () => {
               </p>
             </Link>
           </li>
-          <li>
+          <li className="logout">
             <Link to="/" onClick={() => handleSelect("logout")}>
               <p
                 className={`textMargin ${selected === "logout" ? "selected" : ""

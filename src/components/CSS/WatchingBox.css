@@ -71,17 +71,28 @@
     cursor: pointer;
   }
 
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
   .popup {
     position: fixed;
     top: 0px;
     left: 0;
-    width: 100%;
+    width: 170%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
     display: flex;
     align-items: center;
     justify-content: center;
     z-index: 1000;
+    animation: fadeIn 0.7s ease;
   }
   
   .popup-content {
@@ -91,6 +102,8 @@
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     text-align: center;
     width: 200px;
+    height: 100px;
+    animation: fadeIn 0.7s ease;
   }
   
   .popup-content h3 {
@@ -100,11 +113,12 @@
   
   .popup-content p {
     color: #666;
+    font-size: 14px;
   }
   
   .popup-content button {
-    padding: 10px 15px;
-    margin: 10px 5px;
+    padding: 8px 10px;
+    margin: 8px 5px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -112,13 +126,13 @@
   }
   
   .login-btn {
-    background: #007bff;
+    background: #ff4500;
     color: white;
     width: 50%;
   }
   
   .login-btn:hover {
-    background: #0056b3;
+    background: #ff4500;
   }
   
   .close-btn {

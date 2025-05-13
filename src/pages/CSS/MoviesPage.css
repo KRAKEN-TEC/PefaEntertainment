@@ -31,6 +31,7 @@
 .MP-box img {
   width: 100%;
   border-radius: 10px;
+  height: 270px;
 }
 
 .MP-box p {
@@ -47,11 +48,13 @@
 }
 
 .mp-text h3 {
-  display: flex;
   text-align: left;
   margin-left: 10px;
   padding-top: 10px;
-  border: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 300px;
 }
 
 .mp-text span {
