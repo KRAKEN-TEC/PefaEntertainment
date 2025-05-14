@@ -11,7 +11,7 @@ export default function Series() {
   const { data: series } = useSeries(serieQuery);
   const { nav, navSerieDetail } = useNavDetail();
   useEffect(() => {
-    setSerieQuery({ ...serieQuery, page: 0, search: "" });
+    setSerieQuery({ ...serieQuery, page: 1, search: "" });
   }, []);
   const getRandomSeries = (seriesStore: FetchSeries[], count = 3) => {
     return seriesStore.sort(() => Math.random() - 0.5).slice(0, count);

@@ -26,7 +26,7 @@ export default function SeriesPage() {
       ? setSeriesSearchStore(series)
       : setSeriesStore(series as FetchSeries[]);
   }, [series]);
-  console.log(seriesStore);
+
   const [isFetching, setIsFetching] = useState(false);
   const [debounceTimer, setDebounceTimer] = useState<null | number>(null);
 
