@@ -118,7 +118,7 @@
 
 @media screen and (max-width: 1440px) {
   .MP-grid {
-    grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
   }
   .MP-box {
     width: 100%;
