@@ -17,7 +17,7 @@ export default function MoviesPage() {
   const { navMovieDetail } = useNavDetail();
 
   useEffect(() => {
-    if (movieQuery.page === 0 && movieQuery.search === "") {
+    if (movieQuery.page === 1 && movieQuery.search === "") {
       setMovieSearchStore(movies);
       return;
     }
@@ -46,7 +46,7 @@ export default function MoviesPage() {
   useEffect(() => {
     const handle = () => {
       if (debounceTimer) clearTimeout(debounceTimer);
-      setDebounceTimer(setTimeout(handleScroll, 200));
+      setDebounceTimer(setTimeout(handleScroll, 50));
     };
 
     window.addEventListener("scroll", handle);
@@ -63,8 +63,6 @@ export default function MoviesPage() {
 
     return () => clearTimeout(loadDataTimeout);
   }, [isFetching, movieQuery]);
-
-  console.log(movieQuery);
 
   return (
     <div className={`MP-section ${dark === true ? "light" : "dark"}`}>

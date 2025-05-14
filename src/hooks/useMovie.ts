@@ -34,7 +34,7 @@ export const schemaMovie = z.object({
     .number({ invalid_type_error: "Rating must be a number" })
     .min(0)
     .max(10),
-  description: z.string().min(0).max(500).or(z.literal("")).optional(),
+  description: z.string().min(0).max(1500).or(z.literal("")).optional(),
   releasedDate: z
     .string()
     .regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid. Fomat example: YYYY-MM-DD"),

@@ -18,7 +18,7 @@ export default function SeriesPage() {
   const { navSerieDetail } = useNavDetail();
 
   useEffect(() => {
-    if (serieQuery.page === 0 && serieQuery.search === "") {
+    if (serieQuery.page === 1 && serieQuery.search === "") {
       setSeriesSearchStore(series);
       return;
     }
@@ -45,7 +45,7 @@ export default function SeriesPage() {
   useEffect(() => {
     const handle = () => {
       if (debounceTimer) clearTimeout(debounceTimer);
-      setDebounceTimer(setTimeout(handleScroll, 200));
+      setDebounceTimer(setTimeout(handleScroll, 50));
     };
 
     window.addEventListener("scroll", handle);

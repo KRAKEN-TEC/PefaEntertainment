@@ -49,7 +49,7 @@ export interface FetchSeries {
 export const schemaEpisodes = z.object({
     title: z.string().min(1).max(500),
     episodeNumber: z.number({ invalid_type_error: "Episode number must be a number" }).min(1),
-    description: z.string().min(0).max(510).or(z.literal('')).optional(),
+    description: z.string().min(0).max(1500).or(z.literal('')).optional(),
     releasedDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid. Fomat example: YYYY-MM-DD"),
     poster: z
         .instanceof(File)
@@ -75,7 +75,7 @@ export const schemaEpisodes = z.object({
 export const schemaSeasons = z.object({
     title: z.string().min(1).max(500),
     seasonNumber: z.number({ invalid_type_error: "Season number must be a number" }).min(1),
-    description: z.string().min(0).max(510).or(z.literal('')).optional(),
+    description: z.string().min(0).max(1500).or(z.literal('')).optional(),
     poster: z
         .instanceof(File)
         .refine(
@@ -92,7 +92,7 @@ export const schemaSeries = z.object({
     title: z.string().min(1).max(500),
     genreIds: z.array(z.string().min(1)).min(1, { message: "You have to choose at least one genre" }),
     rating: z.number({ invalid_type_error: "Rating must be a number" }).min(0).max(10),
-    description: z.string().min(0).max(510).or(z.literal('')).optional(),
+    description: z.string().min(0).max(1500).or(z.literal('')).optional(),
     releasedDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid. Fomat example: YYYY-MM-DD"),
     translator: z.string().min(1),
     encoder: z.string().min(1),
