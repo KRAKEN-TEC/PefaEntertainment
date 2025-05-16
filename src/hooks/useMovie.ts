@@ -108,14 +108,16 @@ export const useMovieActions = () => {
   const handleUpdate = async (payload: FormMovie, movie: FetchMovies) => {
     setAlert("");
     setLoading(true);
+    let { poster, video, ...rest } = payload;
 
     const data = {
-      ...payload,
+      ...rest,
       genreIds: Array.isArray(payload.genreIds) ? payload.genreIds : [payload.genreIds],
       rating: isNaN(payload.rating) ? movie.rating : payload.rating,
     };
 
     try {
+      // UPDATE DOCUMENT
       await apiPefa.put(`/movies/${movie._id}`, data, {
         headers: {
           Authorization: `${accessToken}`,
@@ -124,8 +126,14 @@ export const useMovieActions = () => {
       });
       updateActions(["put"]);
       setLoading(false);
-      setAlert("Movie updated successfully");
-    } catch (error: any) {
+      setAlert("Movie updated successfully. If you upload file, it is now processed behind.");
+
+      // UPLOAD TO S3
+      if (payload.poster) await uploadS3File(payload.poster, '/movies', movie._id, accessToken);
+      if (payload.video) await uploadS3File(payload.video, '/movies', movie._id, accessToken);
+      updateActions(["ready"]);
+    }
+    catch (error: any) {
       setLoading(false);
       logActionError(error);
     }
@@ -146,7 +154,7 @@ export const useMovieActions = () => {
         key: videoKey,
       });
 
-      // DELETE DOCUMENT FROM S3
+      // DELETE DOCUMENT FROM DATABASE
       await apiPefa.delete(`/movies/${movie._id}`, {
         headers: {
           Authorization: `${accessToken}`,

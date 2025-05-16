@@ -126,8 +126,7 @@ const router = createBrowserRouter([
       { path: "movie-panel", element: <MoviePanel /> },
       { path: "team-panel", element: <TeamPanel /> },
       {
-        path: "serie-panel/*",
-        element: <SeriePanel />,
+        path: "serie-panel/*", element: <SeriePanel />,
         children: [
           { path: "series", element: <SerieTable /> },
           { path: "series/:serieSlug/seasons", element: <SeasonTable /> },

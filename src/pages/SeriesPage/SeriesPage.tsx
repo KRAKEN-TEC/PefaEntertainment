@@ -65,6 +65,8 @@ export default function SeriesPage() {
 
   const { dark } = useThemeStore();
 
+  console.log(serieQuery)
+  console.log(seriesStore)
   return (
     <div className={`SP-section ${dark === true ? "light" : "dark"}`}>
       <h2>Series</h2>

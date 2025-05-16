@@ -140,7 +140,6 @@ export const useSeries = (serieQuery?: SerieQuery) => useData<FetchSeries>('/ser
 export const useSeasons = (serieSlug?: string, serieQuery?: SerieQuery) => useData<FetchSeasons>(`/series/${serieSlug}/seasons`,
     {
         params: {
-            page: serieQuery?.page,
             search: serieQuery?.search,
             ordering: serieQuery?.ordering
         }
@@ -151,7 +150,6 @@ export const useSeasons = (serieSlug?: string, serieQuery?: SerieQuery) => useDa
 export const useEpisodes = (serieSlug?: string, seasonNumber?: string, serieQuery?: SerieQuery) => useData<FetchEpisodes>(`/series/${serieSlug}/seasons/${seasonNumber}/episodes`,
     {
         params: {
-            page: serieQuery?.page,
             search: serieQuery?.search,
             ordering: serieQuery?.ordering
         }
@@ -294,16 +292,23 @@ export const useSerieActions = () => {
     const handleEpisodeUpdate = async (payload: FormEpisode, episode: FetchEpisodes) => {
         setAlert("");
         setLoading(true);
+        let { poster, video, ...rest } = payload;
 
         const data = {
-            ...payload,
+            ...rest,
         };
 
         try {
+            // UPDATE DOCUMENT
             await updateDocument(episodeEndPoint, episode.episodeNumber, data, accessToken)
             updateActions(["update-episode"]);
             setLoading(false);
             setAlert("Serie updated successfully");
+
+            // UPLOAD TO S3
+            if (payload.poster) await uploadS3File(payload.poster, episodeEndPoint, episode.episodeNumber, accessToken)
+            if (payload.video) await uploadS3File(payload.video, episodeEndPoint, episode.episodeNumber, accessToken)
+            updateActions(["ready"])
         } catch (error: any) {
             setLoading(false);
             logActionError(error);
