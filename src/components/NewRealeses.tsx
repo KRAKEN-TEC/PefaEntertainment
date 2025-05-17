@@ -7,10 +7,12 @@ import { scroll } from "@/helper/GlobalHelper";
 import { genreLi } from "./global/genreLi";
 
 import { FetchMovies, useMovie } from "@/hooks/useMovie";
-import { FetchSeries, useSeries } from "@/hooks/useSerie";
+import { FetchSeries, SerieQuery, useSeries } from "@/hooks/useSerie";
 import "./CSS/NewRealses.css";
 import ButtonWithSVGIcon from "./ui/Global/ButtonWithSvgIcon";
 import { useThemeStore } from "@/context/useThemeStore";
+
+const uploadDateQuery = { ordering: "-uploadDate" } as SerieQuery;
 
 export default function NewRealeses() {
   const NR_movie_container = useRef<HTMLDivElement | null>(null);
@@ -18,8 +20,8 @@ export default function NewRealeses() {
 
   const { moviesStore, setMovieStore } = useMovieStore();
   const { seriesStore, setSeriesStore } = useSerieStore();
-  const { data: newRealsesMovies } = useMovie();
-  const { data: newRealsesSeries } = useSeries();
+  const { data: newRealsesMovies } = useMovie(uploadDateQuery);
+  const { data: newRealsesSeries } = useSeries(uploadDateQuery);
   const { callNav } = useNavDetail();
   const [clientWidth, setClientWidth] = useState<number>(0);
 
