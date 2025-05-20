@@ -1,18 +1,18 @@
+/* ========== Movie Section ========== */
 .series-section {
   padding: 20px;
   position: relative;
 }
 
-/* series Grid Layout */
+/* Movie Grid Layout */
 .series-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-  grid-auto-flow: column;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); /* Adjusts dynamically */
   gap: 20px;
   justify-content: center;
 }
 
-/* series Box with 3D Effect */
+/* Movie Box */
 .series-box {
   border-radius: 10px;
   overflow: hidden;
@@ -22,13 +22,8 @@
   perspective: 1000px;
 }
 
-.dark{
-  background-color: rgb(19, 18, 18);
-  color: white;
-}
-
 .series-box:hover {
-  transform: rotateY(10deg) scale(1.05);
+  transform: rotateY(5deg) scale(1.05);
   padding: 1px;
 }
 
@@ -38,22 +33,18 @@
   height: 270px;
 }
 
+/* Movie Text */
+.series-text {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
 .series-text p {
   font-weight: bold;
   margin: 5px 0;
-}
-
-.series-text h2 {
-  font-size: large;
-  font-weight: 500;
-}
-
-.series-text {
-  display: flex;
-  flex-direction: row;
-  margin-top: 10px;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .series-text h3 {
@@ -65,48 +56,58 @@
   text-overflow: ellipsis;
   max-width: 300px;
 }
+
 .series-text span {
   display: none;
 }
+
 .series-text ul {
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0;
 }
+
 .series-text li {
   border: 1px solid #e85448;
   border-radius: 5px;
   font-size: x-small;
-  margin: 10px 0 0 20px;
   color: #e85448;
-  display: inline-block;
   padding: 2px 5px;
+  display: inline-block;
 }
 
-.series-title{
+/* Movie Title Section */
+.series-title {
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-between;
 }
 
-.series-title span{
+.series-title span {
   margin-top: 10px;
   cursor: pointer;
 }
+
+
 
 /* ========== Responsive Design ========== */
 
 /* Tablets (768px and below) */
 @media screen and (max-width: 768px) {
   .series-grid {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   }
 
   .series-box {
     width: 100%;
   }
+  .series-box img{
+    height: 400px;
+  }
 
   .series-text {
-    flex-direction: column;
+    flex-direction: row;
     text-align: center;
   }
 
@@ -119,7 +120,9 @@
 @media screen and (max-width: 480px) {
   .series-grid {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    grid-auto-flow: row;
+  }
+  .series-box img{
+    height: 200px;
   }
 
   .series-text {
@@ -136,7 +139,6 @@
   .series-title {
     flex-direction: row;
     text-align: center;
-    font-size: 10px;
+    font-size: 10px;  
   }
 }
-
