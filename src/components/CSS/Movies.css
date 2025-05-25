@@ -96,15 +96,18 @@
 /* Tablets (768px and below) */
 @media screen and (max-width: 768px) {
   .movie-grid {
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
   }
 
   .movie-box {
     width: 100%;
   }
+  .movie-box img{
+    height: 400px;
+  }
 
   .movie-text {
-    flex-direction: column;
+    flex-direction: row;
     text-align: center;
   }
 
@@ -117,6 +120,9 @@
 @media screen and (max-width: 480px) {
   .movie-grid {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+  .movie-box img{
+    height: 200px;
   }
 
   .movie-text {
@@ -133,6 +139,6 @@
   .movie-title {
     flex-direction: row;
     text-align: center;
-    font-size: 10px;
+    font-size: 10px;  
   }
 }

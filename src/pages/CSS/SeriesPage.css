@@ -84,9 +84,12 @@
   .SP-box {
     width: 100%;
   }
+  .SP-box img {
+    height: 400px;
+  }
 
   .SP-text {
-    flex-direction: column;
+    flex-direction: row;
     text-align: center;
   }
 
