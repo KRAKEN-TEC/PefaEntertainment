@@ -8,8 +8,8 @@ import SeriePanel from "@/pages/SeriePanel";
 import SerieTable from "@/components/admin/SerieTable";
 import SeasonTable from "@/components/admin/SeasonTable";
 import EpisodeTable from "@/components/admin/EpisodeTable";
-import TestSeries from "@/components/admin/TestSeries";
-import TestMovies from "@/components/admin/TestMovies";
+// import TestSeries from "@/components/admin/TestSeries";
+// import TestMovies from "@/components/admin/TestMovies";
 
 import App from "../App";
 import Layout from "@/pages/layout/Layout";
@@ -77,14 +77,14 @@ const router = createBrowserRouter([
         path: "series",
         element: <SeriesPage />,
       },
-      {
-        path: "test-series",
-        element: <TestSeries />,
-      },
-      {
-        path: "test-movies",
-        element: <TestMovies />,
-      },
+      // {
+      //   path: "test-series",
+      //   element: <TestSeries />,
+      // },
+      // {
+      //   path: "test-movies",
+      //   element: <TestMovies />,
+      // },
     ],
   },
 
@@ -126,8 +126,7 @@ const router = createBrowserRouter([
       { path: "movie-panel", element: <MoviePanel /> },
       { path: "team-panel", element: <TeamPanel /> },
       {
-        path: "serie-panel/*",
-        element: <SeriePanel />,
+        path: "serie-panel/*", element: <SeriePanel />,
         children: [
           { path: "series", element: <SerieTable /> },
           { path: "series/:serieSlug/seasons", element: <SeasonTable /> },

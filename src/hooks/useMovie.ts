@@ -26,7 +26,7 @@ export interface FetchMovies {
 }
 
 export const schemaMovie = z.object({
-  title: z.string().min(1).max(255),
+  title: z.string().min(1).max(500),
   genreIds: z
     .array(z.string().min(1))
     .min(1, { message: "You have to choose at least one genre" }),
@@ -34,7 +34,7 @@ export const schemaMovie = z.object({
     .number({ invalid_type_error: "Rating must be a number" })
     .min(0)
     .max(10),
-  description: z.string().min(0).max(255).or(z.literal("")).optional(),
+  description: z.string().min(0).max(1500).or(z.literal("")).optional(),
   releasedDate: z
     .string()
     .regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid. Fomat example: YYYY-MM-DD"),
@@ -108,14 +108,16 @@ export const useMovieActions = () => {
   const handleUpdate = async (payload: FormMovie, movie: FetchMovies) => {
     setAlert("");
     setLoading(true);
+    let { poster, video, ...rest } = payload;
 
     const data = {
-      ...payload,
+      ...rest,
       genreIds: Array.isArray(payload.genreIds) ? payload.genreIds : [payload.genreIds],
       rating: isNaN(payload.rating) ? movie.rating : payload.rating,
     };
 
     try {
+      // UPDATE DOCUMENT
       await apiPefa.put(`/movies/${movie._id}`, data, {
         headers: {
           Authorization: `${accessToken}`,
@@ -124,8 +126,14 @@ export const useMovieActions = () => {
       });
       updateActions(["put"]);
       setLoading(false);
-      setAlert("Movie updated successfully");
-    } catch (error: any) {
+      setAlert("Movie updated successfully. If you upload file, it is now processed behind.");
+
+      // UPLOAD TO S3
+      if (payload.poster) await uploadS3File(payload.poster, '/movies', movie._id, accessToken);
+      if (payload.video) await uploadS3File(payload.video, '/movies', movie._id, accessToken);
+      updateActions(["ready"]);
+    }
+    catch (error: any) {
       setLoading(false);
       logActionError(error);
     }
@@ -146,7 +154,7 @@ export const useMovieActions = () => {
         key: videoKey,
       });
 
-      // DELETE DOCUMENT FROM S3
+      // DELETE DOCUMENT FROM DATABASE
       await apiPefa.delete(`/movies/${movie._id}`, {
         headers: {
           Authorization: `${accessToken}`,

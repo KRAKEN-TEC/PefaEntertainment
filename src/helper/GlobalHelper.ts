@@ -1,4 +1,3 @@
-import { boolean } from "zod";
 
 export const scroll = (
   direction: string,

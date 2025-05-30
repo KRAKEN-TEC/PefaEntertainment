@@ -11,11 +11,11 @@ export default function Layout() {
       <NavBar
         onSearch={(search) => {
           if (search.length > 0) {
-            setMovieQuery({ ...movieQuery, page: 0, search: search });
-            setSerieQuery({ ...serieQuery, page: 0, search: search });
+            setMovieQuery({ ...movieQuery, page: 1, search: search });
+            setSerieQuery({ ...serieQuery, page: 1, search: search });
           } else {
-            setMovieQuery({ ...movieQuery, page: 0, search: "" });
-            setSerieQuery({ ...serieQuery, page: 0, search: "" });
+            setMovieQuery({ ...movieQuery, page: 1, search: "" });
+            setSerieQuery({ ...serieQuery, page: 1, search: "" });
           }
         }}
       />

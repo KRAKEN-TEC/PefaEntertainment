@@ -2,10 +2,13 @@ import "./CSS/Dropdown.css";
 import { useState } from "react";
 import { Link } from "react-router";
 import { useThemeStore } from "@/context/useThemeStore";
+import { useUserActions } from "@/hooks/useUser";
 
 const Dropdown: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selected, setSelected] = useState<string | null>(null);
+  const { accessToken, handleLogout, isAdmin } = useUserActions();
+  const admin = isAdmin();
 
   const hamburger = () => {
     setIsOpen(!isOpen);
@@ -169,18 +172,35 @@ const Dropdown: React.FC = () => {
           </li>
 
           <hr />
-          <li>
-            {" "}
-            <Link to="login" onClick={() => handleSelect("login")}>
-              <p
-                className={`${dark === true ? "" : "darkTextColor"
-                  } textMargin ${selected === "login" ? "selected" : ""}`}
-              >
-                Login
-              </p>
-            </Link>{" "}
-          </li>
-          <li>
+
+          {accessToken ?
+            <li className="logout">
+              <Link to="/" onClick={() => {
+                handleSelect("logout");
+                handleLogout();
+              }}>
+                <p
+                  className={`textMargin ${selected === "logout" ? "selected" : ""
+                    }`}
+                >
+                  Logout
+                </p>
+              </Link>
+            </li>
+            :
+            <li>
+              {" "}
+              <Link to="login" onClick={() => handleSelect("login")}>
+                <p
+                  className={`${dark === true ? "" : "darkTextColor"
+                    } textMargin ${selected === "login" ? "selected" : ""}`}
+                >
+                  Login
+                </p>
+              </Link>{" "}
+            </li>
+          }
+          {!accessToken && <li>
             {" "}
             <Link to="register" onClick={() => handleSelect("register")}>
               <p
@@ -191,27 +211,20 @@ const Dropdown: React.FC = () => {
               </p>
             </Link>
           </li>
-          <li className="logout">
-            <Link to="/" onClick={() => handleSelect("logout")}>
-              <p
-                className={`textMargin ${selected === "logout" ? "selected" : ""
-                  }`}
-              >
-                Logout
-              </p>
-            </Link>
-          </li>
-          <li>
-            <Link to="admin/team-panel" onClick={() => handleSelect("admin")}>
-              <p
-                className={`${dark === true ? "" : "darkTextColor"
-                  } textMargin ${selected === "admin" ? "selected" : ""}`}
-              >
-                Admin Panel
-              </p>
-            </Link>
-          </li>
-          <li>
+          }
+          {admin &&
+            <li>
+              <Link to="admin/team-panel" onClick={() => handleSelect("admin")}>
+                <p
+                  className={`${dark === true ? "" : "darkTextColor"
+                    } textMargin ${selected === "admin" ? "selected" : ""}`}
+                >
+                  Admin Panel
+                </p>
+              </Link>
+            </li>
+          }
+          {/* <li>
             <Link to="test-series">
               <p
                 className={`${dark === true ? "" : "darkTextColor"} textMargin`}
@@ -228,7 +241,7 @@ const Dropdown: React.FC = () => {
                 Test Movies
               </p>
             </Link>
-          </li>
+          </li> */}
         </ul>
       </div>
     </>

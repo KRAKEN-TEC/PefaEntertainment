@@ -1,6 +1,6 @@
 import "../CSS/WatchingBox.css";
 import { useNavigate } from "react-router";
-import Download from "../Download";
+// import Download from "../Download";
 
 export default function WatchingBox({ detailData }: { detailData?: any }) {
   const navigate = useNavigate();

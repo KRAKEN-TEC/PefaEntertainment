@@ -1,6 +1,7 @@
 import { useState } from "react";
 import z from "zod";
 import useData from "./useData"
+import { jwtDecode } from "jwt-decode";
 
 import { logError, logActionError } from "@/services/log-error";
 import { useUserStore } from "@/context/useUserStore";
@@ -25,6 +26,11 @@ export interface UserLogin {
     email: string,
     password: string,
 }
+
+type MyJwtPayload = {
+    role: string;
+    // add other fields if needed (e.g., sub, exp, etc.)
+};
 
 export const schemaUser = z.object({
     name: z.string().min(2).max(100),
@@ -179,6 +185,13 @@ export const useUserActions = () => {
         setTimeout(() => setAlert(""), 3000);
     };
 
-    return { accessToken, loading, alert, handleLogin, handleLogout, handleRegister, handleDelete, handleUpdate };
+    const isAdmin = () => {
+        if (!accessToken) return false;
+
+        const decoded = jwtDecode(accessToken) as MyJwtPayload;
+        return decoded.role === "admin" || decoded.role === "operator";
+    };
+
+    return { accessToken, loading, alert, handleLogin, handleLogout, handleRegister, handleDelete, handleUpdate, isAdmin };
 }
 
