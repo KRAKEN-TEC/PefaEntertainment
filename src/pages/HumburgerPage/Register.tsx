@@ -2,6 +2,7 @@ import { useState } from "react";
 import "../CSS/Register.css";
 import { useUserActions } from "@/hooks/useUser";
 import logo from "@/assets/PEFA-black.svg";
+import { useNavigate } from "react-router";
 
 export default function Register() {
   const [form, setForm] = useState({
@@ -12,7 +13,8 @@ export default function Register() {
     repeatPassword: "",
     agreeTerms: false,
   });
-  const { alert } = useUserActions();
+  const { alert, handleRegister } = useUserActions();
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -24,19 +26,21 @@ export default function Register() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // const passwordRegex =
-    //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
-    // if (!passwordRegex.test(form.password)) {
-    //   return;
-    // }
+    if (!passwordRegex.test(form.password)) {
+      return;
+    }
 
-    // if (form.password !== form.repeatPassword) {
-    //   alert("Passwords do not match!");
-    //   return;
-    // }
-    console.log("Registering:", form);
-    // handleRegister(form);
+    if (form.password !== form.repeatPassword) {
+      window.alert("Passwords do not match!");
+      return;
+    }
+
+    const { repeatPassword, agreeTerms, ...rest } = form;
+    handleRegister(rest);
+    navigate("/")
   };
 
   return (
