@@ -30,6 +30,7 @@ export default function Register() {
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     if (!passwordRegex.test(form.password)) {
+      window.alert("Password must be at least 8 characters long and include uppercase, lowercase, a number, and a special character.\n\nFor example, Abcd123$");
       return;
     }
 
