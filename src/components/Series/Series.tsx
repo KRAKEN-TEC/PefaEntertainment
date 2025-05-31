@@ -27,7 +27,7 @@ export default function Series() {
         <span onClick={() => nav("series")}>See more</span>
       </div>
 
-      <div className="series-scroll-container">
+      <div className="scroll-container">
         <div className="series-grid">
           {series &&
             randomSeries.map((s) => (
@@ -36,7 +36,8 @@ export default function Series() {
                 key={s._id}
                 onClick={() => navSerieDetail(s.slug)}
               >
-                <img src={s.poster_url} />
+                <div className="imgContainer"><img src={s.poster_url} /></div>
+
                 <div>
                   <div className="series-text">
                     <h3>{s.title}</h3>

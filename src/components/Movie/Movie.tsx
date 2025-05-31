@@ -38,7 +38,7 @@ export default function Movies() {
                 key={movie._id}
                 onClick={() => navMovieDetail(movie.slug)}
               >
-                <img src={movie.poster_url} />
+                <div className="imgContainer"><img src={movie.poster_url} /></div>
                 <div className="movie-text">
                   <h3>{movie.title}</h3>
                   <span>{movie.description}</span>

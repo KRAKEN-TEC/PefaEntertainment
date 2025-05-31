@@ -43,18 +43,31 @@ export default function SeriesPage() {
       <h2>Series</h2>
       <div className="SP-scroll-container"></div>
       <div className="SP-grid">
-        {seriesStore && seriesStore.map((serie, index) => (
-          <div className="SP-box" key={index} onClick={() => navSerieDetail(serie.slug)}>
-            <img src={serie.poster_url} />
-            <div className="SP-text">
-              <h3>{serie.title}</h3>
-              <span>{serie.description}</span>
-              <ul>
-                {serie.genres.map((genre, i) => i < 3 && genreLi(genre.name.toUpperCase(), genre._id))}
-              </ul>
+        {seriesStore &&
+          seriesStore.length > 0 &&
+          seriesStore.map((serie, index) => (
+            <div>
+              <div
+                className="SP-box"
+                key={index}
+                onClick={() => navSerieDetail(serie.slug)}
+              >
+                <div className="imgContainer">
+                  <img src={serie.poster_url} />
+                </div>
+                <div className="SP-text">
+                  <h3>{serie.title}</h3>
+                  <span>{serie.description}</span>
+                  <ul>
+                    {serie.genres.map(
+                      (genre, index) =>
+                        index < 3 && genreLi(genre.name.toUpperCase(), genre._id)
+                    )}
+                  </ul>
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
