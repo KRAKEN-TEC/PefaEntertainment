@@ -4,7 +4,7 @@ import "../CSS/DetailNav.css";
 const DetailPageLayout = () => {
   const navigate = useNavigate();
   const handleNav = () => {
-    navigate("/");
+    navigate(-1);
   };
 
   return (

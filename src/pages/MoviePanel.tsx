@@ -4,6 +4,8 @@ import { useForm, UseFormSetValue, FieldErrors, UseFormRegister } from "react-ho
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Field } from "@/components/ui/field";
 
+import { MdArrowBack, MdArrowForward } from "react-icons/md";
+
 import { useMovie, useMovieActions, FormMovie, FetchMovies, schemaMovie } from "@/hooks/useMovie";
 import { UserLogin, UserLogout } from "@/pages/TeamPanel";
 import { useGenre } from "@/hooks/useGenre";
@@ -46,7 +48,7 @@ const movieSortArray = [
 
 // MOVIE ACTIONS AND LIST
 const MovieUpdateForm = ({ movie, children }: MovieUpdateProps) => {
-  const { register, handleSubmit, formState: { errors }, } = useForm<FormMovie>();
+  const { register, handleSubmit, setValue, formState: { errors }, } = useForm<FormMovie>();
   const { alert, handleUpdate } = useMovieActions();
 
   const onSubmit = (payload: FormMovie) => {
@@ -65,6 +67,7 @@ const MovieUpdateForm = ({ movie, children }: MovieUpdateProps) => {
           <MovieUpdateField label="Translator" payloadKey="translator" fetchKey="translator" movie={movie} register={register} errors={errors} />
           <MovieUpdateField label="Encoder" payloadKey="encoder" fetchKey="encoder" movie={movie} register={register} errors={errors} />
           <MovieUpdateField label="Studio" payloadKey="studio" fetchKey="studio" movie={movie} register={register} errors={errors} />
+          <FileField setValue={setValue} errors={errors} />
           {alert && <AlertMessage message={alert} />}
           <DialogFooter>
             <Button type="submit">Update</Button>
@@ -87,7 +90,9 @@ const MovieAction = ({ movie }: { movie: FetchMovies }) => {
       {accessToken ? (
         <HStack>
           <MovieUpdateForm movie={movie}>Edit</MovieUpdateForm>
-          <Button variant="plain" _hover={{ color: "cyan" }} color="red" onClick={onClick}>Delete</Button>
+          {movie.video_url !== "pending" &&
+            <Button variant="plain" _hover={{ color: "cyan" }} color="red" onClick={onClick}>Delete</Button>
+          }
         </HStack>
       ) : (
         <HStack>
@@ -132,11 +137,9 @@ const MovieList = () => {
                 <TableCell>{movie.translator}</TableCell>
                 <TableCell>{movie.encoder}</TableCell>
                 <TableCell>{movie.studio}</TableCell>
-                {movie.video_url !== "pending" &&
-                  <TableCell>
-                    <MovieAction movie={movie} />
-                  </TableCell>
-                }
+                <TableCell>
+                  <MovieAction movie={movie} />
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
@@ -259,6 +262,15 @@ function MoviePanel() {
   const { movieQuery, setMovieQuery } = useMovieStore();
   const { accessToken } = useUserStore();
   const { data: genres } = useGenre();
+  const { data: movies } = useMovie(movieQuery);
+
+  const nextPage = () => {
+    setMovieQuery({ ...movieQuery, page: movieQuery.page + 1 })
+  }
+
+  const prevPage = () => {
+    setMovieQuery({ ...movieQuery, page: movieQuery.page - 1 })
+  }
 
   return (
     <>
@@ -304,6 +316,22 @@ function MoviePanel() {
       <GridItem area="list">
         <Box>
           <MovieList />
+        </Box>
+      </GridItem>
+
+      {/* PAGINATION */}
+      <GridItem area="page">
+        <Box>
+          {movieQuery.page === 1 ?
+            <Button variant="plain" color="grey"> <MdArrowBack /> </Button>
+            :
+            <Button variant="plain" _hover={{ color: "cyan" }} onClick={prevPage}> <MdArrowBack /> </Button>
+          }
+          {movies.length === 12 ?
+            <Button variant="plain" _hover={{ color: "cyan" }} onClick={nextPage}> <MdArrowForward /> </Button>
+            :
+            <Button variant="plain" color="grey"> <MdArrowForward /> </Button>
+          }
         </Box>
       </GridItem>
     </>

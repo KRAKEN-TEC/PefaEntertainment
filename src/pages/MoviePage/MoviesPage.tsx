@@ -6,73 +6,44 @@ import { useEffect, useState } from "react";
 import { useThemeStore } from "@/context/useThemeStore";
 
 export default function MoviesPage() {
-  const {
-    moviesStore,
-    setMovieStore,
-    movieQuery,
-    setMovieQuery,
-    setMovieSearchStore,
-  } = useMovieStore();
-  const { data: movies } = useMovie(movieQuery);
+  const { movieQuery, setMovieQuery } = useMovieStore();
+  const { data: movies, loading } = useMovie(movieQuery);
   const { navMovieDetail } = useNavDetail();
-
-  useEffect(() => {
-    if (movieQuery.page === 0 && movieQuery.search === "") {
-      setMovieSearchStore(movies);
-      return;
-    }
-    movieQuery.search?.length > 0
-      ? setMovieSearchStore(movies)
-      : setMovieStore(movies as FetchMovies[]);
-  }, [movies]);
-
-  const [isFetching, setIsFetching] = useState(false);
-  const [debounceTimer, setDebounceTimer] = useState<null | number>(null);
-
+  const [allMovies, setAllMovies] = useState([] as FetchMovies[]);
   const { dark } = useThemeStore();
 
-  const handleScroll = () => {
-    if (isFetching) return;
-
-    const maxScrollY =
-      document.documentElement.scrollHeight - window.innerHeight;
-    const maxVal = (maxScrollY / 3) * 2;
-    const tolerance = 50;
-    if (window.scrollY >= maxVal - tolerance) {
-      setIsFetching(true);
-      setMovieQuery({ ...movieQuery, page: movieQuery.page + 1 });
-    }
-  };
+  // Reset Page When Mount
   useEffect(() => {
-    const handle = () => {
-      if (debounceTimer) clearTimeout(debounceTimer);
-      setDebounceTimer(setTimeout(handleScroll, 200));
+    setMovieQuery({ ...movieQuery, page: 1 });
+  }, []);
+
+  // ADDS UP CONTENT FROM PAGES
+  useEffect(() => {
+    setAllMovies((prev) => [...prev, ...movies]);
+  }, [movies])
+
+  // Scroll listener to load more
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollHeight = document.documentElement.scrollHeight;
+      const currentScroll = window.innerHeight + window.scrollY;
+
+      if (currentScroll >= scrollHeight * 0.9 && !loading && movies.length > 0) {
+        setMovieQuery({ ...movieQuery, page: movieQuery.page + 1 });
+      }
     };
 
-    window.addEventListener("scroll", handle);
-
-    return () => window.removeEventListener("scroll", handle);
-  }, [debounceTimer, isFetching, movieQuery, setMovieQuery]);
-
-  useEffect(() => {
-    if (!isFetching) return;
-
-    const loadDataTimeout = setTimeout(() => {
-      setIsFetching(false);
-    }, 1000);
-
-    return () => clearTimeout(loadDataTimeout);
-  }, [isFetching, movieQuery]);
-
-  console.log(movieQuery);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [loading, setMovieQuery]);
 
   return (
     <div className={`MP-section ${dark === true ? "light" : "dark"}`}>
       <h2>Movies</h2>
       <div className="MP-scroll-container">
         <div className="MP-grid">
-          {moviesStore &&
-            moviesStore.map((movie, index) => (
+          {allMovies &&
+            allMovies.map((movie, index) => (
               <div
                 className="MP-box"
                 key={index}

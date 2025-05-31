@@ -3,7 +3,6 @@ import videojs from "video.js";
 import "video.js/dist/video-js.css";
 import "../components/CSS/WatchMovie.css"
 import Player from "video.js/dist/types/player";
-import { MdHeight } from "react-icons/md";
 
 // GUIDE =>>> https://videojs.com/guides/react/
 
@@ -36,17 +35,17 @@ const VideoPlayer = ({ posterUrl, videoUrl, onReady }: Props) => {
         poster: posterUrl,
         sources: isHLS
           ? [
-              {
-                src: videoUrl,
-                type: "application/x-mpegURL", // HLS
-              },
-            ]
+            {
+              src: videoUrl,
+              type: "application/x-mpegURL", // HLS
+            },
+          ]
           : [
-              {
-                src: videoUrl,
-                type: "video/mp4", // MP4 fallback
-              },
-            ],
+            {
+              src: videoUrl,
+              type: "video/mp4", // MP4 fallback
+            },
+          ],
       };
 
       // create player

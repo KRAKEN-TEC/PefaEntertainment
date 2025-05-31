@@ -1,3 +1,5 @@
+// Conventional State Managenet using build-in Context of react
+
 import { createContext, useContext, useState, ReactNode } from "react";
 
 interface AuthContextType {

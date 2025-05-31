@@ -14,11 +14,11 @@ export default function Download({ detailData }: { detailData?: any }) {
   };
 
   const downloadVdo = async (url: string, fileName: string) => {
-    navigator.permissions.query({ name: "downloads" }).then(() => {
-      alert(
-        "You have denied download permissions. Please enable them in your browser settings."
-      );
-    });
+    // navigator.permissions.query({ name: "downloads" }).then(() => {
+    //   alert(
+    //     "You have denied download permissions. Please enable them in your browser settings."
+    //   );
+    // });
 
     try {
       const response = await fetch(url);
