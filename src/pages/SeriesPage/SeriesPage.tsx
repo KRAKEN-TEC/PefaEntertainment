@@ -7,36 +7,63 @@ import { useEffect, useState } from "react";
 import { useThemeStore } from "@/context/useThemeStore";
 
 export default function SeriesPage() {
-  const { serieQuery, setSerieQuery } = useSerieStore();
-  const { data: series, loading } = useSeries(serieQuery);
-  const [seriesStore, setSeriesStore] = useState([] as FetchSeries[]);
+  const {
+    serieQuery,
+    setSerieQuery,
+    seriesStore,
+    setSeriesStore,
+    setSeriesSearchStore,
+  } = useSerieStore();
+  const { data: series } = useSeries(serieQuery);
   const { navSerieDetail } = useNavDetail();
-  const { dark } = useThemeStore();
 
-  // Reset Page When Mount
   useEffect(() => {
-    setSerieQuery({ ...serieQuery, page: 1 });
-  }, []);
+    if (serieQuery.page === 0 && serieQuery.search === "") {
+      setSeriesSearchStore(series);
+      return;
+    }
+    serieQuery.search?.length > 0
+      ? setSeriesSearchStore(series)
+      : setSeriesStore(series as FetchSeries[]);
+  }, [series]);
+  console.log(seriesStore);
+  const [isFetching, setIsFetching] = useState(false);
+  const [debounceTimer, setDebounceTimer] = useState<null | number>(null);
 
-  // ADDS UP CONTENT FROM PAGES
+  const handleScroll = () => {
+    if (isFetching) return;
+
+    const maxScrollY =
+      document.documentElement.scrollHeight - window.innerHeight;
+    const maxVal = (maxScrollY / 3) * 2;
+    const tolerance = 50;
+    if (window.scrollY >= maxVal - tolerance) {
+      setIsFetching(true);
+      setSerieQuery({ ...serieQuery, page: serieQuery.page + 1 });
+    }
+  };
   useEffect(() => {
-    setSeriesStore((prev) => [...prev, ...series]);
-  }, [series])
-
-  // Scroll listener to load more
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollHeight = document.documentElement.scrollHeight;
-      const currentScroll = window.innerHeight + window.scrollY;
-
-      if (currentScroll >= scrollHeight * 0.9 && !loading && series.length > 0) {
-        setSerieQuery({ ...serieQuery, page: serieQuery.page + 1 });
-      }
+    const handle = () => {
+      if (debounceTimer) clearTimeout(debounceTimer);
+      setDebounceTimer(setTimeout(handleScroll, 200));
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [loading, setSerieQuery]);
+    window.addEventListener("scroll", handle);
+
+    return () => window.removeEventListener("scroll", handle);
+  }, [debounceTimer, isFetching, serieQuery, setSerieQuery]);
+
+  useEffect(() => {
+    if (!isFetching) return;
+
+    const loadDataTimeout = setTimeout(() => {
+      setIsFetching(false);
+    }, 1000);
+
+    return () => clearTimeout(loadDataTimeout);
+  }, [isFetching, serieQuery]);
+
+  const { dark } = useThemeStore();
 
   return (
     <div className={`SP-section ${dark === true ? "light" : "dark"}`}>
@@ -46,27 +73,28 @@ export default function SeriesPage() {
         {seriesStore &&
           seriesStore.length > 0 &&
           seriesStore.map((serie, index) => (
-            <div
-              className="SP-box"
-              key={index}
-              onClick={() => navSerieDetail(serie.slug)}
-            >
-              <div className="imgContainer">
-                <img src={serie.poster_url} />
-              </div>
-              <div className="SP-text">
-                <h3>{serie.title}</h3>
-                <span>{serie.description}</span>
-                <ul>
-                  {serie.genres.map(
-                    (genre, index) =>
-                      index < 3 && genreLi(genre.name.toUpperCase(), genre._id)
-                  )}
-                </ul>
+            <div>
+              <div
+                className="SP-box"
+                key={index}
+                onClick={() => navSerieDetail(serie.slug)}
+              >
+                <div className="imgContainer">
+                  <img src={serie.poster_url} />
+                </div>
+                <div className="SP-text">
+                  <h3>{serie.title}</h3>
+                  <span>{serie.description}</span>
+                  <ul>
+                    {serie.genres.map(
+                      (genre, index) =>
+                        index < 3 && genreLi(genre.name.toUpperCase(), genre._id)
+                    )}
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </div>
   );
