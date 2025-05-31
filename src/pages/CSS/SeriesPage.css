@@ -32,12 +32,7 @@
   width: 100%;
   height: auto;
 }
-.imgContainer {
-  width: 100%;
-  height: 70%;
-  overflow: hidden;
-  border-radius: 10px;
-}
+
 
 .SP-box p {
   font-weight: bold;
@@ -79,6 +74,12 @@
   display: inline-block;
   padding: 2px 5px;
 }
+.imgContainer {
+  width: 100%;
+  height: 65%;
+  overflow: hidden;
+  border-radius: 10px;
+}
 @media screen and (max-width: 1440px) {
   .SP-grid {
     grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
@@ -88,6 +89,9 @@
   }
   .SP-box img{
     height: auto;
+  }
+  .imgContainer {
+    height: 65%;
   }
 }
 @media screen and (max-width: 768px) {
@@ -109,6 +113,9 @@
     display: flex;
     flex-direction: row;
     font-size: 12px;
+  }
+  .imgContainer {
+    height: 80%;
   }
 
   .SP-text ul {
@@ -143,6 +150,12 @@
     flex-direction: row;
     text-align: center;
     font-size: 10px;
+  }
+  .imgContainer {
+    height: 80%;
+  }
+  .SP-box h3{
+    max-width: 200px;
   }
 }
 

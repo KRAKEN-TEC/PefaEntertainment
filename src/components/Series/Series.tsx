@@ -27,7 +27,7 @@ export default function Series() {
         <span onClick={() => nav("series")}>See more</span>
       </div>
 
-      <div className="series-scroll-container">
+      <div className="scroll-container">
         <div className="series-grid">
           {series &&
             randomSeries.map((s) => (
