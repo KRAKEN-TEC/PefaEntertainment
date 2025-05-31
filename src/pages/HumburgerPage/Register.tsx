@@ -40,7 +40,7 @@ export default function Register() {
 
     const { repeatPassword, agreeTerms, ...rest } = form;
     handleRegister(rest);
-    navigate("/")
+    setTimeout(() => { navigate("/") }, 1000);
   };
 
   return (
@@ -77,7 +77,6 @@ export default function Register() {
             placeholder="Can be blank"
             value={form.phone}
             onChange={handleChange}
-            required
           />
 
           <input
