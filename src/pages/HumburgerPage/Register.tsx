@@ -30,12 +30,12 @@ export default function Register() {
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     if (!passwordRegex.test(form.password)) {
-      window.alert("Password must be at least 8 characters long and include uppercase, lowercase, a number, and a special character.\n\nFor example, Abcd123$");
+      window.alert("စကားဝှက်သည် အနည်းဆုံး ၈ လုံးရှိရမည်၊ အင်္ဂလိပ်အက္ခရာဖြစ်ရမည်၊ စလုံးကြီးတစ်လုံး င်္သေကတစ်လုံး ဂဏန်းတစ်လုံး ပါဝင်ရမည်။\n\nဥပမာ - Abcde123$");
       return;
     }
 
     if (form.password !== form.repeatPassword) {
-      window.alert("Passwords do not match!");
+      window.alert("စကားဝှက်နှစ်ခု ကိုက်ညီမူ့ မရှိပါ!");
       return;
     }
 
