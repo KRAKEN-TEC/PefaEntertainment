@@ -22,7 +22,7 @@ interface FileFieldsProps {
 }
 
 const EpisodeUpdate = ({ children, episode }: EpisodeUpdateProps) => {
-  const { register, handleSubmit, formState: { errors }, } = useForm<FormEpisode>();
+  const { register, handleSubmit, setValue, formState: { errors }, } = useForm<FormEpisode>();
   const { alert, handleEpisodeUpdate } = useSerieActions();
 
   const onSubmit = (payload: FormEpisode) => {
@@ -35,6 +35,7 @@ const EpisodeUpdate = ({ children, episode }: EpisodeUpdateProps) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <EpisodeUpdateField label="Title" payloadKey="title" fetchKey="title" register={register} errors={errors} episode={episode} />
           <EpisodeUpdateField label="Description" payloadKey="description" fetchKey="description" register={register} errors={errors} episode={episode} />
+          <FileField setValue={setValue} errors={errors} />
           {alert && <AlertMessage message={alert} />}
           <DialogFooter>
             <Button type="submit">Update</Button>
@@ -59,9 +60,11 @@ const EpisodeAction = ({ episode }: { episode: FetchEpisodes }) => {
           <EpisodeUpdate episode={episode}>
             Edit
           </EpisodeUpdate>
-          <Button className="button-action red" onClick={onClick} >
-            Delete
-          </Button>
+          {episode.video_url !== "pending" &&
+            <Button className="button-action red" onClick={onClick} >
+              Delete
+            </Button>
+          }
         </HStack>
       ) : (
         <HStack>
@@ -187,11 +190,9 @@ const EpisodeTable = () => {
                   <TableCell>{episode.title}</TableCell>
                   <TableCell>{episode.releasedDate.split('T')[0]}</TableCell>
                   <TableCell>{episode.description}</TableCell>
-                  {episode.video_url !== "pending" &&
-                    <TableCell>
-                      <EpisodeAction episode={episode} />
-                    </TableCell>
-                  }
+                  <TableCell>
+                    <EpisodeAction episode={episode} />
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

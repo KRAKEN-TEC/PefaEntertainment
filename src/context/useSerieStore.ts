@@ -15,19 +15,15 @@ interface SerieQueryStore {
 
 export const useSerieStore = create<SerieQueryStore>((set) => ({
   actions: [],
-  serieQuery: { page: 0 } as SerieQuery,
+  serieQuery: { page: 1 } as SerieQuery,
   seriesStore: [] as FetchSeries[],
+  setSerieQuery: (query) => set({ serieQuery: query }),
   setSeriesStore(series: FetchSeries[]) {
-    set((state) => ({
-      seriesStore: [...state.seriesStore, ...series],
-    }));
+    set((state) => ({ seriesStore: [...state.seriesStore, ...series] }));
   },
   setSeriesSearchStore: (series: FetchSeries[]) => {
-    set(() => ({
-      seriesStore: [...series],
-    }));
+    set(() => ({ seriesStore: [...series], }));
   },
-  setSerieQuery: (query) => set({ serieQuery: query }),
   updateActions: (actions) => {
     set({ actions: actions });
   },

@@ -1,6 +1,9 @@
-import { GridItem, Button, Stack, Spacer } from "@chakra-ui/react";
+import { GridItem, Button, Stack, Spacer, Box } from "@chakra-ui/react";
 import { Outlet, useParams } from "react-router";
 
+import { MdArrowBack, MdArrowForward } from "react-icons/md";
+
+import { useSeries } from "@/hooks/useSerie";
 import { useGenre } from "@/hooks/useGenre";
 import { useSerieStore } from "@/context/useSerieStore";
 import { useUserStore } from "@/context/useUserStore";
@@ -36,6 +39,15 @@ function SeriePanel() {
   const { serieSlug, seasonNumber } = useParams();
   const { accessToken } = useUserStore();
   const { data: genres } = useGenre();
+  const { data: series } = useSeries(serieQuery);
+
+  const nextPage = () => {
+    setSerieQuery({ ...serieQuery, page: serieQuery.page + 1 })
+  }
+
+  const prevPage = () => {
+    setSerieQuery({ ...serieQuery, page: serieQuery.page - 1 })
+  }
 
   return (
     <>
@@ -108,6 +120,22 @@ function SeriePanel() {
           <Outlet />
         </div>
       </GridItem>
+
+      {/* PAGINATION */}
+      {!serieSlug && <GridItem area="page">
+        <Box>
+          {serieQuery.page === 1 ?
+            <Button variant="plain" color="grey"> <MdArrowBack /> </Button>
+            :
+            <Button variant="plain" _hover={{ color: "cyan" }} onClick={prevPage}> <MdArrowBack /> </Button>
+          }
+          {series.length === 12 ?
+            <Button variant="plain" _hover={{ color: "cyan" }} onClick={nextPage}> <MdArrowForward /> </Button>
+            :
+            <Button variant="plain" color="grey"> <MdArrowForward /> </Button>
+          }
+        </Box>
+      </GridItem>}
     </>
   );
 }

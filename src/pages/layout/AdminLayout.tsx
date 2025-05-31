@@ -19,10 +19,10 @@ export default function AdminLayout() {
   return (
     <Grid
       templateAreas={{
-        base: `"nav" "list"`, // Stack nav, form, and list in one column for small screens
-        lg: `"nav nav" "list list"`, // In large screens, side by side
-        md: `"nav nav nav" "list list list"`,
-        sm: `"nav nav nav nav" "list list list list"`,
+        base: `"nav" "list" "page"`, // Stack nav, form, and list in one column for small screens
+        lg: `"nav nav" "list list" "page page"`, // In large screens, side by side
+        md: `"nav nav nav" "list list list" "page page page"`,
+        sm: `"nav nav nav nav" "list list list list" "page page page page"`,
       }}
       templateColumns={{
         base: "1fr",

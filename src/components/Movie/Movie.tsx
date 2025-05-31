@@ -17,7 +17,7 @@ export default function Movies() {
   };
 
   useEffect(() => {
-    setMovieQuery({ ...movieQuery, page: 0, search: "" });
+    setMovieQuery({ ...movieQuery, page: 1, search: "" });
   }, []);
   const randomMovies = getRandomMovies(movies);
   const { dark } = useThemeStore();

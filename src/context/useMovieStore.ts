@@ -15,7 +15,7 @@ export interface ActionSlice {
 
 export const useMovieStore = create<ActionSlice>((set) => ({
   actions: [],
-  movieQuery: { page: 0 } as MovieQuery,
+  movieQuery: { page: 1 } as MovieQuery,
   moviesStore: [] as FetchMovies[],
   setMovieStore: (movies: FetchMovies[]) => {
     set((state) => ({

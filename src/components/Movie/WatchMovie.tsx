@@ -6,16 +6,15 @@ import ForMovie from "./ForMovie";
 import { useParams } from "react-router";
 import { useSingleMovie } from "@/hooks/useMovie";
 import "../CSS/WatchMovie.css";
-import { useThemeStore } from "@/context/useThemeStore";
 
 export default function WatchMovie() {
   const { id } = useParams();
   const playerRef = useRef<Player | null>(null);
   const { data: movie } = useSingleMovie(id);
 
-  const adsUrl = "https://diva4ci7teqce.cloudfront.net/pefaAds.mp4";
+  // const adsUrl = "https://diva4ci7teqce.cloudfront.net/pefaAds.mp4";
 
-  const { dark } = useThemeStore();
+  // const { dark } = useThemeStore();
 
   const handlePlayerReady = (player: Player) => {
     playerRef.current = player;

@@ -47,9 +47,9 @@ export interface FetchSeries {
 }
 
 export const schemaEpisodes = z.object({
-    title: z.string().min(1).max(255),
+    title: z.string().min(1).max(500),
     episodeNumber: z.number({ invalid_type_error: "Episode number must be a number" }).min(1),
-    description: z.string().min(0).max(510).or(z.literal('')).optional(),
+    description: z.string().min(0).max(1500).or(z.literal('')).optional(),
     releasedDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid. Fomat example: YYYY-MM-DD"),
     poster: z
         .instanceof(File)
@@ -73,9 +73,9 @@ export const schemaEpisodes = z.object({
 });
 
 export const schemaSeasons = z.object({
-    title: z.string().min(1).max(255),
+    title: z.string().min(1).max(500),
     seasonNumber: z.number({ invalid_type_error: "Season number must be a number" }).min(1),
-    description: z.string().min(0).max(510).or(z.literal('')).optional(),
+    description: z.string().min(0).max(1500).or(z.literal('')).optional(),
     poster: z
         .instanceof(File)
         .refine(
@@ -89,10 +89,10 @@ export const schemaSeasons = z.object({
 });
 
 export const schemaSeries = z.object({
-    title: z.string().min(1).max(255),
+    title: z.string().min(1).max(500),
     genreIds: z.array(z.string().min(1)).min(1, { message: "You have to choose at least one genre" }),
     rating: z.number({ invalid_type_error: "Rating must be a number" }).min(0).max(10),
-    description: z.string().min(0).max(510).or(z.literal('')).optional(),
+    description: z.string().min(0).max(1500).or(z.literal('')).optional(),
     releasedDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid. Fomat example: YYYY-MM-DD"),
     translator: z.string().min(1),
     encoder: z.string().min(1),
@@ -140,7 +140,6 @@ export const useSeries = (serieQuery?: SerieQuery) => useData<FetchSeries>('/ser
 export const useSeasons = (serieSlug?: string, serieQuery?: SerieQuery) => useData<FetchSeasons>(`/series/${serieSlug}/seasons`,
     {
         params: {
-            page: serieQuery?.page,
             search: serieQuery?.search,
             ordering: serieQuery?.ordering
         }
@@ -151,7 +150,6 @@ export const useSeasons = (serieSlug?: string, serieQuery?: SerieQuery) => useDa
 export const useEpisodes = (serieSlug?: string, seasonNumber?: string, serieQuery?: SerieQuery) => useData<FetchEpisodes>(`/series/${serieSlug}/seasons/${seasonNumber}/episodes`,
     {
         params: {
-            page: serieQuery?.page,
             search: serieQuery?.search,
             ordering: serieQuery?.ordering
         }
@@ -294,16 +292,23 @@ export const useSerieActions = () => {
     const handleEpisodeUpdate = async (payload: FormEpisode, episode: FetchEpisodes) => {
         setAlert("");
         setLoading(true);
+        let { poster, video, ...rest } = payload;
 
         const data = {
-            ...payload,
+            ...rest,
         };
 
         try {
+            // UPDATE DOCUMENT
             await updateDocument(episodeEndPoint, episode.episodeNumber, data, accessToken)
             updateActions(["update-episode"]);
             setLoading(false);
             setAlert("Serie updated successfully");
+
+            // UPLOAD TO S3
+            if (payload.poster) await uploadS3File(payload.poster, episodeEndPoint, episode.episodeNumber, accessToken)
+            if (payload.video) await uploadS3File(payload.video, episodeEndPoint, episode.episodeNumber, accessToken)
+            updateActions(["ready"])
         } catch (error: any) {
             setLoading(false);
             logActionError(error);
