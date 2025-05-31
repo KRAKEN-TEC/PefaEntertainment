@@ -36,7 +36,7 @@ export default function Series() {
                 key={s._id}
                 onClick={() => navSerieDetail(s.slug)}
               >
-                <img src={s.poster_url} />
+                <div className="imgContainer"><img src={s.poster_url} /></div>
                 <div>
                   <div className="series-text">
                     <h3>{s.title}</h3>

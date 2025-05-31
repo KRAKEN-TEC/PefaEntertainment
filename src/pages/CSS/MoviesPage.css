@@ -105,6 +105,10 @@
   .MP-text ul {
     justify-content: center;
   }
+  .MP-text ul, .MP-text li{
+    justify-content: center;
+    font-size: 10px;
+  }
 }
 
 @media screen and (max-width: 480px) {

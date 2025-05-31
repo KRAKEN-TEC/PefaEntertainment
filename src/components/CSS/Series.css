@@ -30,7 +30,7 @@
 .series-box img {
   width: 100%;
   border-radius: 10px;
-  height: 270px;
+  height: auto;
 }
 
 /* Movie Text */
@@ -103,7 +103,7 @@
     width: 100%;
   }
   .series-box img{
-    height: 400px;
+    height: auto;
   }
 
   .series-text {
@@ -122,7 +122,7 @@
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
   }
   .series-box img{
-    height: 200px;
+    height: auto;
   }
 
   .series-text {

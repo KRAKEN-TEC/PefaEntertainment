@@ -78,7 +78,9 @@ export default function SeriesPage() {
               key={index}
               onClick={() => navSerieDetail(serie.slug)}
             >
-              <img src={serie.poster_url} />
+              <div className="imgContainer">
+                <img src={serie.poster_url} />
+              </div>
               <div className="SP-text">
                 <h3>{serie.title}</h3>
                 <span>{serie.description}</span>
