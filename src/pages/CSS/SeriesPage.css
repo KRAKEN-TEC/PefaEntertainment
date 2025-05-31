@@ -3,6 +3,7 @@
   position: relative;
 }
 
+
 /* Movie Grid Layout */
 .SP-grid {
   display: grid;
@@ -64,7 +65,6 @@
   display: flex;
   flex-direction: row;
 }
-
 .SP-text li {
   border: 1px solid #e85448;
   border-radius: 5px;
@@ -74,10 +74,19 @@
   display: inline-block;
   padding: 2px 5px;
 }
-
-/* Tablets (768px and below) */
+@media screen and (max-width: 1440px) {
+  .SP-grid {
+    grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
+  }
+  .SP-box {
+    width: 100%;
+  }
+  .SP-box img{
+    height: fit-content;
+  }
+}
 @media screen and (max-width: 768px) {
-  .sp-grid {
+  .SP-grid {
     grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   }
 
@@ -85,12 +94,15 @@
     width: 100%;
   }
   .SP-box img {
-    height: 400px;
+    height: 200px;
   }
 
   .SP-text {
-    flex-direction: row;
+    flex-direction: column;
     text-align: center;
+    display: flex;
+    flex-direction: row;
+    font-size: 12px;
   }
 
   .SP-text ul {
@@ -101,6 +113,12 @@
 @media screen and (max-width: 480px) {
   .SP-grid {
     grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
+  .SP-box {
+    width: 100%;
+  }
+  .SP-box img {
+    height: max-content;
   }
 
   .SP-text {
@@ -121,11 +139,5 @@
   }
 }
 
-@media screen and (max-width: 1440px) {
-  .SP-grid {
-    grid-template-columns: repeat(auto-fill, minmax(440px, 1fr));
-  }
-  .SP-box {
-    width: 100%;
-  }
-}
+
+

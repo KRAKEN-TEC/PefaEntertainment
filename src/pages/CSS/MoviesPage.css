@@ -81,6 +81,9 @@
   .MP-box {
     width: 100%;
   }
+  .MP-box img{
+    height: fit-content;
+  }
 }
 @media screen and (max-width: 768px) {
   .MP-grid {
@@ -91,7 +94,7 @@
     width: 100%;
   }
   .MP-box img {
-    height: 400px;
+    height: 200px;
   }
 
   .MP-text {
@@ -112,7 +115,7 @@
     width: 100%;
   }
   .MP-box img {
-    height: 250px;
+    height: max-content;
   }
 
   .MP-text {
