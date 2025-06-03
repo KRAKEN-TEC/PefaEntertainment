@@ -9,7 +9,6 @@ import SerieTable from "@/components/admin/SerieTable";
 import SeasonTable from "@/components/admin/SeasonTable";
 import EpisodeTable from "@/components/admin/EpisodeTable";
 
-import App from "../App";
 import Layout from "@/pages/layout/Layout";
 import AdminLayout from "@/pages/layout/AdminLayout";
 import Home from "@/pages/Home";
