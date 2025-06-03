@@ -28,8 +28,6 @@ export default function WatchSerie() {
     });
   };
 
-  console.log(episode);
-
   return (
     <div className="watch-section">
       <div className="watch-container">
