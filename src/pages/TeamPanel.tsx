@@ -375,7 +375,6 @@ function TeamPanel() {
             placeholderName="Roles"
             data={roles}
             onValueChange={(selected: any) => {
-              console.log(selected)
               setUserQuery({ ...userQuery, roleIds: selected })
             }
             }

@@ -28,8 +28,6 @@ export default function WatchMovie() {
     });
   };
 
-  console.log(movie);
-
   return (
     <div className="watch-section">
       <div className="watch-container">

@@ -440,7 +440,6 @@ function useExo<T>(endpoint: string, requestConfig?: AxiosRequestConfig, dep?: a
             })
             .catch(error => {
                 if (error instanceof CanceledError) return;
-                console.log(error);
                 setError(error);
                 // switch (error.status) {
                 //     case 400:
@@ -512,7 +511,6 @@ export function useSingleExo<T>(endpoint: string, requestConfig?: AxiosRequestCo
                 //         }
                 //         break;
                 //     default:
-                //         console.log(error)
                 //         setError("Error Status Code 500! An unexpected error occurred");
                 // }
                 setLoading(false)

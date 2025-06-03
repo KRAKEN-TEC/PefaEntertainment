@@ -105,7 +105,6 @@ export function useSingleData<T>(endpoint: string, requestConfig?: AxiosRequestC
                         }
                         break;
                     default:
-                        console.log(error)
                         setError("Error Status Code 500! An unexpected error occurred");
                 }
                 setLoading(false)
