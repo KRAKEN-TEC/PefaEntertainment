@@ -29,6 +29,7 @@ import SeriesDetail from "@/pages/SeriesPage/SeriesDetail";
 import Episodes from "@/components/Series/Episodes";
 import WatchMovie from "@/components/Movie/WatchMovie";
 import WatchSerie from "@/components/Series/WatchSerie";
+import TestSeries from "@/components/admin/TestSeries";
 
 // Ko Oak Kar ၀င်မရေးရ
 
@@ -77,10 +78,10 @@ const router = createBrowserRouter([
         path: "series",
         element: <SeriesPage />,
       },
-      // {
-      //   path: "test-series",
-      //   element: <TestSeries />,
-      // },
+      {
+        path: "test-series",
+        element: <TestSeries />,
+      },
       // {
       //   path: "test-movies",
       //   element: <TestMovies />,

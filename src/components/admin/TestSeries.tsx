@@ -1,16 +1,9 @@
 
-import { useEpisodes, useSeasons, useSeries, useSingleSeason, useSingleSerie, useSingleEpisode } from '@/hooks/useSerie';
+import { useInfeed } from '@/hooks/useInfeed';
 
 function TestSeries() {
-
-  const { data: series } = useSeries();
-  const { data: serie } = useSingleSerie("attack-on-titan");
-
-  const { data: seasons } = useSeasons("attack-on-titan",);
-  const { data: season } = useSingleSeason("attack-on-titan", "1")
-
-  const { data: episodes } = useEpisodes("attack-on-titan", "1",)
-  const { data: episode, loading, error } = useSingleEpisode("attack-on-titan", "1", "1")
+  const { data: inFeeds, error, loading } = useInfeed();
+  console.log(inFeeds);
 
   return (
     <>
@@ -18,62 +11,15 @@ function TestSeries() {
       {error && <p>{error}</p>}
 
       <h1>Series</h1>
-      {series &&
+      {inFeeds &&
         <ul>
-          {series.map(serie =>
-            <ul key={serie._id}>
-              <li>{serie._id}</li>
-              <li>{serie.title}</li>
+          {inFeeds.map(inFeed =>
+            <ul key={inFeed.id}>
+              <li>{inFeed.id}</li>
+              <li>{inFeed.name}</li>
+              <li>{inFeed.ad_refresh_rate}</li>
             </ul>
           )}
-        </ul>
-      }
-
-      <h1>Single Serie</h1>
-      {serie &&
-        <ul key={serie._id}>
-          <li>{serie._id}</li>
-          <li>{serie.title}</li>
-        </ul>
-      }
-
-      <h1>Seasons</h1>
-      {seasons &&
-        <ul>
-          {seasons.map(season =>
-            <ul key={season._id}>
-              <li>{season._id}</li>
-              <li>{season.title}</li>
-            </ul>
-          )}
-        </ul>
-      }
-
-      <h1>Single Season</h1>
-      {season &&
-        <ul key={season._id}>
-          <li>{season._id}</li>
-          <li>{season.title}</li>
-        </ul>
-      }
-
-      <h1>Episodes</h1>
-      {episodes &&
-        <ul>
-          {episodes.map(episode =>
-            <ul key={episode._id}>
-              <li>{episode._id}</li>
-              <li>{episode.title}</li>
-            </ul>
-          )}
-        </ul>
-      }
-
-      <h1>Single Episode</h1>
-      {episode &&
-        <ul key={episode._id}>
-          <li>{episode._id}</li>
-          <li>{episode.title}</li>
         </ul>
       }
     </>
