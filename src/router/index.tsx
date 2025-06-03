@@ -33,7 +33,7 @@ import Test from "@/components/admin/Test";
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/*",
     element: <Layout />,
     children: [
       {
@@ -88,7 +88,7 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "",
+    path: "/*",
     element: <DetailPageLayout />,
     children: [
       {

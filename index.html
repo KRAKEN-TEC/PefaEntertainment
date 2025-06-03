@@ -11,11 +11,11 @@
   <meta name="6a97888e-site-verification" content="109f22d9d24f76f5d195ea58c53267f2">
 
   <!-- Video.js and Ad/VAST Plugins -->
-  <link href="http://vjs.zencdn.net/4.7.1/video-js.css" rel="stylesheet" />
-  <link href="lib/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" />
-  <link href="videojs.vast.css" rel="stylesheet" />
+  <link href="https://vjs.zencdn.net/4.7.1/video-js.css" rel="stylesheet">
+  <link href="lib/videojs-contrib-ads/videojs.ads.css" rel="stylesheet" type="text/css">
+  <link href="videojs.vast.css" rel="stylesheet" type="text/css">
 
-  <style>
+  <style type="text/css">
     .description {
       background-color: #eee;
       border: 1px solid #777;
@@ -34,7 +34,7 @@
   <!--[if lt IE 9]>
     <script src="lib/es5.js"></script>
   <![endif]-->
-  <script src="http://vjs.zencdn.net/4.7.1/video.js"></script>
+  <script src="https://vjs.zencdn.net/4.7.1/video.js"></script>
   <script src="lib/videojs-contrib-ads/videojs.ads.js"></script>
   <script src="lib/vast-client.js"></script>
   <script src="videojs.vast.js"></script>
@@ -44,10 +44,11 @@
   <div id="root"></div>
 
   <!-- VAST Video Example -->
-  <p class="description">No autoplay.</p>
+  <p class="description">Video.js VAST plugin examples.</p>
   <div class="example-video-container">
+    <p class="description">No autoplay.</p>
     <video id="vid1" class="video-js vjs-default-skin" controls preload="auto"
-      poster="http://video-js.zencoder.com/oceans-clip.png" data-setup='{}' width="640" height="400">
+      poster="https://video-js.zencoder.com/oceans-clip.png" data-setup='{}' width="640" height="400">
       <source src="https://vjs.zencdn.net/v/oceans.mp4" type="video/mp4">
       <source src="https://vjs.zencdn.net/v/oceans.webm" type="video/webm">
       <p>Video Playback Not Supported</p>
