@@ -2,7 +2,9 @@ import { useEffect, useRef } from "react";
 import videojs from "video.js";
 import Player from "video.js/dist/types/player";
 
+import "videojs-contrib-ads"
 import "video.js/dist/video-js.css";
+import "videojs-ima";
 
 // GUIDE =>>> https://videojs.com/guides/react/
 
@@ -27,9 +29,9 @@ const VideoPlayer = ({ id, posterUrl, videoUrl, onReady }: Props) => {
     const videoJsOptions = {
       autoplay: false,
       controls: true,
+      preload: "auto",
       responsive: true,
       fluid: true,
-      preload: "auto",
       poster: posterUrl,
       sources: isHLS
         ? [
@@ -52,19 +54,14 @@ const VideoPlayer = ({ id, posterUrl, videoUrl, onReady }: Props) => {
       onReady && onReady(player);
 
     });
-    // // Enable plugins here
-    // player.ads(); // Initialize ads plugin
 
-    // player.vast({
-    //   url: "https://s.magsrv.com/v1/vast.php?idzone=2366423", // replace with your actual ID zone
-    //   playAdAlways: true,
-    //   adCancelTimeout: 5000,
-    //   width: 640,
-    //   height: 360,
-    // });
+    player.ima({
+      adTagUrl: "https://s.magsrv.com/v1/vast.php?idzone=5631720",
+      debug: false
+    });
 
     playerRef.current = player;
-  }, []);
+  }, [videoRef, playerRef]);
 
   // Dispose the Video.js player when the functional component unmounts
   useEffect(() => {

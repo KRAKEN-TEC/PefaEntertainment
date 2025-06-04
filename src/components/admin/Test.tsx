@@ -3,7 +3,7 @@ import { useSingleZone, useZone } from '@/hooks/useZone';
 
 function Test() {
   const { data: zones, error, loading } = useZone();
-  const { data: singleZone } = useSingleZone("5631720");
+  // const { data: singleZone } = useSingleZone("5631720");
 
   return (
     <>
@@ -23,12 +23,12 @@ function Test() {
         </ul>
       }
 
-      <h1>Single Zone</h1>
+      {/* <h1>Single Zone</h1>
       {singleZone &&
         <ul>
           <li>{singleZone.name}</li>
         </ul>
-      }
+      } */}
 
     </>
   )

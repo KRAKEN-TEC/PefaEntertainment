@@ -1,7 +1,8 @@
 * {
   font-family: "Open Sans", sans-serif;
-  
+
 }
+
 .link {
   color: blue;
   text-decoration: none;
@@ -55,4 +56,8 @@
   outline: none;
   width: 100%;
   box-sizing: border-box;
+}
+
+.ima-ad-container {
+  pointer-events: none !important;
 }

@@ -1,10 +1,11 @@
-
 .details-nav button {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 10px; /* Replaces margin-left on p for better spacing */
-    margin: 0 0 0 10px; /* Shorthand for margin-bottom and margin-left */
+    gap: 10px;
+    /* Replaces margin-left on p for better spacing */
+    margin: 0 0 0 10px;
+    /* Shorthand for margin-bottom and margin-left */
     background: none;
     border: none;
     cursor: pointer;
@@ -13,10 +14,10 @@
 .details-nav p {
     font-size: medium;
     color: white;
-    
+
 }
 
-.details-nav{
+.details-nav {
     color: white;
     z-index: 1;
     position: fixed;
@@ -24,14 +25,14 @@
 }
 
 @media screen and (max-width: 768px) {
-    .details-nav p{
+    .details-nav p {
         font-size: small;
     }
 }
 
-@media  screen and (max-width: 480px) {
-    .details-nav p{
+@media screen and (max-width: 480px) {
+    .details-nav p {
         font-size: small;
     }
-    
+
 }
