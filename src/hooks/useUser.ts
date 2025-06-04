@@ -76,6 +76,7 @@ export interface userQuery {
 export const useUser = (userQuery?: userQuery) => useData<FetchUser>("/users",
     {
         params: {
+            page: userQuery?.page,
             roleIds: userQuery?.roleIds,
             search: userQuery?.search
         }

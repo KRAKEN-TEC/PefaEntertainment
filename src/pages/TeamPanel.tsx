@@ -358,7 +358,7 @@ export const UserLogin = ({ children }: { children: React.ReactNode }) => {
 
 function TeamPanel() {
   const { accessToken } = useUserStore();
-  const [userQuery, setUserQuery] = useState<userQuery>({} as userQuery);
+  const [userQuery, setUserQuery] = useState<userQuery>({ page: 1 } as userQuery);
   const { data: users } = useUser(userQuery);
   const { data: roles } = useRole();
 
