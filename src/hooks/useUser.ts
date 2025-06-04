@@ -67,6 +67,7 @@ export const schemaUser = z.object({
 export type FormUser = z.infer<typeof schemaUser>;
 
 export interface userQuery {
+    page: number,
     roleIds: string[],
     search: string,
 }

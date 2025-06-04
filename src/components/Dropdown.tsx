@@ -224,7 +224,7 @@ const Dropdown: React.FC = () => {
               </Link>
             </li>
           }
-          <li>
+          {/* <li>
             <Link to="test">
               <p
                 className={`${dark === true ? "" : "darkTextColor"} textMargin`}
@@ -232,7 +232,7 @@ const Dropdown: React.FC = () => {
                 Test
               </p>
             </Link>
-          </li>
+          </li> */}
           {/* 
           <li>
             <Link to="test-movies">

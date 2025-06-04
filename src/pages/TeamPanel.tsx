@@ -5,6 +5,8 @@ import { Field } from "@/components/ui/field";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogBody, DialogCloseTrigger, DialogContent, DialogHeader, DialogRoot, DialogTitle, DialogTrigger, DialogFooter, } from "@/components/ui/dialog";
 
+import { MdArrowBack, MdArrowForward } from "react-icons/md";
+
 import { useUser, useUserActions, FormUser, FetchUser, schemaUser, userQuery, } from "@/hooks/useUser";
 import { useUserStore } from "@/context/useUserStore";
 import { useRole } from "@/hooks/useRole";
@@ -357,7 +359,16 @@ export const UserLogin = ({ children }: { children: React.ReactNode }) => {
 function TeamPanel() {
   const { accessToken } = useUserStore();
   const [userQuery, setUserQuery] = useState<userQuery>({} as userQuery);
+  const { data: users } = useUser(userQuery);
   const { data: roles } = useRole();
+
+  const nextPage = () => {
+    setUserQuery({ ...userQuery, page: userQuery.page + 1 })
+  }
+
+  const prevPage = () => {
+    setUserQuery({ ...userQuery, page: userQuery.page - 1 })
+  }
 
   return (
     <>
@@ -405,6 +416,22 @@ function TeamPanel() {
       {/* USER LIST */}
       <GridItem area="list">
         <UserList userQuery={userQuery} />
+      </GridItem>
+
+      {/* PAGINATION */}
+      <GridItem area="page">
+        <Box>
+          {userQuery.page === 1 ?
+            <Button variant="plain" color="grey"> <MdArrowBack /> </Button>
+            :
+            <Button variant="plain" _hover={{ color: "cyan" }} onClick={prevPage}> <MdArrowBack /> </Button>
+          }
+          {users.length === 12 ?
+            <Button variant="plain" _hover={{ color: "cyan" }} onClick={nextPage}> <MdArrowForward /> </Button>
+            :
+            <Button variant="plain" color="grey"> <MdArrowForward /> </Button>
+          }
+        </Box>
       </GridItem>
     </>
   );
