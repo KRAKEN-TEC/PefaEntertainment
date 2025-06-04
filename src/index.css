@@ -57,7 +57,3 @@
   width: 100%;
   box-sizing: border-box;
 }
-
-.ima-ad-container {
-  pointer-events: none !important;
-}
