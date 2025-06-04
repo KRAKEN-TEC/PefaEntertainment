@@ -57,7 +57,36 @@ const VideoPlayer = ({ id, posterUrl, videoUrl, onReady }: Props) => {
 
     player.ima({
       adTagUrl: "https://s.magsrv.com/v1/vast.php?idzone=5631720",
-      debug: false
+      debug: false,
+      adsRenderingSettings: {
+        enablePreloading: true
+      }
+    });
+
+    player.ready(() => {
+      player.ima.requestAds();
+
+      // Schedule midroll at 50% playback
+      player.on('timeupdate', () => {
+        const duration = player.duration();
+        const currentTime = player.currentTime();
+
+        // Play midroll at 50%
+        if (!player.hasPlayedMidroll && currentTime >= duration / 2) {
+          player.hasPlayedMidroll = true;
+          player.ima.requestAds(); // can be done only once per session
+          player.ima.playAdBreak();
+        }
+      });
+
+      // Postroll fires when content ends (handled automatically in some cases)
+      player.on('ended', () => {
+        if (!player.hasPlayedPostroll) {
+          player.hasPlayedPostroll = true;
+          player.ima.requestAds();
+          player.ima.playAdBreak();
+        }
+      });
     });
 
     playerRef.current = player;
