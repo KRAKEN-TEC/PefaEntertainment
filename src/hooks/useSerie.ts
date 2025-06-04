@@ -197,6 +197,10 @@ export const useSerieActions = () => {
             updateActions(["update-serie"]);
             setLoading(false);
             setAlert("Serie updated successfully");
+
+            // UPLOAD TO S3
+            if (payload.poster) await uploadS3File(payload.poster, "/series", serie.slug, accessToken)
+            updateActions(["ready"])
         } catch (error: any) {
             setLoading(false);
             logActionError(error);
@@ -248,6 +252,11 @@ export const useSerieActions = () => {
             updateActions(["update-season"]);
             setLoading(false);
             setAlert("Serie updated successfully");
+
+            // UPLOAD TO S3
+            if (payload.poster) await uploadS3File(payload.poster, seasonEndPoint, season.seasonNumber, accessToken)
+            updateActions(["ready"])
+
         } catch (error: any) {
             setLoading(false);
             logActionError(error);

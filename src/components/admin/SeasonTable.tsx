@@ -23,7 +23,7 @@ interface FileFieldProps {
 }
 
 const SeasonUpdate = ({ children, season }: SerieUpdateProps) => {
-  const { register, handleSubmit, formState: { errors }, } = useForm<FormSeason>();
+  const { register, handleSubmit, setValue, formState: { errors }, } = useForm<FormSeason>();
   const { alert, handleSeasonUpdate } = useSerieActions();
 
   const onSubmit = (payload: FormSeason) => {
@@ -36,6 +36,7 @@ const SeasonUpdate = ({ children, season }: SerieUpdateProps) => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <SeasonUpdateField label="Title" payloadKey="title" fetchKey="title" register={register} errors={errors} season={season} />
           <SeasonUpdateField label="Description" payloadKey="description" fetchKey="description" register={register} errors={errors} season={season} />
+          <FileField setValue={setValue} errors={errors} />
           {alert && <AlertMessage message={alert} />}
           <DialogFooter>
             <Button type="submit">Update</Button>
