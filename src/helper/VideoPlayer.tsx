@@ -33,6 +33,7 @@ const VideoPlayer = ({ id, posterUrl, videoUrl, onReady }: Props) => {
       responsive: true,
       fluid: true,
       poster: posterUrl,
+      controlBar: { skipButtons: { forward: 5, backward: 5 } },
       sources: isHLS
         ? [
           {
@@ -55,6 +56,7 @@ const VideoPlayer = ({ id, posterUrl, videoUrl, onReady }: Props) => {
 
     });
 
+    // plug ads
     player.ima({
       adTagUrl: "https://s.magsrv.com/v1/vast.php?idzone=5631720",
       debug: false,
