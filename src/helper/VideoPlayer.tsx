@@ -49,13 +49,21 @@ const VideoPlayer = ({ posterUrl, videoUrl, onReady }: Props) => {
       };
 
       // create player
-      const player = (playerRef.current = videojs(
-        videoElement,
-        videoJsOptions,
-        () => {
-          videojs.log("player is ready");
-          onReady && onReady(player);
-        }
+      const player = (playerRef.current = videojs(videoElement, videoJsOptions, () => {
+        videojs.log("player is ready");
+        onReady && onReady(player);
+
+        // // Enable plugins here
+        // player.ads(); // Initialize ads plugin
+
+        // player.vast({
+        //   url: "https://s.magsrv.com/v1/vast.php?idzone=2366423", // replace with your actual ID zone
+        //   playAdAlways: true,
+        //   adCancelTimeout: 5000,
+        //   width: 640,
+        //   height: 360,
+        // });
+      }
       ));
     } else {
       // if playerRef.current has value
