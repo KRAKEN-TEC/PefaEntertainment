@@ -164,6 +164,9 @@
     .episode-info {
         text-align: left;
     }
+    .ep-info-container h3{
+        font-size: 13px;
+    }
 }
 
 @media screen and (max-width: 480px) {
@@ -196,4 +199,7 @@
         height: 15px;
         display: none;
     }
+    .ep-info-container h3{
+      font-size: 12px;
+  }
 }
