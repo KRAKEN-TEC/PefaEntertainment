@@ -4,6 +4,7 @@ import { useSingleZone, useZone } from '@/hooks/useZone';
 function Test() {
   const { data: zones, error, loading } = useZone();
   const { data: singleZone } = useSingleZone("5631720");
+  console.log(zones)
 
   return (
     <>
