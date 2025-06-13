@@ -27,7 +27,7 @@ export default function NewRealeses() {
 
   // State for filtering
   const [selectedCategory, setSelectedCategory] = useState<"movies" | "series">(
-    "movies"
+    "series"
   );
 
   useEffect(() => {
@@ -50,7 +50,7 @@ export default function NewRealeses() {
 
   // Filter data based on selected category
   const displayedData =
-    selectedCategory === "movies" ? moviesStore : seriesStore;
+    selectedCategory === "series" ? seriesStore : moviesStore;
 
   const { dark } = useThemeStore();
 
@@ -62,16 +62,16 @@ export default function NewRealeses() {
         {/* Category Filter Buttons */}
         <div className="filter-buttons">
           <button
-            className={selectedCategory === "movies" ? "active" : ""}
-            onClick={() => setSelectedCategory("movies")}
-          >
-            Movies
-          </button>
-          <button
             className={selectedCategory === "series" ? "active" : ""}
             onClick={() => setSelectedCategory("series")}
           >
             Series
+          </button>
+          <button
+            className={selectedCategory === "movies" ? "active" : ""}
+            onClick={() => setSelectedCategory("movies")}
+          >
+            Movies
           </button>
         </div>
       </div>
