@@ -185,9 +185,10 @@ export const useSerieActions = () => {
     const handleSerieUpdate = async (payload: FormSerie, serie: FetchSeries) => {
         setAlert("");
         setLoading(true);
+        let { poster, ...rest } = payload;
 
         const data = {
-            ...payload,
+            ...rest,
             genreIds: Array.isArray(payload.genreIds) ? payload.genreIds : [payload.genreIds],
             rating: isNaN(payload.rating) ? serie.rating : payload.rating,
         };
@@ -197,6 +198,10 @@ export const useSerieActions = () => {
             updateActions(["update-serie"]);
             setLoading(false);
             setAlert("Serie updated successfully");
+
+            // UPLOAD TO S3
+            if (payload.poster) await uploadS3File(payload.poster, "/series", serie.slug, accessToken)
+            updateActions(["ready"])
         } catch (error: any) {
             setLoading(false);
             logActionError(error);
@@ -238,9 +243,10 @@ export const useSerieActions = () => {
     const handleSeasonUpdate = async (payload: FormSeason, season: FetchSeasons) => {
         setAlert("");
         setLoading(true);
+        let { poster, ...rest } = payload;
 
         const data = {
-            ...payload,
+            ...rest,
         };
 
         try {
@@ -248,6 +254,11 @@ export const useSerieActions = () => {
             updateActions(["update-season"]);
             setLoading(false);
             setAlert("Serie updated successfully");
+
+            // UPLOAD TO S3
+            if (payload.poster) await uploadS3File(payload.poster, seasonEndPoint, season.seasonNumber, accessToken)
+            updateActions(["ready"])
+
         } catch (error: any) {
             setLoading(false);
             logActionError(error);

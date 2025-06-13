@@ -8,7 +8,7 @@ export default function Register() {
   const [form, setForm] = useState({
     name: "",
     email: "",
-    phone: "+66",
+    phone: "",
     password: "",
     repeatPassword: "",
     agreeTerms: false,
@@ -30,17 +30,18 @@ export default function Register() {
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     if (!passwordRegex.test(form.password)) {
+      window.alert("စကားဝှက်သည် အနည်းဆုံး ၈ လုံးရှိရမည်၊ အင်္ဂလိပ်အက္ခရာဖြစ်ရမည်၊ စလုံးကြီးတစ်လုံး င်္သေကတစ်လုံး ဂဏန်းတစ်လုံး ပါဝင်ရမည်။\n\nဥပမာ - Abcde123$");
       return;
     }
 
     if (form.password !== form.repeatPassword) {
-      window.alert("Passwords do not match!");
+      window.alert("စကားဝှက်နှစ်ခု ကိုက်ညီမူ့ မရှိပါ!");
       return;
     }
 
     const { repeatPassword, agreeTerms, ...rest } = form;
     handleRegister(rest);
-    navigate("/")
+    setTimeout(() => { navigate("/") }, 1000);
   };
 
   return (
@@ -74,9 +75,9 @@ export default function Register() {
           <input
             type="text"
             name="phone"
+            placeholder="Can be blank"
             value={form.phone}
             onChange={handleChange}
-            required
           />
 
           <input

@@ -169,6 +169,9 @@
   .overlay li {
     font-size: x-small;
   }
+  .scroll-btn{
+    display: none;
+  }
   
 }
 
@@ -196,6 +199,9 @@
   .filter-buttons button{
     padding: 0px 5px;
     font-size: 10px;
+  }
+  .scroll-btn{
+    display: none;
   }
 }
 

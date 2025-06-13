@@ -225,14 +225,15 @@ const Dropdown: React.FC = () => {
             </li>
           }
           {/* <li>
-            <Link to="test-series">
+            <Link to="test">
               <p
                 className={`${dark === true ? "" : "darkTextColor"} textMargin`}
               >
-                Test Series
+                Test
               </p>
             </Link>
-          </li>
+          </li> */}
+          {/* 
           <li>
             <Link to="test-movies">
               <p

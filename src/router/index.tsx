@@ -8,10 +8,7 @@ import SeriePanel from "@/pages/SeriePanel";
 import SerieTable from "@/components/admin/SerieTable";
 import SeasonTable from "@/components/admin/SeasonTable";
 import EpisodeTable from "@/components/admin/EpisodeTable";
-// import TestSeries from "@/components/admin/TestSeries";
-// import TestMovies from "@/components/admin/TestMovies";
 
-import App from "../App";
 import Layout from "@/pages/layout/Layout";
 import AdminLayout from "@/pages/layout/AdminLayout";
 import Home from "@/pages/Home";
@@ -29,18 +26,20 @@ import SeriesDetail from "@/pages/SeriesPage/SeriesDetail";
 import Episodes from "@/components/Series/Episodes";
 import WatchMovie from "@/components/Movie/WatchMovie";
 import WatchSerie from "@/components/Series/WatchSerie";
+import Test from "@/components/admin/Test";
+
 
 // Ko Oak Kar ၀င်မရေးရ
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/*",
     element: <Layout />,
     children: [
-      {
-        path: "",
-        element: <App />,
-      },
+      // {
+      //   path: "",
+      //   element: <App />,
+      // },
       {
         path: "",
         element: <Home />,
@@ -77,10 +76,10 @@ const router = createBrowserRouter([
         path: "series",
         element: <SeriesPage />,
       },
-      // {
-      //   path: "test-series",
-      //   element: <TestSeries />,
-      // },
+      {
+        path: "test",
+        element: <Test />,
+      },
       // {
       //   path: "test-movies",
       //   element: <TestMovies />,
@@ -89,7 +88,7 @@ const router = createBrowserRouter([
   },
 
   {
-    path: "",
+    path: "/*",
     element: <DetailPageLayout />,
     children: [
       {

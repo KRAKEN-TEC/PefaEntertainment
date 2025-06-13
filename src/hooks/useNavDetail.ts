@@ -8,15 +8,14 @@ const useNavDetail = () => {
   };
 
   const navMovieDetail = (id: string) => {
-    navigate(`/movie/${id}` )
+    navigate(`/movie/${id}`)
   }
 
   const navSerieDetail = (slug: string) => {
-    navigate(`/series/${slug}` )
+    navigate(`/series/${slug}`)
   }
 
   const callNav = (id: string, type: "movies" | "series") => {
-    console.log("callNav function called with:", { id, type });
 
     if (type === "movies") {
       navigate(`/movie/${id}`);

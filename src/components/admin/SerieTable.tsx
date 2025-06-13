@@ -54,7 +54,7 @@ const FileField = ({ setValue, errors }: FileFieldsProps) => {
 
 
 const SerieUpdate = ({ children, serie }: SerieUpdate) => {
-  const { register, handleSubmit, formState: { errors }, } = useForm<FormSerie>();
+  const { register, handleSubmit, setValue, formState: { errors }, } = useForm<FormSerie>();
   const { alert, handleSerieUpdate } = useSerieActions();
 
   const onSubmit = (payload: FormSerie) => {
@@ -76,6 +76,7 @@ const SerieUpdate = ({ children, serie }: SerieUpdate) => {
           <SerieUpdateField label="Translator" payloadKey="translator" fetchKey="translator" register={register} errors={errors} serie={serie} />
           <SerieUpdateField label="Encoder" payloadKey="encoder" fetchKey="encoder" register={register} errors={errors} serie={serie} />
           <SerieUpdateField label="Studio" payloadKey="studio" fetchKey="studio" register={register} errors={errors} serie={serie} />
+          <FileField setValue={setValue} errors={errors} />
           {alert && <AlertMessage message={alert} />}
           <DialogFooter>
             <Button type="submit">Update</Button>

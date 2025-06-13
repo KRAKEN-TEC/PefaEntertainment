@@ -13,7 +13,7 @@ const ButtonWithSVGIcon: React.FC<ButtonWithSVGIconProps> = ({
   svg,
   disabled = false,
 }) => {
-  console.log(disabled);
+
   return (
     <button
       disabled={disabled}

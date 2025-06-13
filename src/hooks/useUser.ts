@@ -67,6 +67,7 @@ export const schemaUser = z.object({
 export type FormUser = z.infer<typeof schemaUser>;
 
 export interface userQuery {
+    page: number,
     roleIds: string[],
     search: string,
 }
@@ -75,6 +76,7 @@ export interface userQuery {
 export const useUser = (userQuery?: userQuery) => useData<FetchUser>("/users",
     {
         params: {
+            page: userQuery?.page,
             roleIds: userQuery?.roleIds,
             search: userQuery?.search
         }
