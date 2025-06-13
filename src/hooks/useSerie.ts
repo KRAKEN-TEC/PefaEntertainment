@@ -185,9 +185,10 @@ export const useSerieActions = () => {
     const handleSerieUpdate = async (payload: FormSerie, serie: FetchSeries) => {
         setAlert("");
         setLoading(true);
+        let { poster, ...rest } = payload;
 
         const data = {
-            ...payload,
+            ...rest,
             genreIds: Array.isArray(payload.genreIds) ? payload.genreIds : [payload.genreIds],
             rating: isNaN(payload.rating) ? serie.rating : payload.rating,
         };
@@ -242,9 +243,10 @@ export const useSerieActions = () => {
     const handleSeasonUpdate = async (payload: FormSeason, season: FetchSeasons) => {
         setAlert("");
         setLoading(true);
+        let { poster, ...rest } = payload;
 
         const data = {
-            ...payload,
+            ...rest,
         };
 
         try {
