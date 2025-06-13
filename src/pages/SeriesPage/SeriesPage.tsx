@@ -15,8 +15,14 @@ export default function SeriesPage() {
 
   // Reset Page When Mount
   useEffect(() => {
-    setSerieQuery({ ...serieQuery, page: 1 });
+    setSerieQuery({ ...serieQuery, page: 1, search: "" });
   }, []);
+
+  // REFRESH STATE on search, genres, ordering
+  useEffect(() => {
+    setSeriesStore([]); // Clear previous results
+    setSerieQuery({ ...serieQuery, page: 1 }); // Reset page when search changes
+  }, [serieQuery.search]);
 
   // ADDS UP CONTENT FROM PAGES
   useEffect(() => {
@@ -29,7 +35,7 @@ export default function SeriesPage() {
       const scrollHeight = document.documentElement.scrollHeight;
       const currentScroll = window.innerHeight + window.scrollY;
 
-      if (currentScroll >= scrollHeight * 0.9 && !loading && series.length > 0) {
+      if (currentScroll >= scrollHeight * 0.9 && !loading && series.length > 0 && series.length == 12) {
         setSerieQuery({ ...serieQuery, page: serieQuery.page + 1 });
       }
     };
