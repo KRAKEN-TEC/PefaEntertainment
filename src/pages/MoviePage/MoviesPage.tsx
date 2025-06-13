@@ -9,17 +9,23 @@ export default function MoviesPage() {
   const { movieQuery, setMovieQuery } = useMovieStore();
   const { data: movies, loading } = useMovie(movieQuery);
   const { navMovieDetail } = useNavDetail();
-  const [allMovies, setAllMovies] = useState([] as FetchMovies[]);
+  const [moviesStore, setMoviesStore] = useState([] as FetchMovies[]);
   const { dark } = useThemeStore();
 
   // Reset Page When Mount
   useEffect(() => {
-    setMovieQuery({ ...movieQuery, page: 1 });
+    setMovieQuery({ ...movieQuery, page: 1, search: "" });
   }, []);
 
-  // ADDS UP CONTENT FROM PAGES
+  // REFRESH STATE on search, genres, ordering
   useEffect(() => {
-    setAllMovies((prev) => [...prev, ...movies]);
+    setMoviesStore([]); // Clear previous results
+    setMovieQuery({ ...movieQuery, page: 1 }); // Reset page when search changes
+  }, [movieQuery.search]);
+
+  // ADDS UP CONTENT TO STATE
+  useEffect(() => {
+    setMoviesStore((prev) => [...prev, ...movies]);
   }, [movies])
 
   // Scroll listener to load more
@@ -28,7 +34,7 @@ export default function MoviesPage() {
       const scrollHeight = document.documentElement.scrollHeight;
       const currentScroll = window.innerHeight + window.scrollY;
 
-      if (currentScroll >= scrollHeight * 0.9 && !loading && movies.length > 0) {
+      if (currentScroll >= scrollHeight * 0.9 && !loading && movies.length > 0 && movies.length == 12) {
         setMovieQuery({ ...movieQuery, page: movieQuery.page + 1 });
       }
     };
@@ -42,8 +48,8 @@ export default function MoviesPage() {
       <h2>Movies</h2>
       <div className="MP-scroll-container">
         <div className="MP-grid">
-          {allMovies &&
-            allMovies.map((movie, index) => (
+          {moviesStore &&
+            moviesStore.map((movie, index) => (
               <div
                 className="MP-box"
                 key={index}
