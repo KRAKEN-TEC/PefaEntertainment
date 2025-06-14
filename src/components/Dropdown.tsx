@@ -111,7 +111,7 @@ const Dropdown: React.FC = () => {
                 fill="#E85448"
               />
             </svg>{" "}
-            <Link to="aboutus" onClick={() => handleSelect("aboutUs")}>
+            <Link to="/aboutus" onClick={() => handleSelect("aboutUs")}>
               <p
                 className={`${dark === true ? "" : "darkTextColor"
                   } textMargin ${selected === "aboutUs" ? "selected" : ""}`}
@@ -137,7 +137,7 @@ const Dropdown: React.FC = () => {
                 fill="#E85448"
               />
             </svg>{" "}
-            <Link to="howtodownload" onClick={() => handleSelect("download")}>
+            <Link to="/howtodownload" onClick={() => handleSelect("download")}>
               <p
                 className={`${dark === true ? "" : "darkTextColor"
                   } textMargin ${selected === "download" ? "selected" : ""}`}
@@ -161,7 +161,7 @@ const Dropdown: React.FC = () => {
                 fill="#E85448"
               />
             </svg>{" "}
-            <Link to="profile" onClick={() => handleSelect("profile")}>
+            <Link to="/profile" onClick={() => handleSelect("profile")}>
               <p
                 className={`${dark === true ? "" : "darkTextColor"
                   } textMargin ${selected === "profile" ? "selected" : ""}`}
@@ -190,7 +190,7 @@ const Dropdown: React.FC = () => {
             :
             <li>
               {" "}
-              <Link to="login" onClick={() => handleSelect("login")}>
+              <Link to="/login" onClick={() => handleSelect("login")}>
                 <p
                   className={`${dark === true ? "" : "darkTextColor"
                     } textMargin ${selected === "login" ? "selected" : ""}`}
@@ -202,7 +202,7 @@ const Dropdown: React.FC = () => {
           }
           {!accessToken && <li>
             {" "}
-            <Link to="register" onClick={() => handleSelect("register")}>
+            <Link to="/register" onClick={() => handleSelect("register")}>
               <p
                 className={`${dark === true ? "" : "darkTextColor"
                   } textMargin ${selected === "register" ? "selected" : ""}`}
