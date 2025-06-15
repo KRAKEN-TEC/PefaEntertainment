@@ -10,7 +10,6 @@ import DialogBox, { DialogActionBox } from "../global/DialogBox";
 import SeasonUpdateField from "../global/SeasonUpdateField";
 import AlertMessage from "../global/AlertMessage";
 import SeasonField from "../global/SeasonField";
-import { useSerieStore } from "@/context/useSerieStore";
 
 interface SerieUpdateProps {
   children: React.ReactNode,
@@ -138,8 +137,7 @@ export const AddSeason = () => {
 
 const SeasonTable = () => {
   const { serieSlug } = useParams();
-  const { serieQuery } = useSerieStore();
-  const { data: seasons, error, loading } = useSeasons(serieSlug, serieQuery);
+  const { data: seasons, error, loading } = useSeasons(serieSlug);
 
   return (
     <>

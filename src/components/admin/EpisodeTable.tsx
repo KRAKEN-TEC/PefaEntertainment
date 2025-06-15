@@ -9,7 +9,6 @@ import DialogBox, { DialogActionBox } from "../global/DialogBox";
 import EpisodeUpdateField from "../global/EpisodeUpdateField";
 import AlertMessage from "../global/AlertMessage";
 import EpisodeField from "../global/EpisodeField";
-import { useSerieStore } from "@/context/useSerieStore";
 
 interface EpisodeUpdateProps {
   children: React.ReactNode,
@@ -158,8 +157,7 @@ export const AddEpisode = () => {
 
 const EpisodeTable = () => {
   const { serieSlug, seasonNumber } = useParams();
-  const { serieQuery } = useSerieStore();
-  const { data: episodes, error, loading } = useEpisodes(serieSlug, seasonNumber, serieQuery);
+  const { data: episodes, error, loading } = useEpisodes(serieSlug, seasonNumber);
 
   return (
     <>
