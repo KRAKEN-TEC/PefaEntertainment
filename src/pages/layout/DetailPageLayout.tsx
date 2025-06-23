@@ -4,7 +4,7 @@ import "../CSS/DetailNav.css";
 const DetailPageLayout = () => {
   const navigate = useNavigate();
   const handleNav = () => {
-    navigate(-1);
+    navigate("/");
   };
 
   return (
@@ -23,7 +23,7 @@ const DetailPageLayout = () => {
               fill="white"
             />
           </svg>
-          <p>Back</p>
+          <p>Back To Home</p>
         </button>
       </nav>
 
